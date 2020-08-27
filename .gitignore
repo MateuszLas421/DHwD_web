@@ -388,3 +388,4 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
+/DHwD_web/appsettings.json
