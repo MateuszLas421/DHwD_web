@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DHwD_web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -19,17 +19,27 @@ namespace DHwD_web.Controllers
         {
             _repository = repository;
         }
-        [HttpGet]
-        public ActionResult<User> Start()
+        //get api/user
+        [HttpGet("all")]
+        public ActionResult <IEnumerable<User>> GetallUser()    //TODO delete!!!
         {
-            return Ok();
+            var userItems = _repository.GetallUser();
+            if (userItems != null)
+            {
+                return Ok(userItems);
+            }
+            return NotFound();
         }
-        //get api/commands[][]
+        //get api/user/[][]
         [HttpGet("{NickName}/{Token}")]
-        public ActionResult<User> GetUserByNickName_Token(string NickName, string Token)
+        public ActionResult<User> GetUserByNickName_Token(string NickName, string Token)  
         {
-            var commandItem = _repository.GetUserByNickName_Token(NickName, Token);
-            return Ok(commandItem);
+            var userItem = _repository.GetUserByNickName_Token(NickName, Token);
+            if (userItem != null)
+            {
+                return Ok(userItem);
+            }
+            return NotFound();
         }
     }
 }

@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using AutoMapper;
 using DHwD_web.Data;
 using DHwD_web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,16 +33,20 @@ namespace DHwD_web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            var connectionString = Configuration["PostgreSql:ConnectionString"];// "Host=localhost;Database=Allotment_Helper;Username=postgres;Password=Sjtks9cvHc9inxZwc364;";//Configuration["PostgreSql:ConnectionString"];
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
+            });
+            var connectionString = Configuration["PostgreSql:ConnectionString"];
             var dbPassword = Configuration["PostgreSql:DbPassword"];
 
             var builder = new NpgsqlConnectionStringBuilder(connectionString)
             {
                 Password = dbPassword
             };
-
             services.AddDbContext<AppWebDbContext>(options => options.UseNpgsql(builder.ConnectionString));
-            services.AddScoped<IUserRepo, MockUserRepo>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IUserRepo, SqlUserRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,7 +58,12 @@ namespace DHwD_web
             }
 
             app.UseHttpsRedirection();
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
+            app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();

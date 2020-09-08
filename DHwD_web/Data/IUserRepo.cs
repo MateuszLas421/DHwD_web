@@ -8,6 +8,8 @@ namespace DHwD_web.Data
 {
     public interface IUserRepo
     {
+        IEnumerable<User> GetallUser();
         User GetUserByNickName_Token(string NickName, string Token);
+
     }
 }

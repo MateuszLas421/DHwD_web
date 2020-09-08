@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace DHwD.Model
+namespace DHwD_web.Dtos
 {
-    public class User
+    public class UserReadDto
     {
-        [Key]
         public int Id { get; set; }
-        [Required]
-        [MaxLength(50)]
         public string NickName { get; set; }
-        [Required]
         public string Token { get; set; }
-        [Required]
         public DateTime DateTimeCreate { get; set; }  //  User creation date
-        [Required]
         public DateTime DateTimeEdit { get; set; }   // User edition date
     }
 }
