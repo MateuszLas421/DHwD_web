@@ -3,7 +3,6 @@ using DHwD_web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DHwD_web.Data
 {
@@ -16,6 +15,15 @@ namespace DHwD_web.Data
             _dbContext = dbContext;
         }
 
+        public void CreateNewUser(User user)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            _dbContext.User.Add(user);
+        }
+
         public IEnumerable<User> GetallUser()
         {
             return _dbContext.User.ToList();
@@ -24,6 +32,11 @@ namespace DHwD_web.Data
         public User GetUserByNickName_Token(string nickName, string token)
         {
             return _dbContext.User.FirstOrDefault(x => x.NickName == nickName && x.Token == token);
+        }
+
+        public bool SaveChanges()
+        {
+            return (_dbContext.SaveChanges()>=0);
         }
     }
 }

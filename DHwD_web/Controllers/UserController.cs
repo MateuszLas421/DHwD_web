@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using DHwD.Model;
 using DHwD_web.Data;
-using Microsoft.AspNetCore.Http;
+using DHwD_web.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DHwD_web.Controllers
@@ -14,32 +13,48 @@ namespace DHwD_web.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepo _repository;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserRepo repository)
+        public UserController(IUserRepo repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
         //get api/user
-        [HttpGet("all")]
-        public ActionResult <IEnumerable<User>> GetallUser()    //TODO delete!!!
+        [HttpGet]
+        public ActionResult <IEnumerable<UserReadDto>> GetallUser()    //TODO delete!!!
         {
             var userItems = _repository.GetallUser();
             if (userItems != null)
             {
-                return Ok(userItems);
+                return Ok(_mapper.Map<IEnumerable<UserReadDto>>(userItems));
             }
             return NotFound();
         }
-        //get api/user/[][]
-        [HttpGet("{NickName}/{Token}")]
-        public ActionResult<User> GetUserByNickName_Token(string NickName, string Token)  
+        //get api/user/{NickName}/{Token}
+        [HttpGet("{NickName}/{Token}", Name="GetUserByNickName_Token")]
+        public ActionResult<UserReadDto> GetUserByNickName_Token(string NickName, string Token)  
         {
             var userItem = _repository.GetUserByNickName_Token(NickName, Token);
             if (userItem != null)
             {
-                return Ok(userItem);
+                return Ok(_mapper.Map<UserReadDto>(userItem));
             }
             return NotFound();
+        }
+
+        //POST api/user
+        [HttpPost]
+        public ActionResult<UserReadDto> CreateNewUser(UserCreateDto userCreateDto)
+        {
+            var userModel = _mapper.Map<User>(userCreateDto);
+            userModel.DateTimeCreate = DateTime.UtcNow;
+            userModel.DateTimeEdit = userModel.DateTimeCreate;
+            _repository.CreateNewUser(userModel);
+            _repository.SaveChanges();
+
+            var userReadDto = _mapper.Map<UserReadDto>(userModel);
+            return CreatedAtRoute(nameof(GetUserByNickName_Token), new { userReadDto.NickName, userReadDto.Token }, userReadDto);
         }
     }
 }

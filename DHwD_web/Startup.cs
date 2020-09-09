@@ -37,13 +37,20 @@ namespace DHwD_web
             {
                 options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
             });
+
+#if DEBUG
+            var connectionString = Configuration["PostgreSql:ConnectionStringdebug"];
+#else
             var connectionString = Configuration["PostgreSql:ConnectionString"];
+#endif
+            
             var dbPassword = Configuration["PostgreSql:DbPassword"];
 
             var builder = new NpgsqlConnectionStringBuilder(connectionString)
             {
                 Password = dbPassword
             };
+
             services.AddDbContext<AppWebDbContext>(options => options.UseNpgsql(builder.ConnectionString));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IUserRepo, SqlUserRepo>();
