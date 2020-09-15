@@ -3,15 +3,17 @@ using System;
 using DHwD_web.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DHwD_web.Migrations
 {
     [DbContext(typeof(AppWebDbContext))]
-    partial class AppWebDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200915184045_finaly")]
+    partial class finaly
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
