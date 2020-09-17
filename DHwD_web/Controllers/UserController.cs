@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using AutoMapper;
 using DHwD.Model;
 using DHwD_web.Data;
 using DHwD_web.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DHwD_web.Controllers
 {
@@ -14,12 +19,15 @@ namespace DHwD_web.Controllers
     {
         private readonly IUserRepo _repository;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _config;
 
-        public UserController(IUserRepo repository, IMapper mapper)
+        public UserController(IConfiguration config ,IUserRepo repository, IMapper mapper)
         {
+            _config = config;
             _repository = repository;
             _mapper = mapper;
         }
+        #region Unauthorized
         //get api/user
         [HttpGet]
         public ActionResult <IEnumerable<UserReadDto>> GetallUser()    //TODO delete!!!
@@ -31,18 +39,24 @@ namespace DHwD_web.Controllers
             }
             return NotFound();
         }
+        
         //get api/user/{NickName}/{Token}
         [HttpGet("{NickName}/{Token}", Name="GetUserByNickName_Token")]
         public ActionResult<UserReadDto> GetUserByNickName_Token(string NickName, string Token)  
         {
+            //IActionResult response = Unauthorized();
+
+            //var user = AuthenticateUser(NickName, Token);
             var userItem = _repository.GetUserByNickName_Token(NickName, Token);
             if (userItem != null)
             {
-                return Ok(_mapper.Map<UserReadDto>(userItem));
+                var userRead = _mapper.Map<UserReadDto>(userItem);
+                //userRead
+                return Ok(userRead);
             }
             return NotFound();
         }
-
+        
         //POST api/user
         [HttpPost]
         public ActionResult<UserReadDto> CreateNewUser(UserCreateDto userCreateDto)
@@ -52,9 +66,58 @@ namespace DHwD_web.Controllers
             userModel.DateTimeEdit = userModel.DateTimeCreate;
             _repository.CreateNewUser(userModel);
             _repository.SaveChanges();
-
             var userReadDto = _mapper.Map<UserReadDto>(userModel);
             return CreatedAtRoute(nameof(GetUserByNickName_Token), new { userReadDto.NickName, userReadDto.Token }, userReadDto);
+        }
+        #endregion
+        [HttpGet("login/{NickName}/{Token}")]
+        public IActionResult Login(string NickName, string Token)
+        {
+            IActionResult response = Unauthorized();
+
+            var user = AuthenticateUser(NickName, Token);
+            if (user != null)
+            {
+                var tokenStr = GenerateJsonWebToken(user);
+                response = Ok(new { token = tokenStr }); ;
+            }
+            return response;
+        }
+
+
+        private UserReadDto AuthenticateUser(string NickName, string Token)
+        {
+            var userItem = _repository.GetUserByNickName_Token(NickName, Token);
+            if (userItem != null)
+            {
+                UserReadDto userRead = _mapper.Map<UserReadDto>(userItem);
+                return userRead;
+            }
+            return null;
+        }
+
+
+        private string GenerateJsonWebToken(UserReadDto userinfo)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub,userinfo.NickName),
+            //  new Claim(JwtRegisteredClaimNames.Email,userinfo.Token),
+                new Claim(JwtRegisteredClaimNames.Jti,userinfo.Id.ToString())
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Issuer"],
+                claims,
+                expires: DateTime.Now.AddMinutes(120),
+                signingCredentials: credentials);
+
+            var encodetoken = new JwtSecurityTokenHandler().WriteToken(token);
+            return encodetoken;
         }
     }
 }
