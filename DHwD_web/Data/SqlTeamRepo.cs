@@ -17,15 +17,12 @@ namespace DHwD_web.Data
         }
         public void CreateNewTeam(Team team)
         {
-            //var dsadas = team.games.id;
             if (team == null)
             {
                 throw new ArgumentNullException(nameof(team));
             }
             var newteam = _dbContext.Games.Where(a => a.Id == team.Games.Id).Include(a => a.Teams).First();
             newteam.Teams.Add(team);
-           // var game = GetGame(dsadas);
-            //_dbContext.Teams.Add(asda);
         }
         public bool SaveChanges()
         {
@@ -39,13 +36,13 @@ namespace DHwD_web.Data
                 return null;
            return user;
         }
-        public Games GetGame(int Id)   /// do poprawy!!!
-        {
-            var user = _dbContext.Games.FirstOrDefault(x => x.Id == Id);
-            if (user == null)
-                return null;
-            return user;
-        }
 
+        public bool Check(Team team)
+        {
+            var db = _dbContext.Teams.Where(a => a.Name == team.Name && a.Games.Id==team.Games.Id).FirstOrDefault();
+            if(db!=null)
+                return false;
+            return true;
+        }
     }
 }

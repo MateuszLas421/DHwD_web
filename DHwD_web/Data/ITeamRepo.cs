@@ -9,5 +9,6 @@ namespace DHwD_web.Data
         void CreateNewTeam(Team team);
         bool SaveChanges();
         User GetUser(int Id);
+        bool Check(Team team);
     }
 }

@@ -40,10 +40,14 @@ namespace DHwD_web.Controllers
             var identity = tokenS.Claims.First(claim => claim.Type == "jti").Value;
             team.Id_Founder =_repository.GetUser(int.Parse(identity));
             team.DateTimeCreate = DateTime.UtcNow;
+            if (team.Password != null)
+                team.StatusPassword = true;
             team.DateTimeEdit = team.DateTimeCreate;
+            if (!_repository.Check(team))
+                return NoContent();
             _repository.CreateNewTeam(team);
             _repository.SaveChanges();
-            //var userReadDto = _mapper.Map<UserReadDto>(team);
+            //var userReadDto = _mapper.Map<UserReadDto>(team);                                                               //TODO
             return Ok(); //CreatedAtRoute(nameof(GetUserByNickName_Token), new { userReadDto.NickName, userReadDto.Token }, userReadDto);
         }
     }
