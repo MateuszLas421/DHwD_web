@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DHwD_web.Migrations
 {
     [DbContext(typeof(AppWebDbContext))]
-    [Migration("20200915184045_finaly")]
-    partial class finaly
+    [Migration("20200917125926_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,6 +67,10 @@ namespace DHwD_web.Migrations
 
                     b.Property<DateTime>("DateTimeStart")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

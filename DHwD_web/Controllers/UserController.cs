@@ -105,7 +105,6 @@ namespace DHwD_web.Controllers
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub,userinfo.NickName),
-            //  new Claim(JwtRegisteredClaimNames.Email,userinfo.Token),
                 new Claim(JwtRegisteredClaimNames.Jti,userinfo.Id.ToString())
             };
 

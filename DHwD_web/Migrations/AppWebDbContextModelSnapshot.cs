@@ -66,6 +66,10 @@ namespace DHwD_web.Migrations
                     b.Property<DateTime>("DateTimeStart")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Games");

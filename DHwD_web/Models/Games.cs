@@ -10,13 +10,10 @@ namespace DHwD_web.Models
     {
         [Key]   
         public int Id { get; set; }
-        [Required]
+        public string Name { get; set; }
         public DateTime DateTimeStart { get; set; }
-        [Required]
         public DateTime DateTimeEnd { get; set; }
-        [Required]
         public DateTime DateTimeCreate { get; set; }
-        [Required]
         public DateTime DateTimeEdit { get; set; }
         public ICollection<Team> Teams { get; set; }
         public ICollection<Place> Place { get; set; }

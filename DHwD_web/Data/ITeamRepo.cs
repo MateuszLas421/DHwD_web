@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DHwD.Model;
+using DHwD_web.Models;
 using System.Threading.Tasks;
 
 namespace DHwD_web.Data
 {
-    public class ITeamRepo
+    public interface ITeamRepo
     {
+        void CreateNewTeam(Team team);
+        bool SaveChanges();
+        User GetUser(int Id);
     }
 }
