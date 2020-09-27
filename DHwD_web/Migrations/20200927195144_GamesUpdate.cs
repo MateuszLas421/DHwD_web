@@ -2,21 +2,20 @@
 
 namespace DHwD_web.Migrations
 {
-    public partial class @new : Migration
+    public partial class GamesUpdate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Name",
+                name: "description",
                 table: "Games",
-                nullable: false,
-                defaultValue: "");
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Name",
+                name: "description",
                 table: "Games");
         }
     }

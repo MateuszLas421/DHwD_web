@@ -67,7 +67,9 @@ namespace DHwD_web.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
-                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("description")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

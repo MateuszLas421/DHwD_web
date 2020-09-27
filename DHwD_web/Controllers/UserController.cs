@@ -28,34 +28,6 @@ namespace DHwD_web.Controllers
             _mapper = mapper;
         }
         #region Unauthorized
-        ////get api/user
-        //[HttpGet]
-        //public ActionResult <IEnumerable<UserReadDto>> GetallUser()    //TODO delete!!!
-        //{
-        //    var userItems = _repository.GetallUser();
-        //    if (userItems != null)
-        //    {
-        //        return Ok(_mapper.Map<IEnumerable<UserReadDto>>(userItems));
-        //    }
-        //    return NotFound();
-        //}
-
-        ////get api/user/{NickName}/{Token}
-        //[HttpGet("{NickName}/{Token}", Name="GetUserByNickName_Token")]
-        //public ActionResult<UserReadDto> GetUserByNickName_Token(string NickName, string Token)  
-        //{
-        //    //IActionResult response = Unauthorized();
-
-        //    //var user = AuthenticateUser(NickName, Token);
-        //    var userItem = _repository.GetUserByNickName_Token(NickName, Token);
-        //    if (userItem != null)
-        //    {
-        //        var userRead = _mapper.Map<UserReadDto>(userItem);
-        //        //userRead
-        //        return Ok(userRead);
-        //    }
-        //    return NotFound();
-        //}
 
         //POST api/user
         [HttpPost]
@@ -67,7 +39,7 @@ namespace DHwD_web.Controllers
             _repository.CreateNewUser(userModel);
             _repository.SaveChanges();
             var userReadDto = _mapper.Map<UserReadDto>(userModel);
-            return Ok(userReadDto);//CreatedAtRoute(nameof(GetUserByNickName_Token), new { userReadDto.NickName, userReadDto.Token }, userReadDto);
+            return Ok(userReadDto);
         }
         #endregion
 
