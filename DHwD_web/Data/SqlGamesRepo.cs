@@ -1,4 +1,5 @@
 ﻿using DHwD_web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +16,8 @@ namespace DHwD_web.Data
 
         public IEnumerable<Games> GetallGames()
         {
-            var list= _dbContext.Games.ToList();
+            DateTime time = DateTime.UtcNow;
+            var list= _dbContext.Games.Where(a=> a.DateTimeStart<time.AddDays(+7) && a.DateTimeEnd > time.AddHours(+1)).ToList();
             if (list.Count()==0)
                 return null;
             return list;

@@ -27,7 +27,7 @@ namespace DHwD_web.Controllers
         }
         //get api/games
         [HttpGet]
-        public ActionResult<IEnumerable<GamesReadDto>> GetallGames()    //TODO delete!!!
+        public ActionResult<IEnumerable<GamesReadDto>> GetallGames()
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
                 return NotFound();

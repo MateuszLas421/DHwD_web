@@ -9,7 +9,7 @@ namespace DHwD_web.Models
 {
     public class Team
     {
-        [Key] //maybe add Id Games class
+        [Key] 
         public int Id { get; set; }
         [Required]
         [MaxLength(50)]
