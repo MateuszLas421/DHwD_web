@@ -50,5 +50,18 @@ namespace DHwD_web.Controllers
             //var userReadDto = _mapper.Map<UserReadDto>(team);                                                               //TODO
             return Ok(); //CreatedAtRoute(nameof(GetUserByNickName_Token), new { userReadDto.NickName, userReadDto.Token }, userReadDto);
         }
+        //get api/team/{IdGame}
+        [HttpGet("{IdGame}")]
+        public ActionResult<IEnumerable<TeamReadDto>> GetTeams(int IdGame)
+        {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+                return NotFound();
+            var Items = _repository.GetTeams(IdGame);
+            if (Items != null)
+            {
+                return Ok(_mapper.Map<IEnumerable<TeamReadDto>>(Items));
+            }
+            return NotFound();
+        }
     }
 }

@@ -2,6 +2,7 @@
 using DHwD_web.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -43,6 +44,14 @@ namespace DHwD_web.Data
             if(db!=null)
                 return false;
             return true;
+        }
+
+        public IEnumerable<Team> GetTeams(int IdGame)
+        {
+            var list = _dbContext.Teams.Where(a => a.Games.Id==IdGame).ToList();
+            if (list.Count() == 0)
+                return null;
+            return list;
         }
     }
 }
