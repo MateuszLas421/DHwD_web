@@ -14,6 +14,8 @@ namespace DHwD_web.Models
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
+        [MaxLength(500)]
+        public string Description { get; set; }
         [Required]
         public User Id_Founder { get; set; }// FK
         [Required]

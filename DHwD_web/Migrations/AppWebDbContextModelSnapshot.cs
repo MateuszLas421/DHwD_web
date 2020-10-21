@@ -131,6 +131,10 @@ namespace DHwD_web.Migrations
                     b.Property<DateTime>("DateTimeEdit")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("character varying(500)")
+                        .HasMaxLength(500);
+
                     b.Property<int?>("GamesId")
                         .HasColumnType("integer");
 

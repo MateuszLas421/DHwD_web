@@ -29,14 +29,14 @@ namespace DHwD_web.Controllers
         }
         //POST api/team
         [HttpPost]
-        public ActionResult<TeamCreateDto> CreateNewTeam(TeamCreateDto teamReateDto)
+        public ActionResult<TeamCreateDto> CreateNewTeam(TeamCreateDto teamCreateDto)
         {
             var handler = new JwtSecurityTokenHandler();
             string authHeader = Request.Headers["Authorization"];
             authHeader = authHeader.Replace("Bearer ", "");
             var jsonToken = handler.ReadToken(authHeader);
             var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
-            var team = _mapper.Map<Team>(teamReateDto);
+            var team = _mapper.Map<Team>(teamCreateDto);
             var identity = tokenS.Claims.First(claim => claim.Type == "jti").Value;
             team.Id_Founder =_repository.GetUser(int.Parse(identity));
             team.DateTimeCreate = DateTime.UtcNow;
