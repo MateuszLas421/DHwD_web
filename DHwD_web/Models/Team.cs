@@ -1,9 +1,6 @@
-﻿using DHwD.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DHwD_web.Models
 {
@@ -16,7 +13,6 @@ namespace DHwD_web.Models
         public string Name { get; set; }
         [MaxLength(500)]
         public string Description { get; set; }
-        [Required]
         public User Id_Founder { get; set; }// FK
         [Required]
         public DateTime DateTimeCreate { get; set; }  //  User creation date
@@ -26,7 +22,12 @@ namespace DHwD_web.Models
         public bool StatusPassword { get; set; }  //Password Exist
         [MaxLength(500)]
         public string Password { get; set; }
+        public bool OnlyOnePlayer { get; set; }
         public ICollection<TeamMembers> TeamMembers { get; set; }
         public Games Games { get; set; }
+        //public Team()
+        //{
+        //    Id_Founder = new User();
+        //}
     }
 }

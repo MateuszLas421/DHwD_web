@@ -1,4 +1,4 @@
-﻿using DHwD.Model;
+﻿using DHwD_web.Models;
 using System.Collections.Generic;
 
 namespace DHwD_web.Data
@@ -10,6 +10,7 @@ namespace DHwD_web.Data
         IEnumerable<User> GetallUser();
         User GetUserByNickName_Token(string NickName, string Token);
         void CreateNewUser(User user);
+        User GetUserById(int id);
 
     }
 }

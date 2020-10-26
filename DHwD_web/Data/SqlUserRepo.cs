@@ -1,5 +1,4 @@
-﻿using DHwD.Model;
-using DHwD_web.Models;
+﻿using DHwD_web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +26,11 @@ namespace DHwD_web.Data
         public IEnumerable<User> GetallUser()
         {
             return _dbContext.User.ToList();
+        }
+
+        public User GetUserById(int id)
+        {
+            return _dbContext.User.FirstOrDefault(x => x.Id == id);
         }
 
         public User GetUserByNickName_Token(string nickName, string token)

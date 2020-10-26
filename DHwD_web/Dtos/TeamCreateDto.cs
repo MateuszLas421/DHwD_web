@@ -1,9 +1,4 @@
-﻿using DHwD.Model;
-using DHwD_web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DHwD_web.Models;
 
 namespace DHwD_web.Dtos
 {

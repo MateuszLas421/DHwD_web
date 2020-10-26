@@ -1,10 +1,8 @@
-﻿using DHwD.Model;
-using DHwD_web.Models;
+﻿using DHwD_web.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DHwD_web.Data
 {
@@ -24,6 +22,7 @@ namespace DHwD_web.Data
             }
             var newteam = _dbContext.Games.Where(a => a.Id == team.Games.Id).Include(a => a.Teams).First();
             newteam.Teams.Add(team);
+            SaveChanges();
         }
         public bool SaveChanges()
         {
@@ -52,6 +51,13 @@ namespace DHwD_web.Data
             if (list.Count() == 0)
                 return null;
             return list;
+        }
+
+        public Team GetTeamById(int Id)
+        {
+            var team = _dbContext.Teams.Where(a => a.Id == Id)
+                                 .FirstOrDefault();
+            return team;
         }
     }
 }

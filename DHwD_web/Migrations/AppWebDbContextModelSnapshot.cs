@@ -19,34 +19,6 @@ namespace DHwD_web.Migrations
                 .HasAnnotation("ProductVersion", "3.1.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("DHwD.Model.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<DateTime>("DateTimeCreate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("DateTimeEdit")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("NickName")
-                        .IsRequired()
-                        .HasColumnType("character varying(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("character varying(250)")
-                        .HasMaxLength(250);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
-                });
-
             modelBuilder.Entity("DHwD_web.Models.Games", b =>
                 {
                     b.Property<int>("Id")
@@ -138,13 +110,16 @@ namespace DHwD_web.Migrations
                     b.Property<int?>("GamesId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Id_FounderId")
+                    b.Property<int?>("Id_FounderId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("character varying(50)")
                         .HasMaxLength(50);
+
+                    b.Property<bool>("OnlyOnePlayer")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Password")
                         .HasColumnType("character varying(500)")
@@ -184,6 +159,34 @@ namespace DHwD_web.Migrations
                     b.ToTable("TeamMembers");
                 });
 
+            modelBuilder.Entity("DHwD_web.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("DateTimeCreate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("DateTimeEdit")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("NickName")
+                        .IsRequired()
+                        .HasColumnType("character varying(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("character varying(250)")
+                        .HasMaxLength(250);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+                });
+
             modelBuilder.Entity("DHwD_web.Models.Place", b =>
                 {
                     b.HasOne("DHwD_web.Models.Games", "Games")
@@ -193,7 +196,7 @@ namespace DHwD_web.Migrations
 
             modelBuilder.Entity("DHwD_web.Models.Points", b =>
                 {
-                    b.HasOne("DHwD.Model.User", "User")
+                    b.HasOne("DHwD_web.Models.User", "User")
                         .WithOne("Points")
                         .HasForeignKey("DHwD_web.Models.Points", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -206,11 +209,9 @@ namespace DHwD_web.Migrations
                         .WithMany("Teams")
                         .HasForeignKey("GamesId");
 
-                    b.HasOne("DHwD.Model.User", "Id_Founder")
+                    b.HasOne("DHwD_web.Models.User", "Id_Founder")
                         .WithMany("Teams")
-                        .HasForeignKey("Id_FounderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Id_FounderId");
                 });
 
             modelBuilder.Entity("DHwD_web.Models.TeamMembers", b =>
@@ -221,7 +222,7 @@ namespace DHwD_web.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DHwD.Model.User", "User")
+                    b.HasOne("DHwD_web.Models.User", "User")
                         .WithMany("TeamMembers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

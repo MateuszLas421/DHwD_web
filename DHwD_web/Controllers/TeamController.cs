@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
 
 namespace DHwD_web.Controllers
 {
@@ -46,13 +45,17 @@ namespace DHwD_web.Controllers
             if (!_repository.Check(team))
                 return NoContent();
             _repository.CreateNewTeam(team);
-            _repository.SaveChanges();
-            //var userReadDto = _mapper.Map<UserReadDto>(team);                                                               //TODO
-            return Ok(); //CreatedAtRoute(nameof(GetUserByNickName_Token), new { userReadDto.NickName, userReadDto.Token }, userReadDto);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception) { return NotFound(); } 
+            var teamread = _mapper.Map<TeamReadDto>(team);
+            return CreatedAtRoute(nameof(GetTeamById), new { teamread.Id}, teamread);
         }
-        //get api/team/{IdGame}
-        [HttpGet("{IdGame}")]
-        public ActionResult<IEnumerable<TeamReadDto>> GetTeams(int IdGame)
+        //get api/team/all/{IdGame}
+        [HttpGet("all/{IdGame}")]
+        public ActionResult<IEnumerable<TeamReadDto>> GetallTeams(int IdGame)
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
                 return NotFound();
@@ -60,6 +63,19 @@ namespace DHwD_web.Controllers
             if (Items != null)
             {
                 return Ok(_mapper.Map<IEnumerable<TeamReadDto>>(Items));
+            }
+            return NotFound();
+        }
+        //get api/team/{id}
+        [HttpGet("{id}", Name = "GetTeamById")]
+        public ActionResult<IEnumerable<TeamReadDto>> GetTeamById(int id)
+        {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+                return NotFound();
+            var Items = _repository.GetTeamById(id);
+            if (Items != null)
+            {
+                return Ok(_mapper.Map<TeamReadDto>(Items));
             }
             return NotFound();
         }
