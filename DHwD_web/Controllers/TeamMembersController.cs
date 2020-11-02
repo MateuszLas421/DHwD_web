@@ -109,7 +109,7 @@ namespace DHwD_web.Controllers
             {
                 Items.User.TeamMembers = null;
                 Items.Team.TeamMembers = null;
-                return Ok(_mapper.Map<ITeamMembersReadDto>(Items));
+                return Ok(_mapper.Map<TeamMembersReadDto>(Items));
             }
             return NotFound();
         }
