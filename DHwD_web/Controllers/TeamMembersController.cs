@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using AutoMapper;
 using DHwD_web.Data;
@@ -26,9 +27,33 @@ namespace DHwD_web.Controllers
             _mapper = mapper;
             _userRepo = userRepo;
         }
+
+        //POST api/teamMembers
+        [HttpPost]
+        public ActionResult<TeamMembersCreateDto> JoinToTeam(TeamMembersCreateDto teamMembersCreateDto)  //TODO
+        {
+            var handler = new JwtSecurityTokenHandler();
+            string authHeader = Request.Headers["Authorization"];
+            authHeader = authHeader.Replace("Bearer ", "");
+            var jsonToken = handler.ReadToken(authHeader);
+            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+            var team = _mapper.Map<TeamMembers>(teamMembersCreateDto);
+            var identity = tokenS.Claims.First(claim => claim.Type == "jti").Value;
+            team.User = _userRepo.GetUserById(int.Parse(identity));
+            var result = _repository.AddNewMember(team);
+            if (result)
+            {
+                TeamMembersReadDto teamMembersReadDto = _mapper.Map<TeamMembersReadDto>(team);
+                return Ok();
+                //return CreatedAtRoute(nameof(TeamController.GetTeamById), new { teamread.Id }, teamread); //TODO
+            }
+            else
+                return BadRequest();
+        }
+
         //POST api/teamMembers/newTeam
         [HttpPost("newTeam")]
-        public ActionResult<TeamMembersCreateDto> CreateNewTeam(TeamMembersCreateDto teamMembersCreateDto)
+        public ActionResult<TeamMembersCreateDto> CreateNewTeam(TeamMembersCreateDto teamMembersCreateDto)  //TODO
         {
             var handler = new JwtSecurityTokenHandler();
             string authHeader = Request.Headers["Authorization"];
@@ -43,10 +68,51 @@ namespace DHwD_web.Controllers
             {
                 TeamMembersReadDto teamMembersReadDto=_mapper.Map<TeamMembersReadDto>(team);
                 return Ok(); 
-                //return CreatedAtRoute(nameof(TeamController.GetTeamById), new { teamread.Id }, teamread);
+                //return CreatedAtRoute(nameof(TeamController.GetTeamById), new { teamread.Id }, teamread); //TODO
             }
             else
                 return BadRequest();
         }
+        //get api/teamMembers{IdGame}
+        [HttpGet("{IdGame}")]
+        public ActionResult<TeamMembersReadDto> GetTeams(int IdGame)
+        {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+                return NotFound();
+            var handler = new JwtSecurityTokenHandler();
+            string authHeader = Request.Headers["Authorization"];
+            authHeader = authHeader.Replace("Bearer ", "");
+            var jsonToken = handler.ReadToken(authHeader);
+            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+            var identity = tokenS.Claims.First(claim => claim.Type == "jti").Value;
+            var Items = _repository.GetTeams(IdGame);
+            if (Items != null)
+            {
+                return Ok(_mapper.Map<IEnumerable<TeamMembersReadDto>>(Items));
+            }
+            return NotFound();
+        }
+        //get api/teamMembers/my/{IdGame}
+        [HttpGet("my/{IdGame}")]
+        public ActionResult<TeamMembersReadDto> GetmyTeams(int IdGame)
+        {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+                return NotFound();
+            var handler = new JwtSecurityTokenHandler();
+            string authHeader = Request.Headers["Authorization"];
+            authHeader = authHeader.Replace("Bearer ", "");
+            var jsonToken = handler.ReadToken(authHeader);
+            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+            var identity = tokenS.Claims.First(claim => claim.Type == "jti").Value;
+            var Items = _repository.GetMyTeams(IdGame, int.Parse(identity));
+            if (Items != null)
+            {
+                Items.User.TeamMembers = null;
+                Items.Team.TeamMembers = null;
+                return Ok(_mapper.Map<ITeamMembersReadDto>(Items));
+            }
+            return NotFound();
+        }
+
     }
 }
