@@ -73,9 +73,9 @@ namespace DHwD_web.Controllers
             else
                 return BadRequest();
         }
-        //get api/teamMembers{IdGame}
-        [HttpGet("{IdGame}")]
-        public ActionResult<TeamMembersReadDto> GetTeams(int IdGame)
+        //get api/teamMembers/{IdGame}
+        [HttpGet("{IdTeam}")]
+        public ActionResult<TeamMembersReadDto> GetTeamMembers(int IdTeam)
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
                 return NotFound();
@@ -85,7 +85,7 @@ namespace DHwD_web.Controllers
             var jsonToken = handler.ReadToken(authHeader);
             var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
             var identity = tokenS.Claims.First(claim => claim.Type == "jti").Value;
-            var Items = _repository.GetTeams(IdGame);
+            var Items = _repository.GetTeamMembers(IdTeam);
             if (Items != null)
             {
                 return Ok(_mapper.Map<IEnumerable<TeamMembersReadDto>>(Items));

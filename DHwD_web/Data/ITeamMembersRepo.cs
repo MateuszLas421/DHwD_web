@@ -11,7 +11,7 @@ namespace DHwD_web.Data
         bool CheckOnlyOnePlayer(TeamMembers item);
         bool AddNewMemberNewTeam(TeamMembers item);
         TeamMembers GetMyTeams(int Id, int UserId);
-        IEnumerable<TeamMembers> GetTeams(int IdGame);
+        IEnumerable<TeamMembers> GetTeamMembers(int IdTeam);
     }
 }
 

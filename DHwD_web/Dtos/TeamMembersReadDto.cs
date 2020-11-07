@@ -6,7 +6,7 @@ namespace DHwD_web.Dtos
     public class TeamMembersReadDto
     {
         public int Id { get; set; }
-        public User User { get; set; }// FK
-        public Team Team { get; set; }// FK
+        public UserReadDto User { get; set; }// FK
+        public TeamReadDto Team { get; set; }// FK
     }
 }

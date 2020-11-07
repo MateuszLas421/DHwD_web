@@ -79,11 +79,11 @@ namespace DHwD_web.Data
                                         .FirstOrDefault();
             return list;
         }
-        public IEnumerable<TeamMembers> GetTeams(int Id)
+        public IEnumerable<TeamMembers> GetTeamMembers(int IdTeam)
         {
-            IEnumerable<TeamMembers> list = _dbContext.TeamMembers.Where(a => a.Team.Games.Id == Id)
+            IEnumerable<TeamMembers> list = _dbContext.TeamMembers.Where(a => a.Team.Id == IdTeam)
                                         .Include(a => a.Team)
-                                        .Include(a => a.Team.Games)
+                                        .Include(a => a.User)
                                         .ToList();
             return list;
         }
