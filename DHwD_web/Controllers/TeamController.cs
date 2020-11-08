@@ -79,5 +79,18 @@ namespace DHwD_web.Controllers
             }
             return NotFound();
         }
+        //get api/team/{idteam}/{hashpass}
+        [HttpGet("{idteam}/{hashpass}", Name = "CheckPass")]
+        public ActionResult CheckPass( int idteam, string hashpass)
+        {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+                return NotFound();
+            var Items = _repository.CheckPass(idteam, hashpass);
+            if (Items)
+            {
+                return Ok();
+            }
+            return NotFound();
+        }
     }
 }

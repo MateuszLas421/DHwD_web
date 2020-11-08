@@ -60,5 +60,13 @@ namespace DHwD_web.Data
             return team;
         }
 
+        public bool CheckPass(int idteam, string hashpass)
+        {
+            var db = _dbContext.Teams.Where(a => a.Id == idteam && a.Password == hashpass)
+                .FirstOrDefault();
+            if (db != null)
+                return true;
+            return false;
+        }
     }
 }

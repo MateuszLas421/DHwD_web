@@ -30,20 +30,22 @@ namespace DHwD_web.Controllers
 
         //POST api/teamMembers
         [HttpPost]
-        public ActionResult<TeamMembersCreateDto> JoinToTeam(TeamMembersCreateDto teamMembersCreateDto)  //TODO
+        public ActionResult<TeamMembersCreateDto> JoinToTeam(Team team)  //TODO
         {
             var handler = new JwtSecurityTokenHandler();
             string authHeader = Request.Headers["Authorization"];
             authHeader = authHeader.Replace("Bearer ", "");
             var jsonToken = handler.ReadToken(authHeader);
             var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
-            var team = _mapper.Map<TeamMembers>(teamMembersCreateDto);
+            var _team = _mapper.Map<Team>(team);
+            TeamMembers teammember = new TeamMembers();
+            teammember.Team = _team;
             var identity = tokenS.Claims.First(claim => claim.Type == "jti").Value;
-            team.User = _userRepo.GetUserById(int.Parse(identity));
-            var result = _repository.AddNewMember(team);
+            teammember.User = _userRepo.GetUserById(int.Parse(identity));
+            var result = _repository.AddNewMember(teammember);
             if (result)
             {
-                TeamMembersReadDto teamMembersReadDto = _mapper.Map<TeamMembersReadDto>(team);
+                TeamMembersReadDto teamMembersReadDto = _mapper.Map<TeamMembersReadDto>(teammember);
                 return Ok();
                 //return CreatedAtRoute(nameof(TeamController.GetTeamById), new { teamread.Id }, teamread); //TODO
             }
