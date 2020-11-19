@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DHwD_web.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DHwD_web.Models
+namespace DHwD_web.Helpers
 {
     public class AppWebDbContext : DbContext
     {
@@ -14,6 +15,7 @@ namespace DHwD_web.Models
         public DbSet<TeamMembers> TeamMembers { get; set; }
         public DbSet<Games> Games { get; set; }
         public DbSet<Place> Place { get; set; }
+        public DbSet<Status> Statuses { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -35,6 +37,10 @@ namespace DHwD_web.Models
             modelBuilder.Entity<Games>()
                 .HasMany(c => c.Place)
                 .WithOne(e => e.Games);
+            modelBuilder.Entity<Status>()
+                .HasOne(a => a.Team)
+                .WithOne(b => b.Status)
+                .HasForeignKey<Team>(b => b.StatusRef);
         }
     }
 }
