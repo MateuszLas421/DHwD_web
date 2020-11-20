@@ -17,6 +17,8 @@ namespace DHwD_web.Profiles
             CreateMap<Games, GamesReadDto> ();
             CreateMap<TeamMembers, TeamMembersReadDto>();
             CreateMap<TeamMembersCreateDto, TeamMembers>();
+            CreateMap<Points, PointsReadDto>();
+            CreateMap<PointsCreateDto, Points>();
         }
     }
 }

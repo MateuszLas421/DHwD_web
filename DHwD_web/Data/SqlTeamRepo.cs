@@ -1,4 +1,5 @@
-﻿using DHwD_web.Models;
+﻿using DHwD_web.Helpers;
+using DHwD_web.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace DHwD_web.Data
 
         public User GetUser(int Id)
         {
-           var user  =  _dbContext.User.FirstOrDefault(x => x.Id == Id);
+           var user  =  _dbContext.Users.FirstOrDefault(x => x.Id == Id);
             if (user == null)
                 return null;
            return user;

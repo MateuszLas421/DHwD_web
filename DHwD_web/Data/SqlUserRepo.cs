@@ -1,4 +1,5 @@
-﻿using DHwD_web.Models;
+﻿using DHwD_web.Helpers;
+using DHwD_web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,22 +21,22 @@ namespace DHwD_web.Data
             {
                 throw new ArgumentNullException(nameof(user));
             }
-            _dbContext.User.Add(user);
+            _dbContext.Users.Add(user);
         }
 
         public IEnumerable<User> GetallUser()
         {
-            return _dbContext.User.ToList();
+            return _dbContext.Users.ToList();
         }
 
         public User GetUserById(int id)
         {
-            return _dbContext.User.FirstOrDefault(x => x.Id == id);
+            return _dbContext.Users.FirstOrDefault(x => x.Id == id);
         }
 
         public User GetUserByNickName_Token(string nickName, string token)
         {
-            return _dbContext.User.FirstOrDefault(x => x.NickName == nickName && x.Token == token);
+            return _dbContext.Users.FirstOrDefault(x => x.NickName == nickName && x.Token == token);
         }
 
         public bool SaveChanges()

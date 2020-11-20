@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace DHwD_web.Models
 {
     public class Place  //TODO
@@ -11,5 +7,10 @@ namespace DHwD_web.Models
         [Key]
         public int Id { get; set; }
         public Games Games { get; set; }
+        public ActivePlace ActivePlace { get; set; }
+        public string Name {get; set;}
+        public string Description { get; set; }
+        public Location Location { get; set; }
+        public int LocationRef { get; set; }
     }
 }
