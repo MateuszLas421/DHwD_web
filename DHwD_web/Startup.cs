@@ -72,10 +72,12 @@ namespace DHwD_web
 
             services.AddDbContext<AppWebDbContext>(options => options.UseNpgsql(builder.ConnectionString));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IStatusRepo, SqlStatusRepo>();
             services.AddScoped<IUserRepo, SqlUserRepo>();
             services.AddScoped<ITeamRepo, SqlTeamRepo>();
             services.AddScoped<IGamesRepo, SqlGamesRepo>();
             services.AddScoped<ITeamMembersRepo, SqlTeamMembersRepo>();
+            services.AddScoped<IPointsRepo, SqlPointsRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -20,11 +20,13 @@ namespace DHwD_web.Controllers
         private readonly ITeamRepo _repository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
-        public TeamController(IConfiguration config, ITeamRepo repository, IMapper mapper)
+        private readonly IStatusRepo _statusRepo;
+        public TeamController(IConfiguration config, ITeamRepo repository, IMapper mapper, IStatusRepo statusRepo)
         {
             _config = config;
             _repository = repository;
             _mapper = mapper;
+            _statusRepo = statusRepo;
         }
         //POST api/team
         [HttpPost]
@@ -37,21 +39,27 @@ namespace DHwD_web.Controllers
             var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
             var team = _mapper.Map<Team>(teamCreateDto);
             var identity = tokenS.Claims.First(claim => claim.Type == "jti").Value;
-            team.Id_Founder =_repository.GetUser(int.Parse(identity));
+            team.Id_Founder = _repository.GetUser(int.Parse(identity));
             team.DateTimeCreate = DateTime.UtcNow;
             if (team.Password != null)
                 team.StatusPassword = true;
             team.DateTimeEdit = team.DateTimeCreate;
             if (!_repository.Check(team))
                 return NoContent();
+            var status = _statusRepo.CreateNewStatus();
+            if (status == null)
+                return NoContent();
+            team.StatusRef = status.ID;
             _repository.CreateNewTeam(team);
+
             try
             {
                 _repository.SaveChanges();
             }
-            catch (Exception) { return NotFound(); } 
+            catch (Exception) { return NotFound(); }
             var teamread = _mapper.Map<TeamReadDto>(team);
-            return CreatedAtRoute(nameof(GetTeamById), new { teamread.Id}, teamread);
+            return CreatedAtRoute(nameof(GetTeamById), new { teamread.Id }, teamread);
+            return Ok();
         }
         //get api/team/all/{IdGame}
         [HttpGet("all/{IdGame}")]

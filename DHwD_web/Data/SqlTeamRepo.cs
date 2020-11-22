@@ -23,7 +23,7 @@ namespace DHwD_web.Data
             }
             var newteam = _dbContext.Games.Where(a => a.Id == team.Games.Id).Include(a => a.Teams).First();
             newteam.Teams.Add(team);
-            SaveChanges();
+            //SaveChanges();
         }
         public bool SaveChanges()
         {

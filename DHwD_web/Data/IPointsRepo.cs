@@ -7,5 +7,6 @@ namespace DHwD_web.Data
 {
     interface IPointsRepo
     {
+        //bool CreatePoints(int id);
     }
 }

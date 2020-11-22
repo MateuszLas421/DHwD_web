@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 namespace DHwD_web.Models
 {
-    public class Place  //TODO
+    public class Place
     {
         [Key]
         public int Id { get; set; }

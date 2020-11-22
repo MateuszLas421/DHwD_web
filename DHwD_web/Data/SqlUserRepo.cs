@@ -1,4 +1,5 @@
-﻿using DHwD_web.Helpers;
+﻿using DHwD_web.Dtos;
+using DHwD_web.Helpers;
 using DHwD_web.Models;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,19 @@ namespace DHwD_web.Data
 
         public void CreateNewUser(User user)
         {
+            Points points = new Points();
             if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
             }
             _dbContext.Users.Add(user);
+            SaveChanges();
+            var a = GetUserByNickName_Token(user.NickName, user.Token);
+            points.UserId = a.Id;
+            points.DataTimeEdit = DateTime.UtcNow;
+            points.DataTimeCreate = DateTime.UtcNow;
+            _dbContext.Points.Add(points);
+            SaveChanges();
         }
 
         public IEnumerable<User> GetallUser()

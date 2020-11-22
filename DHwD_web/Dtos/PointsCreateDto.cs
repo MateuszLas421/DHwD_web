@@ -10,11 +10,11 @@ namespace DHwD_web.Dtos
         public int UserPoints { get; set; }
         public DateTime DataTimeEdit { get; set; }
         public DateTime DataTimeCreate { get; set; }
-        public PointsCreateDto()
-        {
-            UserPoints = 0;
-            DataTimeEdit = DateTime.UtcNow;
-            DataTimeCreate = DateTime.UtcNow;
-        }
+        //public PointsCreateDto()
+        //{
+        //    UserPoints = 0;
+        //    DataTimeEdit = DateTime.UtcNow;
+        //    DataTimeCreate = DateTime.UtcNow;
+        //}
     }
 }
