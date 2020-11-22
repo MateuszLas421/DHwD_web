@@ -59,7 +59,6 @@ namespace DHwD_web.Controllers
             catch (Exception) { return NotFound(); }
             var teamread = _mapper.Map<TeamReadDto>(team);
             return CreatedAtRoute(nameof(GetTeamById), new { teamread.Id }, teamread);
-            return Ok();
         }
         //get api/team/all/{IdGame}
         [HttpGet("all/{IdGame}")]
