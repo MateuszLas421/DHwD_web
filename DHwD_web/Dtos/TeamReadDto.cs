@@ -7,6 +7,6 @@
         public bool StatusPassword { get; set; }
         public string Description { get; set; }
         public bool OnlyOnePlayer { get; set; }
-
+        public int StatusRef { get; set; }
     }
 }

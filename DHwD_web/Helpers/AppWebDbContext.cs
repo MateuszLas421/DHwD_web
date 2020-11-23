@@ -9,13 +9,17 @@ namespace DHwD_web.Helpers
         public AppWebDbContext([NotNullAttribute] DbContextOptions options) : base(options)
         {
         }
-        public DbSet<User> User { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Points> Points { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamMembers> TeamMembers { get; set; }
         public DbSet<Games> Games { get; set; }
-        public DbSet<Place> Place { get; set; }
+        public DbSet<Place> Places { get; set; }
         public DbSet<Status> Statuses { get; set; }
+        public DbSet<ActivePlace> ActivePlaces { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Mysterys> Mysterys { get; set; }
+        public DbSet<Solutions> Solutions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -41,6 +45,20 @@ namespace DHwD_web.Helpers
                 .HasOne(a => a.Team)
                 .WithOne(b => b.Status)
                 .HasForeignKey<Team>(b => b.StatusRef);
+            modelBuilder.Entity<ActivePlace>()
+                .HasMany(a => a.Status)
+                .WithOne(b => b.ActivePlace);
+            modelBuilder.Entity<ActivePlace>()
+                .HasMany(a => a.Places)
+                .WithOne(b => b.ActivePlace);
+            modelBuilder.Entity<Place>()
+                .HasOne(a => a.Location)
+                .WithOne(b => b.Place)
+                .HasForeignKey<Place>(b => b.LocationRef);
+            modelBuilder.Entity<Mysterys>()
+                .HasOne(a => a.Solutions)
+                .WithOne(b => b.Mysterys)
+                .HasForeignKey<Mysterys>(b => b.SolutionsRef);
         }
     }
 }

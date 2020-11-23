@@ -25,9 +25,7 @@ namespace DHwD_web.Models
         public bool OnlyOnePlayer { get; set; }
         public ICollection<TeamMembers> TeamMembers { get; set; }
         public Games Games { get; set; }
-        //public Team()
-        //{
-        //    Id_Founder = new User();
-        //}
+        public Status Status { get; set; }
+        public int StatusRef { get; set; }
     }
 }

@@ -11,5 +11,6 @@ namespace DHwD_web.Dtos
         public string Description { get; set; }
         public bool OnlyOnePlayer { get; set; }
         public Games Games { get; set; }
+        public StatusCreateDto StatusCreateDto { get; set; }
     }
 }

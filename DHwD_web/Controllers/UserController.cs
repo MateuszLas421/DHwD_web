@@ -20,7 +20,7 @@ namespace DHwD_web.Controllers
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
 
-        public UserController(IConfiguration config ,IUserRepo repository, IMapper mapper)
+        public UserController(IConfiguration config, IUserRepo repository, IMapper mapper)
         {
             _config = config;
             _repository = repository;

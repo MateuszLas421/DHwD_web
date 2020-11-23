@@ -1,4 +1,5 @@
-﻿using DHwD_web.Models;
+﻿using DHwD_web.Helpers;
+using DHwD_web.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace DHwD_web.Data
                                     .First();
             newMember.TeamMembers.Add(item);
             SaveChanges();
-            User newMemberUser = _dbContext.User.Where(a => a.Id == item.User.Id)
+            User newMemberUser = _dbContext.Users.Where(a => a.Id == item.User.Id)
                                        .Include(a => a.TeamMembers)
                                        .First();
             newMemberUser.TeamMembers.Add(item);
@@ -44,7 +45,7 @@ namespace DHwD_web.Data
                                     .First(); 
             newMember.TeamMembers.Add(item);
             SaveChanges();
-            User newMemberUser = _dbContext.User.Where(a => a.Id == item.User.Id)
+            User newMemberUser = _dbContext.Users.Where(a => a.Id == item.User.Id)
                                        .Include(a => a.TeamMembers)
                                        .First();
             newMemberUser.TeamMembers.Add(item);

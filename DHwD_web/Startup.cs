@@ -1,23 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using DHwD_web.Data;
-using DHwD_web.Models;
+using DHwD_web.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 
@@ -78,10 +72,12 @@ namespace DHwD_web
 
             services.AddDbContext<AppWebDbContext>(options => options.UseNpgsql(builder.ConnectionString));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IStatusRepo, SqlStatusRepo>();
             services.AddScoped<IUserRepo, SqlUserRepo>();
             services.AddScoped<ITeamRepo, SqlTeamRepo>();
             services.AddScoped<IGamesRepo, SqlGamesRepo>();
             services.AddScoped<ITeamMembersRepo, SqlTeamMembersRepo>();
+            services.AddScoped<IPointsRepo, SqlPointsRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
