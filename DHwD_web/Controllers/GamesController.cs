@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using DHwD_web.Data;
 using DHwD_web.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +11,7 @@ namespace DHwD_web.Controllers
 {
     [Route("api/games")]
     [ApiController]
+    [Authorize]
     public class GamesController : ControllerBase
     {
         private readonly IGamesRepo _repository;
