@@ -29,7 +29,12 @@ namespace DHwD_web.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
+                    b.Property<int?>("PlaceId")
+                        .HasColumnType("integer");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("PlaceId");
 
                     b.ToTable("ActivePlaces");
                 });
@@ -71,6 +76,12 @@ namespace DHwD_web.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<double>("Latitude")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("double precision");
+
                     b.HasKey("ID");
 
                     b.ToTable("Locations");
@@ -101,9 +112,6 @@ namespace DHwD_web.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("ActivePlaceID")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
@@ -117,8 +125,6 @@ namespace DHwD_web.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ActivePlaceID");
 
                     b.HasIndex("GamesId");
 
@@ -279,6 +285,13 @@ namespace DHwD_web.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("DHwD_web.Models.ActivePlace", b =>
+                {
+                    b.HasOne("DHwD_web.Models.Place", "Place")
+                        .WithMany("ActivePlace")
+                        .HasForeignKey("PlaceId");
+                });
+
             modelBuilder.Entity("DHwD_web.Models.Mysterys", b =>
                 {
                     b.HasOne("DHwD_web.Models.Solutions", "Solutions")
@@ -290,10 +303,6 @@ namespace DHwD_web.Migrations
 
             modelBuilder.Entity("DHwD_web.Models.Place", b =>
                 {
-                    b.HasOne("DHwD_web.Models.ActivePlace", "ActivePlace")
-                        .WithMany("Places")
-                        .HasForeignKey("ActivePlaceID");
-
                     b.HasOne("DHwD_web.Models.Games", "Games")
                         .WithMany("Place")
                         .HasForeignKey("GamesId");

@@ -9,7 +9,8 @@ namespace DHwD_web.Models
         public int ID { get; set; }
         ///Place Place;
         public bool Active { get; set; }
+        public Place Place { get; set; }
         public ICollection<Status> Status { get; set; }
-        public ICollection<Place> Places { get; set; }
+
     }
 }
