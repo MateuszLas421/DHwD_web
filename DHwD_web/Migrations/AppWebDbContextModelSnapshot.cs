@@ -175,6 +175,9 @@ namespace DHwD_web.Migrations
                     b.Property<int?>("ActivePlaceID")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("Game_Status")
+                        .HasColumnType("boolean");
+
                     b.HasKey("ID");
 
                     b.HasIndex("ActivePlaceID");

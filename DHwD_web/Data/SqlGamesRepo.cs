@@ -18,7 +18,9 @@ namespace DHwD_web.Data
         public IEnumerable<Games> GetallGames()
         {
             DateTime time = DateTime.UtcNow;
-            var list= _dbContext.Games.Where(a=> a.DateTimeStart<time.AddDays(+7) && a.DateTimeEnd > time.AddHours(+1)).ToList();
+            var list= _dbContext.Games
+                .Where(a=> a.DateTimeStart<time.AddDays(+7) && a.DateTimeEnd > time.AddHours(+1))
+                .ToList();
             if (list.Count()==0)
                 return null;
             return list;

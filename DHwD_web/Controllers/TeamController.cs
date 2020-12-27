@@ -21,12 +21,19 @@ namespace DHwD_web.Controllers
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly IStatusRepo _statusRepo;
-        public TeamController(IConfiguration config, ITeamRepo repository, IMapper mapper, IStatusRepo statusRepo)
+        private readonly ITeamMembersRepo _teamMembersRepo;
+        private readonly IActivePlacesRepo _activePlacesRepo;
+        private readonly IPlaceRepo _placeRepo;
+
+        public TeamController(IConfiguration config, ITeamRepo repository, IMapper mapper, IStatusRepo statusRepo, ITeamMembersRepo teamMembersRepo, IActivePlacesRepo activePlacesRepo, IPlaceRepo placeRepo)
         {
             _config = config;
             _repository = repository;
             _mapper = mapper;
             _statusRepo = statusRepo;
+            _teamMembersRepo = teamMembersRepo;
+            _activePlacesRepo = activePlacesRepo;
+            _placeRepo = placeRepo;
         }
         //POST api/team
         [HttpPost]
@@ -46,7 +53,8 @@ namespace DHwD_web.Controllers
             team.DateTimeEdit = team.DateTimeCreate;
             if (!_repository.Check(team))
                 return NoContent();
-            var status = _statusRepo.CreateNewStatus();
+            Status status = new Status();
+            status = _statusRepo.CreateNewStatus(status);
             if (status == null)
                 return NoContent();
             team.StatusRef = status.ID;
