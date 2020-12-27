@@ -22,18 +22,15 @@ namespace DHwD_web.Controllers
         private readonly IConfiguration _config;
         private readonly IStatusRepo _statusRepo;
         private readonly ITeamMembersRepo _teamMembersRepo;
-        private readonly IActivePlacesRepo _activePlacesRepo;
-        private readonly IPlaceRepo _placeRepo;
 
-        public TeamController(IConfiguration config, ITeamRepo repository, IMapper mapper, IStatusRepo statusRepo, ITeamMembersRepo teamMembersRepo, IActivePlacesRepo activePlacesRepo, IPlaceRepo placeRepo)
+
+        public TeamController(IConfiguration config, ITeamRepo repository, IMapper mapper, IStatusRepo statusRepo, ITeamMembersRepo teamMembersRepo)
         {
             _config = config;
             _repository = repository;
             _mapper = mapper;
             _statusRepo = statusRepo;
             _teamMembersRepo = teamMembersRepo;
-            _activePlacesRepo = activePlacesRepo;
-            _placeRepo = placeRepo;
         }
         //POST api/team
         [HttpPost]

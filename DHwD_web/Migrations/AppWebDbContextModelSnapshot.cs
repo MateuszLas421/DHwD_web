@@ -32,6 +32,9 @@ namespace DHwD_web.Migrations
                     b.Property<int?>("PlaceId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("Team_Id")
+                        .HasColumnType("integer");
+
                     b.HasKey("ID");
 
                     b.HasIndex("PlaceId");
