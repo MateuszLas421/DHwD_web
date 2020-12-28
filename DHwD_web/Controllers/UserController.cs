@@ -38,7 +38,6 @@ namespace DHwD_web.Controllers
             bool check = _repository.CreateNewUser(userModel);
             if (check == false)
                 return NoContent();
-            _repository.SaveChanges();
             var userReadDto = _mapper.Map<UserReadDto>(userModel);
             return Ok(userReadDto);
         }
