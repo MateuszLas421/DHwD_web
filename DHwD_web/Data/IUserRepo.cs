@@ -9,7 +9,7 @@ namespace DHwD_web.Data
 
         IEnumerable<User> GetallUser();
         User GetUserByNickName_Token(string NickName, string Token);
-        void CreateNewUser(User user);
+        bool CreateNewUser(User user);
         User GetUserById(int id);
 
     }

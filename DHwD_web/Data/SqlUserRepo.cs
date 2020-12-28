@@ -15,13 +15,15 @@ namespace DHwD_web.Data
             _dbContext = dbContext;
         }
 
-        public void CreateNewUser(User user)
+        public bool CreateNewUser(User user)
         {
             Points points = new Points();
             if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
             }
+            if (GetUserByNickName_Token(user.NickName, user.Token) != null)
+                return false;
             _dbContext.Users.Add(user);
             SaveChanges();
             var a = GetUserByNickName_Token(user.NickName, user.Token);
@@ -30,6 +32,7 @@ namespace DHwD_web.Data
             points.DataTimeCreate = DateTime.UtcNow;
             _dbContext.Points.Add(points);
             SaveChanges();
+            return true;
         }
 
         public IEnumerable<User> GetallUser()
