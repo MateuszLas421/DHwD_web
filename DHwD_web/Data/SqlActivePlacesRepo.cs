@@ -54,6 +54,16 @@ namespace DHwD_web.Data
                 return null;
             return await Task.FromResult<ActivePlace>(activePlace);
         }
+        public async Task<ActivePlace> CreativeActivePlace(int Team_Id, Place place)
+        {
+            ActivePlace activePlace = new ActivePlace(Team_Id, place);
+            _dbContext.ActivePlaces.Add(activePlace);
+            SaveChanges();
+            return await Task.FromResult<ActivePlace>(activePlace);
+        }
+
+
+
         public bool SaveChanges()
         {
             try

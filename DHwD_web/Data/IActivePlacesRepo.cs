@@ -8,6 +8,7 @@ namespace DHwD_web.Data
         Task<bool> Save(ActivePlace activePlace);
         Task<ActivePlace> GetActivePlacebyID(int IdactivePlace);
         Task<ActivePlace> GetActivePlacebyTeamIDandActive(int Team_Id);
+        Task<ActivePlace> CreativeActivePlace(int Team_Id, Place place);
         bool SaveChanges();
     }
 }

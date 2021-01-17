@@ -22,16 +22,20 @@ namespace DHwD_web.Controllers
         private readonly IConfiguration _config;
         private readonly IStatusRepo _statusRepo;
         private readonly ITeamMembersRepo _teamMembersRepo;
+        private readonly IActivePlacesRepo _activePlacesRepo;
+        private readonly IPlaceRepo _placeRepo;
 
-
-        public TeamController(IConfiguration config, ITeamRepo repository, IMapper mapper, IStatusRepo statusRepo, ITeamMembersRepo teamMembersRepo)
+        public TeamController(IConfiguration config, ITeamRepo repository, IMapper mapper, IStatusRepo statusRepo, ITeamMembersRepo teamMembersRepo,
+            IActivePlacesRepo activePlacesRepo, IPlaceRepo placeRepo)
         {
             _config = config;
             _repository = repository;
             _mapper = mapper;
             _statusRepo = statusRepo;
             _teamMembersRepo = teamMembersRepo;
-        }
+            _activePlacesRepo= activePlacesRepo;
+            _placeRepo = placeRepo;
+    }
         //POST api/team
         [HttpPost]
         public ActionResult<TeamCreateDto> CreateNewTeam(TeamCreateDto teamCreateDto)
@@ -56,12 +60,17 @@ namespace DHwD_web.Controllers
                 return NoContent();
             team.StatusRef = status.ID;
             _repository.CreateNewTeam(team);
-
             try
             {
                 _repository.SaveChanges();
             }
             catch (Exception) { return NotFound(); }
+            var place= _placeRepo.GetPlaceById(0, team.Games.Id);
+            if (place == null)
+                return NoContent();
+            status.ActivePlace = _activePlacesRepo.CreativeActivePlace(team.Id, place).Result;
+            status.Game_Status = true;
+            _statusRepo.UpdateNewStatus(status);
             var teamread = _mapper.Map<TeamReadDto>(team);
             return CreatedAtRoute(nameof(GetTeamById), new { teamread.Id }, teamread);
         }

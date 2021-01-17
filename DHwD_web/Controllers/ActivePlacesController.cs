@@ -21,5 +21,9 @@ namespace DHwD_web.Controllers
             _repository = repository;
             _mapper = mapper;
         }
+        //get api/Status/create/{gameID}
+        //[HttpGet("")]
+        //public async Task<ActionResult<IEnumerable<StatusReadDto>>> CreateStatus(int gameID)
+        //{
     }
 }

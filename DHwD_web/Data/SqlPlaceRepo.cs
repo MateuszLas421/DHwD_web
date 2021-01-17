@@ -38,6 +38,27 @@ namespace DHwD_web.Data
             return await Task.FromResult<Place>(place);
         }
 
+        public Place GetPlaceById(int numberplace, int gameid)
+        {
+            Place place = null;
+            IEnumerable<Place> result = _dbContext.Places
+                .Where(a => a.Games.Id == gameid);
+            result.OrderByDescending(s => s.Id).AsQueryable();
+            try
+            {
+                place = result.ElementAt(numberplace);
+            }
+            catch (ArgumentNullException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            return place;
+        }
+
         public bool SaveChanges()
         {
             try

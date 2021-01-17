@@ -11,5 +11,14 @@ namespace DHwD_web.Models
         public Place Place { get; set; }
         public ICollection<Status> Status { get; set; }
         public int Team_Id { get; set; }
+
+        public ActivePlace() { }
+        public ActivePlace(int Team_Id, Place place) 
+        {
+            this.Place = new Place();
+            this.Team_Id = Team_Id;
+            this.Place = place;
+        }
+
     }
 }

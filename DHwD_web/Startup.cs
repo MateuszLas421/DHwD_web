@@ -78,6 +78,8 @@ namespace DHwD_web
             services.AddScoped<IGamesRepo, SqlGamesRepo>();
             services.AddScoped<ITeamMembersRepo, SqlTeamMembersRepo>();
             services.AddScoped<IPointsRepo, SqlPointsRepo>();
+            services.AddScoped<IActivePlacesRepo, SqlActivePlacesRepo>();
+            services.AddScoped<IPlaceRepo, SqlPlaceRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

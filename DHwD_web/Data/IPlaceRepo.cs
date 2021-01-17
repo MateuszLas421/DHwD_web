@@ -9,6 +9,7 @@ namespace DHwD_web.Data
     public interface IPlaceRepo
     {
         Task<Place> GetPlace(int numberplace, int gameid);
+        Place GetPlaceById(int numberplace, int gameid);
         bool SaveChanges();
     }
 }
