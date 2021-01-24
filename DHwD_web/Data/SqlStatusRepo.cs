@@ -1,9 +1,9 @@
-﻿using DHwD_web.Helpers;
+﻿using DHwD_web.Dtos;
+using DHwD_web.Helpers;
 using DHwD_web.Models;
-using System;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DHwD_web.Data
 {
@@ -17,24 +17,38 @@ namespace DHwD_web.Data
         }
         public bool SaveChanges()
         {
-            return (_dbContext.SaveChanges() >= 0);
-        }
-        public Status CreateNewStatus()
-        {
-            Status status = new Status();
-            // var newteam = _dbContext.Statuses.Where();
-            //newteam.Add(status);
-            _dbContext.Statuses.Add(status);
             try
             {
-                SaveChanges();
+                return (_dbContext.SaveChanges() >= 0);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return false;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
             }
             catch (Exception)
             {
-                return null;
+                return false;
             }
+        }
+        public Status CreateNewStatus(Status status)
+        {
+            _dbContext.Statuses.Add(status);
+            if (SaveChanges() == false)
+                return null;
             return status;
         }
+        public Status UpdateNewStatus(Status status)
+        {
+            _dbContext.Statuses.Update(status);
+            if (SaveChanges() == false)
+                return null;
+            return status;
+        }
+
         public Status GetStatusById(int Id)
         {
             var status = _dbContext.Statuses.Where(a => a.ID == Id)

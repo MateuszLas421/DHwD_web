@@ -48,9 +48,9 @@ namespace DHwD_web.Helpers
             modelBuilder.Entity<ActivePlace>()
                 .HasMany(a => a.Status)
                 .WithOne(b => b.ActivePlace);
-            modelBuilder.Entity<ActivePlace>()
-                .HasMany(a => a.Places)
-                .WithOne(b => b.ActivePlace);
+            modelBuilder.Entity<Place>()
+                .HasMany(a => a.ActivePlace)
+                .WithOne(b => b.Place);
             modelBuilder.Entity<Place>()
                 .HasOne(a => a.Location)
                 .WithOne(b => b.Place)

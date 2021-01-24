@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DHwD_web.Models
 {
@@ -7,5 +8,7 @@ namespace DHwD_web.Models
         [Key]
         public int ID { get; set; }
         public Place Place { get; set; }
+        public Double Latitude { get; set; }
+        public Double Longitude { get; set; }
     }
 }

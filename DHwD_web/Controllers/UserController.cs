@@ -35,8 +35,9 @@ namespace DHwD_web.Controllers
             var userModel = _mapper.Map<User>(userCreateDto);
             userModel.DateTimeCreate = DateTime.UtcNow;
             userModel.DateTimeEdit = userModel.DateTimeCreate;
-            _repository.CreateNewUser(userModel);
-            _repository.SaveChanges();
+            bool check = _repository.CreateNewUser(userModel);
+            if (check == false)
+                return NoContent();
             var userReadDto = _mapper.Map<UserReadDto>(userModel);
             return Ok(userReadDto);
         }

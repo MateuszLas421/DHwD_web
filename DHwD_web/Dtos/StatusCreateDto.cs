@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace DHwD_web.Dtos
 {
-    public class StatusCreateDto  ///Delete
+    public class StatusCreateDto  
     {
         public int ID { get; set; }
         public Team Team { get; set; }
         public ActivePlace ActivePlace { get; set; }
+        public StatusCreateDto()
+        { }
+        public StatusCreateDto(Team team, ActivePlace activePlace)
+        {
+            Team = team;
+            ActivePlace = activePlace;
+        }
     }
 }

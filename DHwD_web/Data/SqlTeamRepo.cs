@@ -27,7 +27,22 @@ namespace DHwD_web.Data
         }
         public bool SaveChanges()
         {
-            return (_dbContext.SaveChanges() >= 0);
+            try
+            {
+                return (_dbContext.SaveChanges() >= 0);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return false;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public User GetUser(int Id)

@@ -19,6 +19,11 @@ namespace DHwD_web.Profiles
             CreateMap<TeamMembersCreateDto, TeamMembers>();
             CreateMap<Points, PointsReadDto>();
             CreateMap<PointsCreateDto, Points>();
+            CreateMap<ActivePlace, ActivePlacesReadDto>();
+            CreateMap<ActivePlacesCreateDto, ActivePlace>();
+            CreateMap<Status, StatusReadDto>();
+            CreateMap<StatusCreateDto, Status>();
+            CreateMap<Place, PlaceReadDto>();
         }
     }
 }
