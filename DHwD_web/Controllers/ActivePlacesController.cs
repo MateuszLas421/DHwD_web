@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using DHwD_web.Data;
+using DHwD_web.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace DHwD_web.Controllers
 {
@@ -20,6 +22,20 @@ namespace DHwD_web.Controllers
             _config = config;
             _repository = repository;
             _mapper = mapper;
+        }
+
+        //get api/ActivePlaces/{id}
+        [HttpGet("{id}", Name = "GetActivePlacebyID")]
+        public ActionResult<IEnumerable<ActivePlacesReadDto>> GetActivePlacesById(int id)
+        {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+                return NotFound();
+            var Items = _repository.GetActivePlacebyID(id);
+            if (Items != null)
+            {
+                return Ok(_mapper.Map<ActivePlacesReadDto>(Items));
+            }
+            return NotFound();
         }
         //get api/Status/create/{gameID}
         //[HttpGet("")]
