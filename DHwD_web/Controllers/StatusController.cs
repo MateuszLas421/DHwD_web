@@ -34,6 +34,7 @@ namespace DHwD_web.Controllers
             _activePlacesRepo = activePlacesRepo;
             _placeRepo = placeRepo;
         }
+        
         //get api/Status/create/{gameID}
         [HttpGet("create/{gameID}")]
         public async Task<ActionResult<IEnumerable<StatusReadDto>>> CreateStatus(int gameID)
@@ -56,6 +57,7 @@ namespace DHwD_web.Controllers
             }
             return NotFound();
         }
+
         //get api/Status/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<StatusReadDto>>> GetStatus() // TODO
