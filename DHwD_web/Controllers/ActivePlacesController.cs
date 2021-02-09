@@ -37,9 +37,19 @@ namespace DHwD_web.Controllers
             }
             return NotFound();
         }
-        //get api/Status/create/{gameID}
-        //[HttpGet("")]
-        //public async Task<ActionResult<IEnumerable<StatusReadDto>>> CreateStatus(int gameID)
+        ////get api/ActivePlaces/{id}
+        //[HttpGet("team={id}", Name = "GetActivePlacebyID")]
+        //public ActionResult<IEnumerable<ActivePlacesReadDto>> GetActivePlacesById(int id)
         //{
+        //    if (!HttpContext.User.Identity.IsAuthenticated)
+        //        return NotFound();
+        //    var Items = _repository.GetActivePlacebyID(id);
+        //    if (Items != null)
+        //    {
+        //        return Ok(_mapper.Map<ActivePlacesReadDto>(Items));
+        //    }
+        //    return NotFound();
+        //}
+
     }
 }
