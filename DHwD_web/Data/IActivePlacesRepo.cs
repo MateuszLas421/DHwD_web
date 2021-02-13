@@ -13,6 +13,8 @@ namespace DHwD_web.Data
 
         Task<ActivePlace> CreativeActivePlace(int Team_Id, Place place);
 
+        //Task<ActivePlace> GetActivePlacesByTeamId(int Team_Id);
+
         bool SaveChanges();
     }
 }

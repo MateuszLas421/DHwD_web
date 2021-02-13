@@ -54,6 +54,7 @@ namespace DHwD_web.Data
                 return null;
             return await Task.FromResult<ActivePlace>(activePlace);
         }
+
         public async Task<ActivePlace> CreativeActivePlace(int Team_Id, Place place)
         {
             ActivePlace activePlace = new ActivePlace(Team_Id, place);
@@ -62,7 +63,25 @@ namespace DHwD_web.Data
             return await Task.FromResult<ActivePlace>(activePlace);
         }
 
+        //public async Task<ActivePlace> GetActivePlacesByTeamId(int Team_Id)
+        //{
+        //    ActivePlace activePlace = null;
+        //    //activePlace = _dbContext.ActivePlaces
+        //    //    .Join(
+        //    //    _dbContext.Teams,
+        //    //    activeplace => activeplace.Team_Id,
+        //    //    team => team.Id,
+        //    //    (activeplace, team) =>
+        //    //    {
 
+        //    //    }
+        //    //    ).ToList()
+        //    //    .Where(a => a.Team_Id == Team_Id && a.Active == true)
+        //    //    .FirstOrDefault();
+        //    if (activePlace == null)
+        //        return null;
+        //    return await Task.FromResult<ActivePlace>(activePlace);
+        //}
 
         public bool SaveChanges()
         {
@@ -83,5 +102,7 @@ namespace DHwD_web.Data
                 return false;
             }
         }
+
+
     }
 }

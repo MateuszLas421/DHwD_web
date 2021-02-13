@@ -4,9 +4,9 @@ using DHwD_web.Models;
 
 namespace DHwD_web.Profiles
 {
-    public class UserProfile: Profile
+    public class MyProfile: Profile
     {
-        public UserProfile()
+        public MyProfile()
         {
             //Source -> Target
             CreateMap<User, UserReadDto>();
@@ -24,6 +24,8 @@ namespace DHwD_web.Profiles
             CreateMap<Status, StatusReadDto>();
             CreateMap<StatusCreateDto, Status>();
             CreateMap<Place, PlaceReadDto>();
+            CreateMap<Location, LocationReadDto>();
+            CreateMap<LocationCreateDto, Location>();
         }
     }
 }

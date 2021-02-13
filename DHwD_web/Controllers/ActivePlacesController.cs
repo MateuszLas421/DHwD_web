@@ -37,13 +37,13 @@ namespace DHwD_web.Controllers
             }
             return NotFound();
         }
-        ////get api/ActivePlaces/{id}
-        //[HttpGet("team={id}", Name = "GetActivePlacebyID")]
-        //public ActionResult<IEnumerable<ActivePlacesReadDto>> GetActivePlacesById(int id)
+        ////get api/ActivePlaces/team={id}
+        //[HttpGet("team={id}", Name = "GetActivePlacesByTeamId")]
+        //public ActionResult<IEnumerable<ActivePlacesReadDto>> GetActivePlacesByTeamId(int id)
         //{
         //    if (!HttpContext.User.Identity.IsAuthenticated)
         //        return NotFound();
-        //    var Items = _repository.GetActivePlacebyID(id);
+        //    var Items = _repository.GetActivePlacesByTeamId(id);
         //    if (Items != null)
         //    {
         //        return Ok(_mapper.Map<ActivePlacesReadDto>(Items));

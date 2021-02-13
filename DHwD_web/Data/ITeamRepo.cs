@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace DHwD_web.Data
-{
+{ 
     public interface ITeamRepo
     {
         void CreateNewTeam(Team team);

@@ -29,12 +29,15 @@ namespace DHwD_web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options => {
-                options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials().Build());
+            services.AddCors(options => 
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials().Build());
             });
+
             services.AddControllers().AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
@@ -70,7 +73,8 @@ namespace DHwD_web
                 });
             #endregion
 
-            services.AddDbContext<AppWebDbContext>(options => options.UseNpgsql(builder.ConnectionString));
+            services.AddDbContext<AppWebDbContext>(options =>
+                options.UseNpgsql(builder.ConnectionString));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IStatusRepo, SqlStatusRepo>();
             services.AddScoped<IUserRepo, SqlUserRepo>();
@@ -80,6 +84,7 @@ namespace DHwD_web
             services.AddScoped<IPointsRepo, SqlPointsRepo>();
             services.AddScoped<IActivePlacesRepo, SqlActivePlacesRepo>();
             services.AddScoped<IPlaceRepo, SqlPlaceRepo>();
+            services.AddScoped<ILocationRepo, SqlLocationRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

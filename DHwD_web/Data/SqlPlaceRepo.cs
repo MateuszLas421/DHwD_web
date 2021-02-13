@@ -8,13 +8,41 @@ using System.Threading.Tasks;
 
 namespace DHwD_web.Data
 {
-    public class SqlPlaceRepo:IPlaceRepo
+    public class SqlPlaceRepo : IPlaceRepo
     {
         private readonly AppWebDbContext _dbContext;
 
         public SqlPlaceRepo(AppWebDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+        public bool SaveChanges()
+        {
+            try
+            {
+                return (_dbContext.SaveChanges() >= 0);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return false;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<int> GetID_PlaceByTeam_Id(int teamid)
+        {
+            var activeplace = _dbContext.ActivePlaces
+                .Where(a => a.Team_Id == teamid)
+                .Include(b => b.Place).FirstOrDefault();
+            int idLocation = activeplace.Place.LocationRef;
+            return await Task.FromResult(idLocation);
         }
 
         public async Task<Place> GetPlace(int numberplace,int gameid)
@@ -57,26 +85,6 @@ namespace DHwD_web.Data
                 System.Diagnostics.Debug.WriteLine(ex.Message);
             }
             return place;
-        }
-
-        public bool SaveChanges()
-        {
-            try
-            {
-                return (_dbContext.SaveChanges() >= 0);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                return false;
-            }
-            catch (DbUpdateException)
-            {
-                return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
         }
     }
 }
