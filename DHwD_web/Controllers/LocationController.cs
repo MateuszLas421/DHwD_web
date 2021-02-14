@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
-using AutoMapper.Configuration;
 using DHwD_web.Data;
 using DHwD_web.Dtos;
+using DHwD_web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DHwD_web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Location")]
     [ApiController]
     [Authorize]
     public class LocationController : ControllerBase
@@ -29,13 +30,13 @@ namespace DHwD_web.Controllers
             _mapper = mapper;
             _placeRepo = placeRepo;
         }
-        //get api/Location/team={id}
-        [HttpGet("team={id}", Name = "GetActivePlacesByTeamId")]
+        //get api/Location/team={teamid}
+        [HttpGet("team={teamid}", Name = "GetActivePlacesByTeamId")]
         public async Task<ActionResult<IEnumerable<LocationReadDto>>> GetLocationByTeamIdAsync(int teamid)
         {
             int idLocation = await _placeRepo.GetID_PlaceByTeam_Id(teamid);
 
-            var Items = _repository.GetLocationById(idLocation);
+            Location Items = await _repository.GetLocationById(idLocation);
             if (Items != null)
             {
                 return Ok(_mapper.Map<LocationReadDto>(Items));
