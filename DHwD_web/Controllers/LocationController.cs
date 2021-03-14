@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
-using DHwD_web.Data;
+using DHwD_web.Data.interfaces;
 using DHwD_web.Dtos;
 using DHwD_web.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DHwD_web.Controllers

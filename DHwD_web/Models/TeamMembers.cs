@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DHwD_web.Models
 {
@@ -10,5 +11,6 @@ namespace DHwD_web.Models
         public User User { get; set; }// FK
         [Required]
         public Team Team { get; set; }// FK
+        public DateTime JoinTime { get; set; }
     }
 }

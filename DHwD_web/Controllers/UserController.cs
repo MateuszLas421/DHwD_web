@@ -3,7 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
-using DHwD_web.Data;
+using DHwD_web.Data.interfaces;
 using DHwD_web.Dtos;
 using DHwD_web.Models;
 using Microsoft.AspNetCore.Mvc;

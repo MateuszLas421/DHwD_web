@@ -3,6 +3,7 @@ using System.Net;
 using System.Text;
 using AutoMapper;
 using DHwD_web.Data;
+using DHwD_web.Data.interfaces;
 using DHwD_web.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -85,6 +86,7 @@ namespace DHwD_web
             services.AddScoped<IActivePlacesRepo, SqlActivePlacesRepo>();
             services.AddScoped<IPlaceRepo, SqlPlaceRepo>();
             services.AddScoped<ILocationRepo, SqlLocationRepo>();
+            services.AddScoped<IMysteryRepo, SqlMysteryRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

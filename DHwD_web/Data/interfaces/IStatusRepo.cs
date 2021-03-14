@@ -1,7 +1,7 @@
 ﻿using DHwD_web.Dtos;
 using DHwD_web.Models;
 
-namespace DHwD_web.Data
+namespace DHwD_web.Data.interfaces
 {
     public interface IStatusRepo
     {

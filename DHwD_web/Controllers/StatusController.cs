@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DHwD_web.Data;
+using DHwD_web.Data.interfaces;
 using DHwD_web.Dtos;
 using DHwD_web.Helpers;
 using DHwD_web.Models;

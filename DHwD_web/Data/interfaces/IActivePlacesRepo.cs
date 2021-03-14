@@ -1,7 +1,7 @@
 ﻿using DHwD_web.Models;
 using System.Threading.Tasks;
 
-namespace DHwD_web.Data
+namespace DHwD_web.Data.interfaces
 {
     public interface IActivePlacesRepo
     {

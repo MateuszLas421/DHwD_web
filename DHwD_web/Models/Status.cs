@@ -6,9 +6,12 @@ namespace DHwD_web.Models
     {
         [Key]
         public int ID { get; set; }
+
         public Team Team { get; set; }
+
         [Required]
         public bool Game_Status { get; set; }
+
         public ActivePlace ActivePlace { get; set; }
     }
 }

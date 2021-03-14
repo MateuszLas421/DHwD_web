@@ -2,7 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using AutoMapper;
-using DHwD_web.Data;
+using DHwD_web.Data.interfaces;
 using DHwD_web.Dtos;
 using DHwD_web.Models;
 using Microsoft.AspNetCore.Authorization;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DHwD_web.Data
+namespace DHwD_web.Data.interfaces
 {
     public interface ITeamMembersRepo
     {

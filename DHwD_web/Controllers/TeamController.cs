@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DHwD_web.Data;
+using DHwD_web.Data.interfaces;
 using DHwD_web.Dtos;
 using DHwD_web.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -35,7 +35,7 @@ namespace DHwD_web.Controllers
             _teamMembersRepo = teamMembersRepo;
             _activePlacesRepo= activePlacesRepo;
             _placeRepo = placeRepo;
-    }
+        }
         //POST api/team
         [HttpPost]
         public ActionResult<TeamCreateDto> CreateNewTeam(TeamCreateDto teamCreateDto)
