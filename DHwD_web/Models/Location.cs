@@ -15,6 +15,8 @@ namespace DHwD_web.Models
         public Double Longitude { get; set; }
 
         public Mysterys Mysterys { get; set; }
+        
+        public int MysteryRef { get; set; }
 
     }
 }

@@ -26,6 +26,7 @@ namespace DHwD_web.Profiles
             CreateMap<Place, PlaceReadDto>();
             CreateMap<Location, LocationReadDto>();
             CreateMap<LocationCreateDto, Location>();
+            CreateMap<Mysterys, MysteryReadDto>();
         }
     }
 }

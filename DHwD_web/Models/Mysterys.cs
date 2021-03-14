@@ -8,9 +8,11 @@ namespace DHwD_web.Models
         [Key]
         public int ID { get; set; }
 
+        public string Text { get; set; }
+
         public Solutions Solutions { get; set; }
 
-        public ICollection<Location> Locations { get; set; }
+        public Location Location { get; set; }
 
         public int SolutionsRef { get; set; }
 

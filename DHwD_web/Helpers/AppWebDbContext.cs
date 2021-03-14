@@ -59,8 +59,9 @@ namespace DHwD_web.Helpers
                 .HasMany(a => a.Mysterys)
                 .WithOne(b => b.Solutions);
             modelBuilder.Entity<Mysterys>()
-                .HasMany(a => a.Locations)
-                .WithOne(b => b.Mysterys);
+                .HasOne(a => a.Location)
+                .WithOne(b => b.Mysterys)
+                .HasForeignKey<Location>(b => b.MysteryRef);
         }
     }
 }
