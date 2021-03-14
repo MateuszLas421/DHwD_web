@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using AutoMapper;
@@ -40,6 +41,7 @@ namespace DHwD_web.Controllers
             var _team = _mapper.Map<Team>(team);
             TeamMembers teammember = new TeamMembers();
             teammember.Team = _team;
+            teammember.JoinTime = DateTime.UtcNow;
             var identity = tokenS.Claims.First(claim => claim.Type == "jti").Value;
             teammember.User = _userRepo.GetUserById(int.Parse(identity));
             var result = _repository.AddNewMember(teammember);
