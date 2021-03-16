@@ -1,0 +1,46 @@
+﻿using DHwD_web.Data.interfaces;
+using DHwD_web.Helpers;
+using DHwD_web.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace DHwD_web.Data
+{
+    public class SqlSolutionsRepo : ISolutionsRepo
+    {
+        private readonly AppWebDbContext _dbContext;
+
+        public SqlSolutionsRepo(AppWebDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public Task<Solutions> GetSolutionsByid(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SaveChanges()
+        {
+            try
+            {
+                return (_dbContext.SaveChanges() >= 0);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return false;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+    }
+}

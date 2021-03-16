@@ -14,7 +14,7 @@ namespace DHwD_web.Controllers
     [Route("api/Mystery")]
     [ApiController]
     [Authorize]
-    public class MysteryController : Controller
+    public class MysteryController : ControllerBase
     {
 
         private readonly IMysteryRepo _repository;
@@ -30,13 +30,26 @@ namespace DHwD_web.Controllers
             _locationRepo = locationRepo;
         }
 
-        //get api/Location/location={idLocation}
+        //get api/Mystery/location={idLocation}
         [HttpGet("location={idLocation}", Name = "GetMysterybyLocation")]
         public async Task<ActionResult<IEnumerable<MysteryReadDto>>> GetMysterybyLocation(int idLocation)
         {
             var location = await _locationRepo.GetLocationById(idLocation);
 
             var Items = await _repository.GetMysteryById(location.MysteryRef);
+
+            if (Items != null)
+            {
+                return Ok(_mapper.Map<MysteryReadDto>(Items));
+            }
+            return NotFound();
+        }
+
+        //get api/Mystery/{id}
+        [HttpGet("{id}", Name = "GetMysterybyid")]
+        public async Task<ActionResult<IEnumerable<MysteryReadDto>>> GetMysterybyid(int id)
+        {
+            var Items = await _repository.GetMysteryById(id);
 
             if (Items != null)
             {
