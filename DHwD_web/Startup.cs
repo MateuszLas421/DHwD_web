@@ -3,7 +3,7 @@ using System.Net;
 using System.Text;
 using AutoMapper;
 using DHwD_web.Data;
-using DHwD_web.Data.interfaces;
+using DHwD_web.Data.Interfaces;
 using DHwD_web.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;

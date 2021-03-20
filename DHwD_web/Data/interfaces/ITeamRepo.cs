@@ -1,12 +1,11 @@
 ﻿using DHwD_web.Models;
 using System.Collections.Generic;
 
-namespace DHwD_web.Data.interfaces
+namespace DHwD_web.Data.Interfaces
 { 
-    public interface ITeamRepo
+    public interface ITeamRepo : Base.IBaseRepo
     {
         void CreateNewTeam(Team team);
-        bool SaveChanges();
         IEnumerable<Team> GetTeams(int IdGame);
         User GetUser(int Id);  /// to be modified
         bool Check(Team team);

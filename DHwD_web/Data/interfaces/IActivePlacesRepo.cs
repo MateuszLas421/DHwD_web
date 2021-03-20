@@ -1,9 +1,9 @@
 ﻿using DHwD_web.Models;
 using System.Threading.Tasks;
 
-namespace DHwD_web.Data.interfaces
+namespace DHwD_web.Data.Interfaces
 {
-    public interface IActivePlacesRepo
+    public interface IActivePlacesRepo : Base.IBaseRepo
     {
         Task<bool> Save(ActivePlace activePlace);
 
@@ -14,7 +14,5 @@ namespace DHwD_web.Data.interfaces
         Task<ActivePlace> CreativeActivePlace(int Team_Id, Place place);
 
         //Task<ActivePlace> GetActivePlacesByTeamId(int Team_Id);
-
-        bool SaveChanges();
     }
 }

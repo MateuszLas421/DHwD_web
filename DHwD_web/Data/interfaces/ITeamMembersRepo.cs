@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DHwD_web.Data.interfaces
+namespace DHwD_web.Data.Interfaces
 {
-    public interface ITeamMembersRepo
+    public interface ITeamMembersRepo : Base.IBaseRepo
     {
         bool AddNewMember(TeamMembers item);
         bool Check(TeamMembers item);

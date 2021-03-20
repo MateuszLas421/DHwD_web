@@ -4,15 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DHwD_web.Data.interfaces
+namespace DHwD_web.Data.Interfaces
 {
-    public interface IPlaceRepo
+    public interface IPlaceRepo : Base.IBaseRepo
     {
         Task<Place> GetPlace(int numberplace, int gameid);
 
         Place GetPlaceById(int numberplace, int gameid);
 
         Task<int> GetID_PlaceByTeam_Id(int teamid);
-        bool SaveChanges();
     }
 }

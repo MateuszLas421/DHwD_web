@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DHwD_web.Data.interfaces
+namespace DHwD_web.Data.Interfaces
 {
-    public interface ISolutionsRepo
+    public interface ISolutionsRepo : Base.IBaseRepo
     {
         Task<Solutions> GetSolutionsByid(int id);
     }

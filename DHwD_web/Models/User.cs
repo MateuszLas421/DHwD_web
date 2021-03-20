@@ -22,5 +22,7 @@ namespace DHwD_web.Models
         public Points Points { get; set; }
         public ICollection<Team> Teams { get; set; }
         public ICollection<TeamMembers> TeamMembers { get; set; }
+
+        public ICollection<Chats> Chats { get; set; }
     }
 }

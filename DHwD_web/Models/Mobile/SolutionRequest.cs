@@ -4,11 +4,11 @@ namespace DHwD_web.Models.Mobile
 {
     public class SolutionRequest
     {
-        public int idMystery { get; private set; }
+        public int IdMystery { get; private set; }
 
         public string TextSolution { get; private set; }
 
-        public DateTime dataTimeRequest { get; set; }
+        public DateTime dDtaTimeRequest { get; set; }
 
     }
 }

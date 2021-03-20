@@ -1,4 +1,4 @@
-﻿using DHwD_web.Data.interfaces;
+﻿using DHwD_web.Data.Interfaces;
 using DHwD_web.Helpers;
 
 namespace DHwD_web.Data
@@ -10,6 +10,11 @@ namespace DHwD_web.Data
         public SqlPointsRepo(AppWebDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public bool SaveChanges()
+        {
+            throw new System.NotImplementedException();
         }
 
         //public bool CreatePoints(int id)

@@ -3,22 +3,25 @@ using DHwD_web.Helpers;
 using DHwD_web.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DHwD_web.Data
 {
-    public class SqlMysteryRepo : IMysteryRepo
+    public class SqlChats : IChatsRepo
     {
-        private readonly AppWebDbContext _dbContext;
-        public async Task<Mysterys> GetMysteryById(int id)
-        {
-            var mystery = await _dbContext.Mysterys.FirstOrDefaultAsync(x => x.ID == id);
-            return await Task.FromResult(mystery);
-        }
 
-        public SqlMysteryRepo(AppWebDbContext dbContext)
+
+        private readonly AppWebDbContext _dbContext;
+
+        public SqlChats(AppWebDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+        public Task SaveOnTheServer(Chats message)
+        {
+            throw new NotImplementedException();
         }
 
         public bool SaveChanges()

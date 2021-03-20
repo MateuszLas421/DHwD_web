@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DHwD_web.Data.interfaces
+namespace DHwD_web.Data.Interfaces
 {
-    public interface ILocationRepo
+    public interface ILocationRepo : Base.IBaseRepo
     {
-        bool SaveChanges();
         Task<Location> GetLocationById(int id);
     }
 }

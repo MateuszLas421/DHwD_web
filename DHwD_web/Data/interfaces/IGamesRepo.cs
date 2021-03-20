@@ -1,11 +1,10 @@
 ﻿using DHwD_web.Models;
 using System.Collections.Generic;
 
-namespace DHwD_web.Data.interfaces
+namespace DHwD_web.Data.Interfaces
 {
-    public interface IGamesRepo
+    public interface IGamesRepo : Base.IBaseRepo
     {
         IEnumerable<Games> GetallGames();
-        bool SaveChanges();
     }
 }
