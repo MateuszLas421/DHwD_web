@@ -39,7 +39,7 @@ namespace DHwD_web.Data
         }
         public async Task<Location> GetLocationById(int id)
         {
-            var Item = _dbContext.Locations.FirstOrDefault(x => x.ID == id);
+            var Item = await _dbContext.Locations.Where(x => x.ID == id).Include(a => a.Place).FirstOrDefaultAsync();
             if (Item == null)
                 return null;
             return await Task.FromResult(Item);
