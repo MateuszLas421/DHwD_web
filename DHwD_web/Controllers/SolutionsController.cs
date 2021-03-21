@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DHwD_web.Data.Interfaces;
 using DHwD_web.Dtos;
+using DHwD_web.Helpers;
 using DHwD_web.Models;
 using DHwD_web.Models.Mobile;
 using DHwD_web.Operations;
@@ -43,12 +44,8 @@ namespace DHwD_web.Controllers
         public async Task<ActionResult<string>> PostSolutionToCheck(SolutionRequest solutionRequest)
         {
             var solution = await _repository.GetSolutionsByid(_mysteryRepo.GetMysteryById(solutionRequest.IdMystery).Result.SolutionsRef);
-            var handler = new JwtSecurityTokenHandler();
-            string authHeader = Request.Headers["Authorization"];
-            authHeader = authHeader.Replace("Bearer ", "");
-            var jsonToken = handler.ReadToken(authHeader);
-            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
-            var userId = Int32.Parse(tokenS.Claims.First(claim => claim.Type == "jti").Value);
+            var httpContext = HttpContext;
+            var userId = await ReadUserId.Read(httpContext);
             SolutionsOperations solutionsOperations = new SolutionsOperations();
             try
             {
@@ -56,14 +53,14 @@ namespace DHwD_web.Controllers
                 {
 
                     if (await solutionsOperations.SaveOnServer(_chatsRepo, _userRepo, solution.MysterySolutionPozitive, userId))
-                        return await Task.FromResult<string>(solution.MysterySolutionPozitive); 
+                        return Ok(); //await Task.FromResult<string>(solution.MysterySolutionPozitive); 
                     else
                         return BadRequest();
                 }
                 else 
                 {
                     if (await solutionsOperations.SaveOnServer(_chatsRepo, _userRepo, solution.MysterySolutionNegative, userId))
-                        return await Task.FromResult<string>(solution.MysterySolutionNegative);
+                        return Ok(); //await Task.FromResult<string>(solution.MysterySolutionNegative);
                     else
                         return BadRequest();
                 }

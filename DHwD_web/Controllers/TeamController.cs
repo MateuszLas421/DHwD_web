@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DHwD_web.Data.Interfaces;
 using DHwD_web.Dtos;
+using DHwD_web.Helpers;
 using DHwD_web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,14 +41,10 @@ namespace DHwD_web.Controllers
         [HttpPost]
         public ActionResult<TeamCreateDto> CreateNewTeam(TeamCreateDto teamCreateDto)
         {
-            var handler = new JwtSecurityTokenHandler();
-            string authHeader = Request.Headers["Authorization"];
-            authHeader = authHeader.Replace("Bearer ", "");
-            var jsonToken = handler.ReadToken(authHeader);
-            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+            var httpContext = HttpContext;
+            var identity = ReadUserId.Read(httpContext).Result;
             var team = _mapper.Map<Team>(teamCreateDto);
-            var identity = tokenS.Claims.First(claim => claim.Type == "jti").Value;
-            team.Id_Founder = _repository.GetUser(int.Parse(identity));
+            team.Id_Founder = _repository.GetUser(identity);
             team.DateTimeCreate = DateTime.UtcNow;
             if (team.Password != null)
                 team.StatusPassword = true;

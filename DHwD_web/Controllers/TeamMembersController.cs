@@ -5,6 +5,7 @@ using System.Linq;
 using AutoMapper;
 using DHwD_web.Data.Interfaces;
 using DHwD_web.Dtos;
+using DHwD_web.Helpers;
 using DHwD_web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,17 +34,13 @@ namespace DHwD_web.Controllers
         [HttpPost]
         public ActionResult<TeamMembersCreateDto> JoinToTeam(Team team)  //TODO
         {
-            var handler = new JwtSecurityTokenHandler();
-            string authHeader = Request.Headers["Authorization"];
-            authHeader = authHeader.Replace("Bearer ", "");
-            var jsonToken = handler.ReadToken(authHeader);
-            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+            var httpContext = HttpContext;
+            var identity = ReadUserId.Read(httpContext).Result;
             var _team = _mapper.Map<Team>(team);
             TeamMembers teammember = new TeamMembers();
             teammember.Team = _team;
             teammember.JoinTime = DateTime.UtcNow;
-            var identity = tokenS.Claims.First(claim => claim.Type == "jti").Value;
-            teammember.User = _userRepo.GetUserById(int.Parse(identity));
+            teammember.User = _userRepo.GetUserById(identity);
             var result = _repository.AddNewMember(teammember);
             if (result)
             {
@@ -59,14 +56,10 @@ namespace DHwD_web.Controllers
         [HttpPost("newTeam")]
         public ActionResult<TeamMembersCreateDto> CreateNewTeam(TeamMembersCreateDto teamMembersCreateDto)  //TODO
         {
-            var handler = new JwtSecurityTokenHandler();
-            string authHeader = Request.Headers["Authorization"];
-            authHeader = authHeader.Replace("Bearer ", "");
-            var jsonToken = handler.ReadToken(authHeader);
-            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+            var httpContext = HttpContext;
+            var identity = ReadUserId.Read(httpContext).Result;
             var team = _mapper.Map<TeamMembers>(teamMembersCreateDto);
-            var identity = tokenS.Claims.First(claim => claim.Type == "jti").Value;
-            team.User=_userRepo.GetUserById(int.Parse(identity));
+            team.User=_userRepo.GetUserById(identity);
             var result = _repository.AddNewMemberNewTeam(team);
             if (result)
             {
@@ -81,14 +74,6 @@ namespace DHwD_web.Controllers
         [HttpGet("{IdTeam}")]
         public ActionResult<TeamMembersReadDto> GetTeamMembers(int IdTeam)
         {
-            if (!HttpContext.User.Identity.IsAuthenticated)
-                return NotFound();
-            var handler = new JwtSecurityTokenHandler();
-            string authHeader = Request.Headers["Authorization"];
-            authHeader = authHeader.Replace("Bearer ", "");
-            var jsonToken = handler.ReadToken(authHeader);
-            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
-            var identity = tokenS.Claims.First(claim => claim.Type == "jti").Value;
             var Items = _repository.GetTeamMembers(IdTeam);
             if (Items != null)
             {
@@ -100,15 +85,9 @@ namespace DHwD_web.Controllers
         [HttpGet("my/{IdGame}")]
         public ActionResult<TeamMembersReadDto> GetmyTeams(int IdGame)
         {
-            if (!HttpContext.User.Identity.IsAuthenticated)
-                return NotFound();
-            var handler = new JwtSecurityTokenHandler();
-            string authHeader = Request.Headers["Authorization"];
-            authHeader = authHeader.Replace("Bearer ", "");
-            var jsonToken = handler.ReadToken(authHeader);
-            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
-            var identity = tokenS.Claims.First(claim => claim.Type == "jti").Value;
-            var Items = _repository.GetMyTeams(IdGame, int.Parse(identity));
+            var httpContext = HttpContext;
+            var identity = ReadUserId.Read(httpContext).Result;
+            var Items = _repository.GetMyTeams(IdGame, identity);
             if (Items != null)
             {
                 Items.User.TeamMembers = null;
