@@ -11,7 +11,7 @@ namespace DHwD_web.Models
         [Key]
         public ulong Id { get; set; }
 
-        public User Userid { get; set; }
+        public User User { get; set; }
 
         public bool IsSystem { get; set; }
 

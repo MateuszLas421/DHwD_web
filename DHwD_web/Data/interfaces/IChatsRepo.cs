@@ -8,6 +8,6 @@ namespace DHwD_web.Data.Interfaces
 {
     public interface IChatsRepo : Base.IBaseRepo
     {
-        Task SaveOnTheServer(Chats message);
+        Task<bool> SaveOnTheServer(Chats message);
     }
 }

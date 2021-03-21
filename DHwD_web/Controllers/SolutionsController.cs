@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
 using DHwD_web.Data.Interfaces;
 using DHwD_web.Dtos;
+using DHwD_web.Models;
 using DHwD_web.Models.Mobile;
+using DHwD_web.Operations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,14 +24,18 @@ namespace DHwD_web.Controllers
         private readonly ISolutionsRepo _repository;
         private readonly IMapper _mapper;
         private readonly IMysteryRepo _mysteryRepo;
+        private readonly IChatsRepo _chatsRepo;
+        private readonly IUserRepo _userRepo;
         private readonly IConfiguration _config;
 
-        public SolutionsController(IConfiguration config, ISolutionsRepo repository, IMapper mapper, IMysteryRepo mysteryRepo)
+        public SolutionsController(IConfiguration config, ISolutionsRepo repository, IMapper mapper, IMysteryRepo mysteryRepo, IChatsRepo chatsRepo, IUserRepo userRepo)
         {
             _config = config;
             _repository = repository;
             _mapper = mapper;
             _mysteryRepo = mysteryRepo;
+            _chatsRepo = chatsRepo;
+            _userRepo = userRepo;
         }
 
         //POST api/Solutions
@@ -40,8 +47,17 @@ namespace DHwD_web.Controllers
             {
                 if (solution.Text.ToLower().Equals(solutionRequest.TextSolution.ToLower()))
                 {
-
-                    return await Task.FromResult<string>(solution.MysterySolutionPozitive);     //TODO
+                    var handler = new JwtSecurityTokenHandler();
+                    string authHeader = Request.Headers["Authorization"];
+                    authHeader = authHeader.Replace("Bearer ", "");
+                    var jsonToken = handler.ReadToken(authHeader);
+                    var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+                    var userId = Int32.Parse(tokenS.Claims.First(claim => claim.Type == "jti").Value);
+                    SolutionsOperations solutionsOperations = new SolutionsOperations();
+                    if (await solutionsOperations.SaveOnServer(_chatsRepo, _userRepo, solution.MysterySolutionPozitive, userId))
+                        return await Task.FromResult<string>(solution.MysterySolutionPozitive); 
+                    else
+                        return BadRequest();
                 }
                 else
                     return await Task.FromResult<string>(solution.MysterySolutionNegative);     //TODO

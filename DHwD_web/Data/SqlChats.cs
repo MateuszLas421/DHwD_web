@@ -11,17 +11,16 @@ namespace DHwD_web.Data
 {
     public class SqlChats : IChatsRepo
     {
-
-
         private readonly AppWebDbContext _dbContext;
 
         public SqlChats(AppWebDbContext dbContext)
         {
             _dbContext = dbContext;
         }
-        public Task SaveOnTheServer(Chats message)
+        public async Task<bool> SaveOnTheServer(Chats message)
         {
-            throw new NotImplementedException();
+            _dbContext
+            return await Task.FromResult<bool>(SaveChanges());
         }
 
         public bool SaveChanges()
