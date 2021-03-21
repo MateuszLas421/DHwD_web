@@ -59,6 +59,7 @@ namespace DHwD_web.Controllers
             var httpContext = HttpContext;
             var identity = ReadUserId.Read(httpContext).Result;
             var team = _mapper.Map<TeamMembers>(teamMembersCreateDto);
+            team.JoinTime = DateTime.UtcNow;
             team.User=_userRepo.GetUserById(identity).Result;
             var result = _repository.AddNewMemberNewTeam(team);
             if (result)
