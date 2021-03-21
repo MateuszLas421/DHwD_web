@@ -3,6 +3,7 @@ using DHwD_web.Data.Interfaces;
 using DHwD_web.Dtos;
 using DHwD_web.Helpers;
 using DHwD_web.Models;
+using DHwD_web.Models.Mobile;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,14 +23,16 @@ namespace DHwD_web.Controllers
         private readonly IMapper _mapper;
         private readonly IChatsRepo _repository;
         private readonly IUserRepo _userRepo;
+        private readonly IGamesRepo _gamesRepo;
         private readonly IConfiguration _config;
 
-        public ChatsController(IConfiguration config, IMapper mapper, IChatsRepo repository, IUserRepo userRepo)
+        public ChatsController(IConfiguration config, IMapper mapper, IChatsRepo repository, IUserRepo userRepo, IGamesRepo gamesRepo)
         {
             _config = config;
             _repository = repository;
             _mapper = mapper;
             _userRepo = userRepo;
+            _gamesRepo = gamesRepo;
         }
 
         //get api/Chats/Team={gameid}
@@ -44,6 +47,28 @@ namespace DHwD_web.Controllers
                 return Ok(_mapper.Map<IEnumerable<ChatsReadDto>>(Items));
             }
             return NotFound();
+        }
+
+        //POST api/Solutions
+        [HttpPost]
+        public async Task<ActionResult> SaveMessage(Message message)
+        {
+            var httpContext = HttpContext;
+            var userId = await ReadUserId.Read(httpContext);
+            ChatsCreateDto chatsCreateDto = new ChatsCreateDto
+                {
+                DateTimeCreate = DateTime.UtcNow,
+                Game = new Games(),
+                IsSystem = false,
+                Text = message.Text,
+                User = new User()
+                };
+            chatsCreateDto.Game = await _gamesRepo.GetGame(message.gameid);
+            chatsCreateDto.User = await _userRepo.GetUserById(userId);
+            var result = await _repository.SaveOnTheServer(_mapper.Map<Chats>(chatsCreateDto));
+            if (result == true)
+                return Ok();
+            return BadRequest();
         }
     }
 }

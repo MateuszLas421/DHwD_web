@@ -1,5 +1,6 @@
 ﻿using DHwD_web.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DHwD_web.Data.Interfaces
 {
@@ -8,7 +9,7 @@ namespace DHwD_web.Data.Interfaces
         IEnumerable<User> GetallUser();
         User GetUserByNickName_Token(string NickName, string Token);
         bool CreateNewUser(User user);
-        User GetUserById(int id);
+        Task<User> GetUserById(int id);
 
     }
 }

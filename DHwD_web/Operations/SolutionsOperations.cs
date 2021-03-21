@@ -12,7 +12,7 @@ namespace DHwD_web.Operations
         public async Task<bool> SaveOnServer(IChatsRepo _chatsRepo, IUserRepo _userRepo, string text, int userId, Games game)
         {
             Chats message = new Chats();
-            message.User = _userRepo.GetUserById(userId);
+            message.User = await _userRepo.GetUserById(userId);
             message.Game = game;
             message.IsSystem = true;
             message.Text = text;

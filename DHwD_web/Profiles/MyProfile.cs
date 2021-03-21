@@ -40,6 +40,7 @@ namespace DHwD_web.Profiles
             CreateMap<Solutions, SolutionsReadDto>();
 
             CreateMap<Chats, ChatsReadDto>();
+            CreateMap<ChatsCreateDto, Chats>();
         }
     }
 }

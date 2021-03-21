@@ -40,7 +40,7 @@ namespace DHwD_web.Controllers
             TeamMembers teammember = new TeamMembers();
             teammember.Team = _team;
             teammember.JoinTime = DateTime.UtcNow;
-            teammember.User = _userRepo.GetUserById(identity);
+            teammember.User = _userRepo.GetUserById(identity).Result;
             var result = _repository.AddNewMember(teammember);
             if (result)
             {
@@ -59,7 +59,7 @@ namespace DHwD_web.Controllers
             var httpContext = HttpContext;
             var identity = ReadUserId.Read(httpContext).Result;
             var team = _mapper.Map<TeamMembers>(teamMembersCreateDto);
-            team.User=_userRepo.GetUserById(identity);
+            team.User=_userRepo.GetUserById(identity).Result;
             var result = _repository.AddNewMemberNewTeam(team);
             if (result)
             {

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DHwD_web.Data
 {
@@ -49,9 +50,9 @@ namespace DHwD_web.Data
             return _dbContext.Users.ToList();
         }
 
-        public User GetUserById(int id)
+        public async Task<User> GetUserById(int id)
         {
-            return _dbContext.Users.FirstOrDefault(x => x.Id == id);
+            return await Task.FromResult<User> (_dbContext.Users.FirstOrDefault(x => x.Id == id));
         }
 
         public User GetUserByNickName_Token(string nickName, string token)
