@@ -19,7 +19,7 @@ namespace DHwD_web.Data
         }
         public async Task<bool> SaveOnTheServer(Chats message)
         {
-            _dbContext
+            _dbContext.Chats.Add(message);
             return await Task.FromResult<bool>(SaveChanges());
         }
 
