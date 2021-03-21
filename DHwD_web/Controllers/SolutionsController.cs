@@ -43,24 +43,31 @@ namespace DHwD_web.Controllers
         public async Task<ActionResult<string>> PostSolutionToCheck(SolutionRequest solutionRequest)
         {
             var solution = await _repository.GetSolutionsByid(_mysteryRepo.GetMysteryById(solutionRequest.IdMystery).Result.SolutionsRef);
+            var handler = new JwtSecurityTokenHandler();
+            string authHeader = Request.Headers["Authorization"];
+            authHeader = authHeader.Replace("Bearer ", "");
+            var jsonToken = handler.ReadToken(authHeader);
+            var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
+            var userId = Int32.Parse(tokenS.Claims.First(claim => claim.Type == "jti").Value);
+            SolutionsOperations solutionsOperations = new SolutionsOperations();
             try
             {
                 if (solution.Text.ToLower().Equals(solutionRequest.TextSolution.ToLower()))
                 {
-                    var handler = new JwtSecurityTokenHandler();
-                    string authHeader = Request.Headers["Authorization"];
-                    authHeader = authHeader.Replace("Bearer ", "");
-                    var jsonToken = handler.ReadToken(authHeader);
-                    var tokenS = handler.ReadToken(authHeader) as JwtSecurityToken;
-                    var userId = Int32.Parse(tokenS.Claims.First(claim => claim.Type == "jti").Value);
-                    SolutionsOperations solutionsOperations = new SolutionsOperations();
+
                     if (await solutionsOperations.SaveOnServer(_chatsRepo, _userRepo, solution.MysterySolutionPozitive, userId))
                         return await Task.FromResult<string>(solution.MysterySolutionPozitive); 
                     else
                         return BadRequest();
                 }
-                else
-                    return await Task.FromResult<string>(solution.MysterySolutionNegative);     //TODO
+                else 
+                {
+                    if (await solutionsOperations.SaveOnServer(_chatsRepo, _userRepo, solution.MysterySolutionNegative, userId))
+                        return await Task.FromResult<string>(solution.MysterySolutionNegative);
+                    else
+                        return BadRequest();
+                }
+                    
             }
             catch (Exception)
             {
