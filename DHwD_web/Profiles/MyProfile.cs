@@ -37,7 +37,9 @@ namespace DHwD_web.Profiles
 
             CreateMap<Mysterys, MysteryReadDto>();
 
-            CreateMap<SolutionsReadDto, Solutions>();
+            CreateMap<Solutions, SolutionsReadDto>();
+
+            CreateMap<Chats, ChatsReadDto>();
         }
     }
 }

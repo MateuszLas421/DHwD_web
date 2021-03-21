@@ -42,5 +42,14 @@ namespace DHwD_web.Data
                 return false;
             }
         }
+
+        public async Task<IEnumerable<Chats>> GetChat(int gameid, int userId)
+        {
+            var items = await _dbContext.Chats
+                .Where(a => a.User.Id == userId && a.Game.Id == gameid).ToListAsync();
+            if (items.Count() == 0)
+                return null;
+            return await Task.FromResult<IEnumerable<Chats>>(items);
+        }
     }
 }

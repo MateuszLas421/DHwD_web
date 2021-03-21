@@ -1,24 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DHwD_web.Models
+namespace DHwD_web.Dtos
 {
-    public class Chats
+    public class ChatsReadDto
     {
-        [Key]
-        public ulong Id { get; set; }
-
         public bool IsSystem { get; set; }
 
         public string Text { get; set; }
 
         public DateTime DateTimeCreate { get; set; }
-
-        public User User { get; set; }
-
-        public Games Game { get; set; }
     }
 }

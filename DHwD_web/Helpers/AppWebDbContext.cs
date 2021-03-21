@@ -89,6 +89,10 @@ namespace DHwD_web.Helpers
             modelBuilder.Entity<Chats>()
                 .HasOne(a => a.User)
                 .WithMany(b => b.Chats);
+
+            modelBuilder.Entity<Chats>()
+                .HasOne(a => a.Game)
+                .WithMany(b => b.Chats);
         }
     }
 }

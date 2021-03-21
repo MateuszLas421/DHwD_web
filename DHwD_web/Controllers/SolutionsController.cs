@@ -27,9 +27,10 @@ namespace DHwD_web.Controllers
         private readonly IMysteryRepo _mysteryRepo;
         private readonly IChatsRepo _chatsRepo;
         private readonly IUserRepo _userRepo;
+        private readonly IGamesRepo _gamesRepo;
         private readonly IConfiguration _config;
 
-        public SolutionsController(IConfiguration config, ISolutionsRepo repository, IMapper mapper, IMysteryRepo mysteryRepo, IChatsRepo chatsRepo, IUserRepo userRepo)
+        public SolutionsController(IConfiguration config, ISolutionsRepo repository, IMapper mapper, IMysteryRepo mysteryRepo, IChatsRepo chatsRepo, IUserRepo userRepo, IGamesRepo gamesRepo)
         {
             _config = config;
             _repository = repository;
@@ -37,12 +38,14 @@ namespace DHwD_web.Controllers
             _mysteryRepo = mysteryRepo;
             _chatsRepo = chatsRepo;
             _userRepo = userRepo;
+            _gamesRepo = gamesRepo;
         }
 
         //POST api/Solutions
         [HttpPost]
         public async Task<ActionResult<string>> PostSolutionToCheck(SolutionRequest solutionRequest)
         {
+            var game = await _gamesRepo.GetGame(solutionRequest.gameid);
             var solution = await _repository.GetSolutionsByid(_mysteryRepo.GetMysteryById(solutionRequest.IdMystery).Result.SolutionsRef);
             var httpContext = HttpContext;
             var userId = await ReadUserId.Read(httpContext);
@@ -52,14 +55,14 @@ namespace DHwD_web.Controllers
                 if (solution.Text.ToLower().Equals(solutionRequest.TextSolution.ToLower()))
                 {
 
-                    if (await solutionsOperations.SaveOnServer(_chatsRepo, _userRepo, solution.MysterySolutionPozitive, userId))
+                    if (await solutionsOperations.SaveOnServer(_chatsRepo, _userRepo, solution.MysterySolutionPozitive, userId, game))
                         return Ok(); //await Task.FromResult<string>(solution.MysterySolutionPozitive); 
                     else
                         return BadRequest();
                 }
                 else 
                 {
-                    if (await solutionsOperations.SaveOnServer(_chatsRepo, _userRepo, solution.MysterySolutionNegative, userId))
+                    if (await solutionsOperations.SaveOnServer(_chatsRepo, _userRepo, solution.MysterySolutionNegative, userId, game))
                         return Ok(); //await Task.FromResult<string>(solution.MysterySolutionNegative);
                     else
                         return BadRequest();

@@ -8,7 +8,9 @@ namespace DHwD_web.Models.Mobile
 
         public string TextSolution { get; private set; }
 
-        public DateTime dDtaTimeRequest { get; set; }
+        public int gameid { get; private set; }
+
+        public DateTime DataTimeRequest { get; set; }
 
     }
 }

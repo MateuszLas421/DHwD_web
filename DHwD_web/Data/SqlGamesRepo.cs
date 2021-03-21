@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DHwD_web.Data
 {
@@ -27,12 +28,12 @@ namespace DHwD_web.Data
                 return null;
             return list;
         }
-        public Games GetGame(int Id) 
+        public async Task<Games> GetGame(int Id) 
         {
             var game = _dbContext.Games.FirstOrDefault(x => x.Id == Id);
             if (game == null)
                 return null;
-            return game;
+            return await Task.FromResult<Games>(game);
         }
         public bool SaveChanges()
         {

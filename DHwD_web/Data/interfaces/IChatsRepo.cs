@@ -9,5 +9,7 @@ namespace DHwD_web.Data.Interfaces
     public interface IChatsRepo : Base.IBaseRepo
     {
         Task<bool> SaveOnTheServer(Chats message);
+
+        Task<IEnumerable<Chats>> GetChat(int gameid, int userId);
     }
 }
