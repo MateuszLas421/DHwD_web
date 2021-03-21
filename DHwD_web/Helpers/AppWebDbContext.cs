@@ -78,8 +78,9 @@ namespace DHwD_web.Helpers
                 .HasForeignKey<Place>(b => b.LocationRef);
 
             modelBuilder.Entity<Solutions>()
-                .HasMany(a => a.Mysterys)
-                .WithOne(b => b.Solutions);
+                .HasOne(a => a.Mystery)
+                .WithOne(b => b.Solutions)
+                .HasForeignKey<Mysterys>(b => b.SolutionsRef);
 
             modelBuilder.Entity<Mysterys>()
                 .HasOne(a => a.Location)

@@ -15,9 +15,9 @@ namespace DHwD_web.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.9")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
+                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("DHwD_web.Models.ActivePlace", b =>
                 {
@@ -40,6 +40,36 @@ namespace DHwD_web.Migrations
                     b.HasIndex("PlaceId");
 
                     b.ToTable("ActivePlaces");
+                });
+
+            modelBuilder.Entity("DHwD_web.Models.Chats", b =>
+                {
+                    b.Property<decimal>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("numeric(20,0)");
+
+                    b.Property<DateTime>("DateTimeCreate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int?>("GameId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Chats");
                 });
 
             modelBuilder.Entity("DHwD_web.Models.Games", b =>
@@ -85,7 +115,13 @@ namespace DHwD_web.Migrations
                     b.Property<double>("Longitude")
                         .HasColumnType("double precision");
 
+                    b.Property<int>("MysteryRef")
+                        .HasColumnType("integer");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("MysteryRef")
+                        .IsUnique();
 
                     b.ToTable("Locations");
                 });
@@ -99,6 +135,9 @@ namespace DHwD_web.Migrations
 
                     b.Property<int>("SolutionsRef")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("text");
 
                     b.HasKey("ID");
 
@@ -163,6 +202,15 @@ namespace DHwD_web.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<string>("MysterySolutionNegative")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MysterySolutionPozitive")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("text");
+
                     b.HasKey("ID");
 
                     b.ToTable("Solutions");
@@ -202,8 +250,8 @@ namespace DHwD_web.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
-                        .HasColumnType("character varying(500)")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<int?>("GamesId")
                         .HasColumnType("integer");
@@ -213,15 +261,15 @@ namespace DHwD_web.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("character varying(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<bool>("OnlyOnePlayer")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Password")
-                        .HasColumnType("character varying(500)")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<bool>("StatusPassword")
                         .HasColumnType("boolean");
@@ -247,6 +295,9 @@ namespace DHwD_web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("JoinTime")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("TeamId")
                         .HasColumnType("integer");
@@ -278,13 +329,13 @@ namespace DHwD_web.Migrations
 
                     b.Property<string>("NickName")
                         .IsRequired()
-                        .HasColumnType("character varying(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("character varying(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.HasKey("Id");
 
@@ -296,15 +347,45 @@ namespace DHwD_web.Migrations
                     b.HasOne("DHwD_web.Models.Place", "Place")
                         .WithMany("ActivePlace")
                         .HasForeignKey("PlaceId");
+
+                    b.Navigation("Place");
+                });
+
+            modelBuilder.Entity("DHwD_web.Models.Chats", b =>
+                {
+                    b.HasOne("DHwD_web.Models.Games", "Game")
+                        .WithMany("Chats")
+                        .HasForeignKey("GameId");
+
+                    b.HasOne("DHwD_web.Models.User", "User")
+                        .WithMany("Chats")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Game");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DHwD_web.Models.Location", b =>
+                {
+                    b.HasOne("DHwD_web.Models.Mysterys", "Mysterys")
+                        .WithOne("Location")
+                        .HasForeignKey("DHwD_web.Models.Location", "MysteryRef")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Mysterys");
                 });
 
             modelBuilder.Entity("DHwD_web.Models.Mysterys", b =>
                 {
                     b.HasOne("DHwD_web.Models.Solutions", "Solutions")
-                        .WithOne("Mysterys")
+                        .WithOne("Mystery")
                         .HasForeignKey("DHwD_web.Models.Mysterys", "SolutionsRef")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Solutions");
                 });
 
             modelBuilder.Entity("DHwD_web.Models.Place", b =>
@@ -318,6 +399,10 @@ namespace DHwD_web.Migrations
                         .HasForeignKey("DHwD_web.Models.Place", "LocationRef")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Games");
+
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("DHwD_web.Models.Points", b =>
@@ -327,6 +412,8 @@ namespace DHwD_web.Migrations
                         .HasForeignKey("DHwD_web.Models.Points", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DHwD_web.Models.Status", b =>
@@ -334,6 +421,8 @@ namespace DHwD_web.Migrations
                     b.HasOne("DHwD_web.Models.ActivePlace", "ActivePlace")
                         .WithMany("Status")
                         .HasForeignKey("ActivePlaceID");
+
+                    b.Navigation("ActivePlace");
                 });
 
             modelBuilder.Entity("DHwD_web.Models.Team", b =>
@@ -351,6 +440,12 @@ namespace DHwD_web.Migrations
                         .HasForeignKey("DHwD_web.Models.Team", "StatusRef")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Games");
+
+                    b.Navigation("Id_Founder");
+
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("DHwD_web.Models.TeamMembers", b =>
@@ -366,6 +461,66 @@ namespace DHwD_web.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Team");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DHwD_web.Models.ActivePlace", b =>
+                {
+                    b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("DHwD_web.Models.Games", b =>
+                {
+                    b.Navigation("Chats");
+
+                    b.Navigation("Place");
+
+                    b.Navigation("Teams");
+                });
+
+            modelBuilder.Entity("DHwD_web.Models.Location", b =>
+                {
+                    b.Navigation("Place");
+                });
+
+            modelBuilder.Entity("DHwD_web.Models.Mysterys", b =>
+                {
+                    b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("DHwD_web.Models.Place", b =>
+                {
+                    b.Navigation("ActivePlace");
+                });
+
+            modelBuilder.Entity("DHwD_web.Models.Solutions", b =>
+                {
+                    b.Navigation("Mystery");
+                });
+
+            modelBuilder.Entity("DHwD_web.Models.Status", b =>
+                {
+                    b.Navigation("Team");
+                });
+
+            modelBuilder.Entity("DHwD_web.Models.Team", b =>
+                {
+                    b.Navigation("TeamMembers");
+                });
+
+            modelBuilder.Entity("DHwD_web.Models.User", b =>
+                {
+                    b.Navigation("Chats");
+
+                    b.Navigation("Points")
+                        .IsRequired();
+
+                    b.Navigation("TeamMembers");
+
+                    b.Navigation("Teams");
                 });
 #pragma warning restore 612, 618
         }

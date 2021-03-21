@@ -14,6 +14,6 @@ namespace DHwD_web.Models
 
         public string MysterySolutionNegative { get; set; }
 
-        public ICollection<Mysterys> Mysterys { get; set; }
+        public Mysterys Mystery { get; set; }
     }
 }
