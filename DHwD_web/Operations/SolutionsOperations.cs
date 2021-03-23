@@ -9,10 +9,10 @@ namespace DHwD_web.Operations
 {
     public class SolutionsOperations
     {
-        public async Task<bool> SaveOnServer(IChatsRepo _chatsRepo, IUserRepo _userRepo, string text, int userId, Games game)
+        public async Task<bool> SaveOnServer(IChatsRepo _chatsRepo,ITeamMembersRepo _teamMembersRepo , string text, int userId, Games game)
         {
             Chats message = new Chats();
-            message.User = await _userRepo.GetUserById(userId);
+            message.Team = (await _teamMembersRepo.GetMyTeams(game.Id, userId)).Team;
             message.Game = game;
             message.IsSystem = true;
             message.Text = text;

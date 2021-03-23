@@ -42,7 +42,7 @@ namespace DHwD_web.Controllers
             Status status = new Status();
             var httpContext = HttpContext;
             var id = await ReadUserId.Read(httpContext);
-            var teammembers = _teamMembersRepo.GetMyTeams(gameID, id);
+            var teammembers = await _teamMembersRepo.GetMyTeams(gameID, id);
             var place = await _placeRepo.GetPlace(0,gameID);
             ActivePlacesCreateDto activePlacesCreateDto = new ActivePlacesCreateDto(place);
             ActivePlace activePlace = _mapper.Map<ActivePlace>(activePlacesCreateDto);
@@ -79,7 +79,7 @@ namespace DHwD_web.Controllers
             var httpContext = HttpContext;
             var id = await ReadUserId.Read(httpContext);
 
-            var teammembers = _teamMembersRepo.GetMyTeams(gameID, id);
+            var teammembers = await _teamMembersRepo.GetMyTeams(gameID, id);
             status = _repository.GetStatusById(teammembers.Team.StatusRef);
 
             var place = await _placeRepo.GetPlace(0, gameID);

@@ -24,15 +24,17 @@ namespace DHwD_web.Controllers
         private readonly IChatsRepo _repository;
         private readonly IUserRepo _userRepo;
         private readonly IGamesRepo _gamesRepo;
+        private readonly ITeamMembersRepo _teamMembersRepo;
         private readonly IConfiguration _config;
 
-        public ChatsController(IConfiguration config, IMapper mapper, IChatsRepo repository, IUserRepo userRepo, IGamesRepo gamesRepo)
+        public ChatsController(IConfiguration config, IMapper mapper, IChatsRepo repository, IUserRepo userRepo, IGamesRepo gamesRepo, ITeamMembersRepo teamMembersRepo)
         {
             _config = config;
             _repository = repository;
             _mapper = mapper;
             _userRepo = userRepo;
             _gamesRepo = gamesRepo;
+            _teamMembersRepo = teamMembersRepo;
         }
 
         //get api/Chats/Team={gameid}
@@ -41,7 +43,7 @@ namespace DHwD_web.Controllers
         {
             var httpContext = HttpContext;
             var userId = await ReadUserId.Read(httpContext);
-            var Items = _repository.GetChat(gameid, userId);
+            var Items = _repository.GetChat(gameid, (await _teamMembersRepo.GetMyTeams(gameid, userId)).Team.Id);
             if (Items != null)
             {
                 return Ok(_mapper.Map<IEnumerable<ChatsReadDto>>(Items));
@@ -61,10 +63,10 @@ namespace DHwD_web.Controllers
                 Game = new Games(),
                 IsSystem = false,
                 Text = message.Text,
-                User = new User()
+                Team = new Team()
                 };
             chatsCreateDto.Game = await _gamesRepo.GetGame(message.gameid);
-            chatsCreateDto.User = await _userRepo.GetUserById(userId);
+            chatsCreateDto.Team = (await _teamMembersRepo.GetMyTeams(message.gameid, userId)).Team;
             var result = await _repository.SaveOnTheServer(_mapper.Map<Chats>(chatsCreateDto));
             if (result == true)
                 return Ok();

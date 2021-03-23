@@ -14,7 +14,7 @@ namespace DHwD_web.Dtos
 
         public DateTime DateTimeCreate { get; set; }
 
-        public User User { get; set; }
+        public Team Team { get; set; }
 
         public Games Game { get; set; }
     }

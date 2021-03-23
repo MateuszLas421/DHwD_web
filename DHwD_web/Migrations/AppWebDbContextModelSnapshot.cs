@@ -57,17 +57,17 @@ namespace DHwD_web.Migrations
                     b.Property<bool>("IsSystem")
                         .HasColumnType("boolean");
 
+                    b.Property<int?>("TeamId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Text")
                         .HasColumnType("text");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GameId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("TeamId");
 
                     b.ToTable("Chats");
                 });
@@ -357,13 +357,13 @@ namespace DHwD_web.Migrations
                         .WithMany("Chats")
                         .HasForeignKey("GameId");
 
-                    b.HasOne("DHwD_web.Models.User", "User")
+                    b.HasOne("DHwD_web.Models.Team", "Team")
                         .WithMany("Chats")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("TeamId");
 
                     b.Navigation("Game");
 
-                    b.Navigation("User");
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("DHwD_web.Models.Location", b =>
@@ -508,13 +508,13 @@ namespace DHwD_web.Migrations
 
             modelBuilder.Entity("DHwD_web.Models.Team", b =>
                 {
+                    b.Navigation("Chats");
+
                     b.Navigation("TeamMembers");
                 });
 
             modelBuilder.Entity("DHwD_web.Models.User", b =>
                 {
-                    b.Navigation("Chats");
-
                     b.Navigation("Points")
                         .IsRequired();
 

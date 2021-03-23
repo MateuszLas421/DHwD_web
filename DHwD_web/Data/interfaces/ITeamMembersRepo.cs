@@ -10,7 +10,7 @@ namespace DHwD_web.Data.Interfaces
         bool Check(TeamMembers item);
         bool CheckOnlyOnePlayer(TeamMembers item);
         bool AddNewMemberNewTeam(TeamMembers item);
-        TeamMembers GetMyTeams(int Id, int UserId);
+        Task<TeamMembers> GetMyTeams(int Id, int UserId);
         IEnumerable<TeamMembers> GetTeamMembers(int IdTeam);
     }
 }

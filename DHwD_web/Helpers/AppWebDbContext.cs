@@ -88,7 +88,7 @@ namespace DHwD_web.Helpers
                 .HasForeignKey<Location>(b => b.MysteryRef);
 
             modelBuilder.Entity<Chats>()
-                .HasOne(a => a.User)
+                .HasOne(a => a.Team)
                 .WithMany(b => b.Chats);
 
             modelBuilder.Entity<Chats>()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using DHwD_web.Data.Interfaces;
 using DHwD_web.Dtos;
@@ -84,11 +85,11 @@ namespace DHwD_web.Controllers
         }
         //get api/teamMembers/my/{IdGame}
         [HttpGet("my/{IdGame}")]
-        public ActionResult<TeamMembersReadDto> GetmyTeams(int IdGame)
+        public async Task<ActionResult<TeamMembersReadDto>> GetmyTeams(int IdGame)
         {
             var httpContext = HttpContext;
             var identity = ReadUserId.Read(httpContext).Result;
-            var Items = _repository.GetMyTeams(IdGame, identity);
+            var Items =  await _repository.GetMyTeams(IdGame, identity);
             if (Items != null)
             {
                 Items.User.TeamMembers = null;

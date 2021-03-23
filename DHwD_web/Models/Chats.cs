@@ -17,7 +17,7 @@ namespace DHwD_web.Models
 
         public DateTime DateTimeCreate { get; set; }
 
-        public User User { get; set; }
+        public Team Team { get; set; }
 
         public Games Game { get; set; }
     }

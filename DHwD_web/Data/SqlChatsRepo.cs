@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace DHwD_web.Data
 {
-    public class SqlChats : IChatsRepo
+    public class SqlChatsRepo : IChatsRepo
     {
         private readonly AppWebDbContext _dbContext;
 
-        public SqlChats(AppWebDbContext dbContext)
+        public SqlChatsRepo(AppWebDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -43,10 +43,10 @@ namespace DHwD_web.Data
             }
         }
 
-        public async Task<IEnumerable<Chats>> GetChat(int gameid, int userId)
+        public async Task<IEnumerable<Chats>> GetChat(int gameid, int teamId)
         {
             var items = await _dbContext.Chats
-                .Where(a => a.User.Id == userId && a.Game.Id == gameid).ToListAsync();
+                .Where(a => a.Team.Id == teamId && a.Game.Id == gameid).ToListAsync();
             if (items.Count() == 0)
                 return null;
             return await Task.FromResult<IEnumerable<Chats>>(items);

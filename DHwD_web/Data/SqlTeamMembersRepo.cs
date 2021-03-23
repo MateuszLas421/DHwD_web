@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DHwD_web.Data
 {
@@ -16,6 +17,7 @@ namespace DHwD_web.Data
         {
             _dbContext = dbContext;
         }
+
         public bool SaveChanges()
         {
             try
@@ -35,6 +37,7 @@ namespace DHwD_web.Data
                 return false;
             }  
         }
+
         public bool AddNewMemberNewTeam(TeamMembers item)
         {
             Team newMember = _dbContext.Teams.Where(a => a.Id == item.Team.Id)
@@ -52,6 +55,7 @@ namespace DHwD_web.Data
                 return true;
             return false;
         }
+
         public bool AddNewMember(TeamMembers item)
         {
             if (CheckOnlyOnePlayer(item) == true)
@@ -87,18 +91,18 @@ namespace DHwD_web.Data
                      .FirstOrDefault();
             return team.OnlyOnePlayer;
         }
-        public TeamMembers GetMyTeams(int Id, int UserId)
+        public async Task<TeamMembers> GetMyTeams(int gameId, int userId)
         {
-            TeamMembers list = _dbContext.TeamMembers.Where(a => a.Team.Games.Id == Id && a.User.Id == UserId)
+            TeamMembers teamMember = await _dbContext.TeamMembers.Where(a => a.Team.Games.Id == gameId && a.User.Id == userId)
                                         .Include(a => a.Team)
                                         .Include(a => a.Team.Games)
                                         .Include(a=> a.User)
-                                        .FirstOrDefault();
-            return list;
+                                        .FirstOrDefaultAsync();
+            return await Task.FromResult<TeamMembers>(teamMember);
         }
-        public IEnumerable<TeamMembers> GetTeamMembers(int IdTeam)
+        public IEnumerable<TeamMembers> GetTeamMembers(int idTeam)
         {
-            IEnumerable<TeamMembers> list = _dbContext.TeamMembers.Where(a => a.Team.Id == IdTeam)
+            IEnumerable<TeamMembers> list = _dbContext.TeamMembers.Where(a => a.Team.Id == idTeam)
                                         .Include(a => a.Team)
                                         .Include(a => a.User)
                                         .ToList();

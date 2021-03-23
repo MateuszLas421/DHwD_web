@@ -28,9 +28,10 @@ namespace DHwD_web.Controllers
         private readonly IChatsRepo _chatsRepo;
         private readonly IUserRepo _userRepo;
         private readonly IGamesRepo _gamesRepo;
+        private readonly ITeamMembersRepo _teamMembersRepo;
         private readonly IConfiguration _config;
 
-        public SolutionsController(IConfiguration config, ISolutionsRepo repository, IMapper mapper, IMysteryRepo mysteryRepo, IChatsRepo chatsRepo, IUserRepo userRepo, IGamesRepo gamesRepo)
+        public SolutionsController(IConfiguration config, ISolutionsRepo repository, IMapper mapper, IMysteryRepo mysteryRepo, IChatsRepo chatsRepo, IUserRepo userRepo, IGamesRepo gamesRepo, ITeamMembersRepo teamMembersRepo)
         {
             _config = config;
             _repository = repository;
@@ -39,6 +40,7 @@ namespace DHwD_web.Controllers
             _chatsRepo = chatsRepo;
             _userRepo = userRepo;
             _gamesRepo = gamesRepo;
+            _teamMembersRepo = teamMembersRepo;
         }
 
         //POST api/Solutions
@@ -55,14 +57,14 @@ namespace DHwD_web.Controllers
                 if (solution.Text.ToLower().Equals(solutionRequest.TextSolution.ToLower()))
                 {
 
-                    if (await solutionsOperations.SaveOnServer(_chatsRepo, _userRepo, solution.MysterySolutionPozitive, userId, game))
+                    if (await solutionsOperations.SaveOnServer(_chatsRepo, _teamMembersRepo, solution.MysterySolutionPozitive, userId, game))
                         return Ok(); //await Task.FromResult<string>(solution.MysterySolutionPozitive); 
                     else
                         return BadRequest();
                 }
                 else 
                 {
-                    if (await solutionsOperations.SaveOnServer(_chatsRepo, _userRepo, solution.MysterySolutionNegative, userId, game))
+                    if (await solutionsOperations.SaveOnServer(_chatsRepo, _teamMembersRepo, solution.MysterySolutionNegative, userId, game))
                         return Ok(); //await Task.FromResult<string>(solution.MysterySolutionNegative);
                     else
                         return BadRequest();
