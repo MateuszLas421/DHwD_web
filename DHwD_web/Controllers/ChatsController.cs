@@ -51,7 +51,7 @@ namespace DHwD_web.Controllers
             return NotFound();
         }
 
-        //POST api/Solutions
+        //POST api/Chats
         [HttpPost]
         public async Task<ActionResult> SaveMessage(Message message)
         {
