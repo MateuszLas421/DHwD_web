@@ -43,7 +43,7 @@ namespace DHwD_web.Controllers
         {
             var httpContext = HttpContext;
             var userId = await ReadUserId.Read(httpContext);
-            var Items = _repository.GetChat(gameid, (await _teamMembersRepo.GetMyTeams(gameid, userId)).Team.Id);
+            var Items = await _repository.GetChat(gameid, (await _teamMembersRepo.GetMyTeams(gameid, userId)).Team.Id);
             if (Items != null)
             {
                 return Ok(_mapper.Map<IEnumerable<ChatsReadDto>>(Items));
