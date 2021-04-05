@@ -38,7 +38,7 @@ namespace DHwD_web.Controllers
         }
 
         //get api/Chats/Team={gameid}
-        [HttpGet("Team={gameid}", Name = "GetChat")]
+        [HttpGet("Game={gameid}", Name = "GetChat")]
         public async Task<ActionResult<IEnumerable<ChatsReadDto>>> GetChat(int gameid)
         {
             var httpContext = HttpContext;
