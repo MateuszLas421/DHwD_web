@@ -7,10 +7,14 @@ namespace DHwD_web.Models
     {
         [Key]
         public int ID { get; set; }
-        public bool Active { get; set; }
-        public Place Place { get; set; }
-        public ICollection<Status> Status { get; set; }
+
         public int Team_Id { get; set; }
+
+        public bool Active { get; set; }
+
+        public string Type { get; set; }
+
+        public Place Place { get; set; }
 
         public ActivePlace() { }
         public ActivePlace(int Team_Id, Place place) 

@@ -12,6 +12,6 @@ namespace DHwD_web.Models
         [Required]
         public bool Game_Status { get; set; }
 
-        public ActivePlace ActivePlace { get; set; }
+        public string List_Id_ActivePlace { get; set; }
     }
 }

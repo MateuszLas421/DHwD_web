@@ -87,5 +87,24 @@ namespace DHwD_web.Data
             }
             return place;
         }
+        public IEnumerable<Place> GetPlaceByGameId(int gameid)
+        {
+            IEnumerable<Place> result = null;
+
+            try
+            {
+                result = _dbContext.Places
+                    .Where(a => a.Games.Id == gameid);
+            }
+            catch (ArgumentNullException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            return result;
+        }
     }
 }

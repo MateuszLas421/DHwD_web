@@ -37,6 +37,7 @@ namespace DHwD_web.Controllers
             _activePlacesRepo= activePlacesRepo;
             _placeRepo = placeRepo;
         }
+
         //POST api/team
         [HttpPost]
         public ActionResult<TeamCreateDto> CreateNewTeam(TeamCreateDto teamCreateDto)
@@ -62,15 +63,26 @@ namespace DHwD_web.Controllers
                 _repository.SaveChanges();
             }
             catch (Exception) { return NotFound(); }
-            var place= _placeRepo.GetPlaceById(0, team.Games.Id);
-            if (place == null)
+            var places = _placeRepo.GetPlaceByGameId(team.Games.Id);
+            if (places == null)
                 return NoContent();
-            status.ActivePlace = _activePlacesRepo.CreativeActivePlace(team.Id, place).Result;
-            status.Game_Status = true;
+            string list = "";
+            var localList = places.ToList();
+            for (int i = 0; i < places.Count(); i++)
+            {
+                list += localList[i].Id.ToString() + ";";
+            }
+            //status.ActivePlace = _activePlacesRepo.CreativeActivePlace(team.Id, place).Result;
+
+            status.List_Id_ActivePlace = list;
+
+            status.Game_Status = true;                                  // todo ? 
+
             _statusRepo.UpdateNewStatus(status);
             var teamread = _mapper.Map<TeamReadDto>(team);
             return CreatedAtRoute(nameof(GetTeamById), new { teamread.Id }, teamread);
         }
+
         //get api/team/all/{IdGame}
         [HttpGet("all/{IdGame}")]
         public ActionResult<IEnumerable<TeamReadDto>> GetallTeams(int IdGame)
@@ -84,6 +96,7 @@ namespace DHwD_web.Controllers
             }
             return NotFound();
         }
+
         //get api/team/{id}
         [HttpGet("{id}", Name = "GetTeamById")]
         public ActionResult<IEnumerable<TeamReadDto>> GetTeamById(int id)
@@ -97,6 +110,7 @@ namespace DHwD_web.Controllers
             }
             return NotFound();
         }
+
         //get api/team/{idteam}/{hashpass}
         [HttpGet("{idteam}/{hashpass}", Name = "CheckPass")]
         public ActionResult CheckPass( int idteam, string hashpass)
