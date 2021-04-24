@@ -27,16 +27,20 @@ namespace DHwD_web.Controllers
             _mapper = mapper;
             _placeRepo = placeRepo;
         }
+
         //get api/Location/team={teamid}
         [HttpGet("team={teamid}", Name = "GetActivePlacesByTeamId")]
         public async Task<ActionResult<IEnumerable<LocationReadDto>>> GetLocationByTeamIdAsync(int teamid)
         {
-            int idLocation = await _placeRepo.GetID_PlaceByTeam_Id(teamid);
-
-            Location Items = await _repository.GetLocationById(idLocation);
+            List<int> idLocations = await _placeRepo.GetID_PlacesByTeam_Id(teamid);
+            List<Location> Items = new List<Location>();
+            for (int i = 0; i < idLocations.Count; i++)
+            {
+                Items.Add(await _repository.GetLocationById(idLocations[i]));
+            }
             if (Items != null)
             {
-                return Ok(_mapper.Map<LocationReadDto>(Items));
+                return Ok(_mapper.Map<IEnumerable<LocationReadDto>>(Items));
             }
             return NotFound();
         }

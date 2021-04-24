@@ -47,8 +47,8 @@ namespace DHwD_web.Controllers
             ActivePlacesCreateDto activePlacesCreateDto = new ActivePlacesCreateDto(place);
             ActivePlace activePlace = _mapper.Map<ActivePlace>(activePlacesCreateDto);
             await _activePlacesRepo.Save(activePlace);
-            activePlace = await _activePlacesRepo.GetActivePlacebyTeamIDandActive(teammembers.Team.Id);
-            StatusCreateDto statusCreateDto = new StatusCreateDto(teammembers.Team, activePlace);
+            //activePlace = await _activePlacesRepo.GetActivePlacebyTeamIDandActive(teammembers.Team.Id);
+            StatusCreateDto statusCreateDto = new StatusCreateDto(teammembers.Team);
             status = _mapper.Map<Status>(statusCreateDto);
             _repository.CreateNewStatus(status);
             if (status != null)
@@ -71,9 +71,10 @@ namespace DHwD_web.Controllers
             //}
             return NotFound();
         }
+
         //get api/Status/update/{gameID}
         [HttpGet("update/{gameID}")]
-        public async Task<ActionResult<IEnumerable<StatusReadDto>>> UpdateStatus(int gameID)
+        public async Task<ActionResult<IEnumerable<StatusReadDto>>> UpdateStatus(int gameID)   // TODO
         {
             Status status = new Status();
             var httpContext = HttpContext;
@@ -88,7 +89,7 @@ namespace DHwD_web.Controllers
             await _activePlacesRepo.Save(activePlace);
             activePlace = await _activePlacesRepo.GetActivePlacebyTeamIDandActive(teammembers.Team.Id);
 
-            status.ActivePlace = activePlace;
+            //status.ActivePlace = activePlace;   // TO Fix ?
             _repository.UpdateNewStatus(status);
             if (status != null)
             {

@@ -6,6 +6,5 @@ namespace DHwD_web.Dtos
     {
         public int ID { get; set; }
         public Team Team { get; set; }
-        public ActivePlace ActivePlace { get; set; }
     }
 }

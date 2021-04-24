@@ -64,10 +64,6 @@ namespace DHwD_web.Helpers
                 .WithOne(b => b.Status)
                 .HasForeignKey<Team>(b => b.StatusRef);
 
-            modelBuilder.Entity<ActivePlace>()
-                .HasMany(a => a.Status)
-                .WithOne(b => b.ActivePlace);
-
             modelBuilder.Entity<Place>()
                 .HasMany(a => a.ActivePlace)
                 .WithOne(b => b.Place);

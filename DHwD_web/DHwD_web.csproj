@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>12e42bd2-4e5c-4933-ada6-dedb6d4dbee0</UserSecretsId>
     <Authors>M_Las</Authors>
+    <Configurations>Debug;Release;DebugTest;ReleaseTest</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

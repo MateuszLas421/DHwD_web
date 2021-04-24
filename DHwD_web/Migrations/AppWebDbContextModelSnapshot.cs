@@ -35,6 +35,9 @@ namespace DHwD_web.Migrations
                     b.Property<int>("Team_Id")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Type")
+                        .HasColumnType("text");
+
                     b.HasKey("ID");
 
                     b.HasIndex("PlaceId");
@@ -223,15 +226,14 @@ namespace DHwD_web.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("ActivePlaceID")
-                        .HasColumnType("integer");
+                    b.Property<string>("Game_Status")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<bool>("Game_Status")
-                        .HasColumnType("boolean");
+                    b.Property<string>("List_Id_ActivePlace")
+                        .HasColumnType("text");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("ActivePlaceID");
 
                     b.ToTable("Statuses");
                 });
@@ -416,15 +418,6 @@ namespace DHwD_web.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Status", b =>
-                {
-                    b.HasOne("DHwD_web.Models.ActivePlace", "ActivePlace")
-                        .WithMany("Status")
-                        .HasForeignKey("ActivePlaceID");
-
-                    b.Navigation("ActivePlace");
-                });
-
             modelBuilder.Entity("DHwD_web.Models.Team", b =>
                 {
                     b.HasOne("DHwD_web.Models.Games", "Games")
@@ -465,11 +458,6 @@ namespace DHwD_web.Migrations
                     b.Navigation("Team");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DHwD_web.Models.ActivePlace", b =>
-                {
-                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("DHwD_web.Models.Games", b =>

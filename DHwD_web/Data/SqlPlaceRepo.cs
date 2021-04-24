@@ -46,6 +46,25 @@ namespace DHwD_web.Data
             return await Task.FromResult(idLocation);
         }
 
+        /// <summary>
+        /// Returns the id of active seats for a given team.
+        /// </summary>
+        /// <param name="teamid"></param>
+        /// <returns></returns>
+        public async Task<List<int>> GetID_PlacesByTeam_Id(int teamid)
+        {
+            var activeplace = _dbContext.ActivePlaces
+                .Where(a => a.Team_Id == teamid)
+                .Include(b => b.Place).ToList();
+            List<int> idLocations = new List<int>();
+            for (int i = 0; i < activeplace.Count(); i++)
+            { 
+            idLocations.Add(activeplace[i].Place.LocationRef);
+            }
+
+            return await Task.FromResult<List<int>>(idLocations);
+        }
+
         public async Task<Place> GetPlace(int numberplace,int gameid)
         {
             Place place=null;

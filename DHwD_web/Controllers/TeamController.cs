@@ -40,7 +40,7 @@ namespace DHwD_web.Controllers
 
         //POST api/team
         [HttpPost]
-        public ActionResult<TeamCreateDto> CreateNewTeam(TeamCreateDto teamCreateDto)
+        public async System.Threading.Tasks.Task<ActionResult<TeamCreateDto>> CreateNewTeamAsync(TeamCreateDto teamCreateDto)
         {
             var httpContext = HttpContext;
             var identity = ReadUserId.Read(httpContext).Result;
@@ -53,6 +53,7 @@ namespace DHwD_web.Controllers
             if (!_repository.Check(team))
                 return NoContent();
             Status status = new Status();
+            status.Game_Status = "-1";
             status = _statusRepo.CreateNewStatus(status);
             if (status == null)
                 return NoContent();
@@ -71,12 +72,12 @@ namespace DHwD_web.Controllers
             for (int i = 0; i < places.Count(); i++)
             {
                 list += localList[i].Id.ToString() + ";";
+                await _activePlacesRepo.CreativeActivePlace(team.Id, localList[i]);
             }
-            //status.ActivePlace = _activePlacesRepo.CreativeActivePlace(team.Id, place).Result;
 
             status.List_Id_ActivePlace = list;
 
-            status.Game_Status = true;                                  // todo ? 
+            status.Game_Status = "1";                                 
 
             _statusRepo.UpdateNewStatus(status);
             var teamread = _mapper.Map<TeamReadDto>(team);
