@@ -18,6 +18,8 @@ namespace Models.ModelsDB
 
         public string UnlockedPlace { get; set; }
 
+        public bool IsEndPlace { get; set; }
+
         public bool Required { get; set; }
 
         public Place Place { get; set; }

@@ -64,17 +64,27 @@ namespace DHwD_web.Controllers
             {
                 _repository.SaveChanges();
             }
-            catch (Exception) { return NotFound(); }
+            catch (Exception)
+            {
+                return NotFound(); 
+            }
             var places = _placeRepo.GetPlaceByGameId(team.Games.Id);
+
             if (places == null)
                 return NoContent();
-            string list = "";
+
+            string list = "", requiredtoendlist="";
             var localList = places.ToList();
             for (int i = 0; i < places.Count(); i++)
             {
                 list += localList[i].Id.ToString() + ";";
+
+                if (localList[i].IsEndPlace)
+                    requiredtoendlist = localList[i].RequiredToEnd;
+
                 await _activePlacesRepo.CreativeActivePlace(team.Id, localList[i]);
             }
+
             List<ActivePlace> activePlacesList = new List<ActivePlace>();
             activePlacesList = await _activePlacesRepo.GetActivePlacebyTeamIDandActive(team.Id);
             if(!TeamOperations.SetBlocked(activePlacesList, _activePlacesRepo))

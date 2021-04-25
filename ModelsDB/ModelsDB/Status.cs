@@ -13,5 +13,7 @@ namespace Models.ModelsDB
         public string Game_Status { get; set; }
 
         public string List_Id_ActivePlace { get; set; }
+
+        public string List_Id_Required_Pleaces_To_End { get; set; }
     }
 }

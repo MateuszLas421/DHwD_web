@@ -53,7 +53,11 @@ namespace DHwD_web.Data
                 return null;
             return user;
         }
-
+        /// <summary>
+        /// Team isn't exist.
+        /// </summary>
+        /// <param name="team"></param>
+        /// <returns></returns>
         public bool Check(Team team)
         {
             var db = _dbContext.Teams.Where(a => a.Name == team.Name && a.Games.Id == team.Games.Id).FirstOrDefault();

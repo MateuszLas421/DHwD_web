@@ -32,6 +32,9 @@ namespace DHwD_web.Migrations
                     b.Property<bool>("Blocked")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsEndPlace")
+                        .HasColumnType("boolean");
+
                     b.Property<int?>("PlaceId")
                         .HasColumnType("integer");
 
@@ -172,6 +175,9 @@ namespace DHwD_web.Migrations
                     b.Property<int?>("GamesId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("IsEndPlace")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("LocationRef")
                         .HasColumnType("integer");
 
@@ -180,6 +186,9 @@ namespace DHwD_web.Migrations
 
                     b.Property<bool>("Required")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("RequiredToEnd")
+                        .HasColumnType("text");
 
                     b.Property<string>("UnlockedPlace")
                         .HasColumnType("text");
@@ -246,6 +255,9 @@ namespace DHwD_web.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("List_Id_ActivePlace")
+                        .HasColumnType("text");
+
+                    b.Property<string>("List_Id_Required_Pleaces_To_End")
                         .HasColumnType("text");
 
                     b.HasKey("ID");

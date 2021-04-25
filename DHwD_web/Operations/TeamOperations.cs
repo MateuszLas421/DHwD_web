@@ -12,25 +12,33 @@ namespace DHwD_web.Operations
         public static bool SetBlocked(List<ActivePlace> activePlacesList, IActivePlacesRepo _activePlacesRepo)
         {
             bool result = false;
-            for (int i = 0; i < activePlacesList.Count; i++)
+            try
             {
-                if (activePlacesList[i].UnlockedPlace != null)
+                for (int i = 0; i < activePlacesList.Count; i++)
                 {
-                    int tick = 0;
-                    for (int z = 0; z < activePlacesList[i].UnlockedPlace.Length; z++)
+                    if (activePlacesList[i].UnlockedPlace != null && activePlacesList[i].IsEndPlace == false)
                     {
-                        if (activePlacesList[i].UnlockedPlace[z] == ';')
+                        int tick = 0;
+                        for (int z = 0; z < activePlacesList[i].UnlockedPlace.Length; z++)
                         {
-                            var number = Int32.Parse(activePlacesList[i].UnlockedPlace.Substring(tick, z));
-                            tick = z + 1;
-                            activePlacesList.Where(a => a.ID == number).FirstOrDefault().Blocked = true;
+                            if (activePlacesList[i].UnlockedPlace[z] == ';')
+                            {
+                                var number = Int32.Parse(activePlacesList[i].UnlockedPlace.Substring(tick, z - tick));
+                                tick = z + 1;
+                                activePlacesList.Where(a => a.Place.Id == number).FirstOrDefault().Blocked = true;
+                            }
                         }
                     }
                 }
+                for (int i = 0; i < activePlacesList.Count; i++)
+                {
+                    _activePlacesRepo.Update(activePlacesList[i]);
+                }
+                result = true;
             }
-            for (int i = 0; i < activePlacesList.Count; i++)
+            catch (Exception ex)
             {
-                _activePlacesRepo.Update(activePlacesList[i]);
+                result = false;
             }
             return result;
         }

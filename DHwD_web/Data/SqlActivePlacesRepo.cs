@@ -50,7 +50,7 @@ namespace DHwD_web.Data
 
         public async Task<List<ActivePlace>> GetActivePlacebyTeamIDandActive(int Team_Id)
         {
-            List<ActivePlace> activePlace = null;
+            List<ActivePlace> activePlace = new List<ActivePlace>();
             try
             {
                 activePlace = _dbContext.ActivePlaces
@@ -71,6 +71,7 @@ namespace DHwD_web.Data
             activePlace.Active = true;
             activePlace.UnlockedPlace = place.UnlockedPlace;
             activePlace.Required = place.Required;
+            activePlace.IsEndPlace = place.IsEndPlace;
             _dbContext.ActivePlaces.Add(activePlace);
             SaveChanges();
             return await Task.FromResult<ActivePlace>(activePlace);

@@ -22,5 +22,9 @@ namespace Models.ModelsDB
         public bool Required { get; set; }
 
         public string UnlockedPlace { get; set; }
+
+        public bool IsEndPlace { get; set; }
+
+        public string RequiredToEnd { get; set; }
     }
 }
