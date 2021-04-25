@@ -1,7 +1,7 @@
 ﻿using DHwD_web.Data.Interfaces;
 using DHwD_web.Helpers;
-using DHwD_web.Models;
 using Microsoft.EntityFrameworkCore;
+using Models.ModelsDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,14 +21,14 @@ namespace DHwD_web.Data
         public IEnumerable<Games> GetallGames()
         {
             DateTime time = DateTime.UtcNow;
-            var list= _dbContext.Games
-                .Where(a=> a.DateTimeStart<time.AddDays(+7) && a.DateTimeEnd > time.AddHours(+1))
+            var list = _dbContext.Games
+                .Where(a => a.DateTimeStart < time.AddDays(+7) && a.DateTimeEnd > time.AddHours(+1))
                 .ToList();
-            if (list.Count()==0)
+            if (list.Count() == 0)
                 return null;
             return list;
         }
-        public async Task<Games> GetGame(int Id) 
+        public async Task<Games> GetGame(int Id)
         {
             var game = _dbContext.Games.FirstOrDefault(x => x.Id == Id);
             if (game == null)

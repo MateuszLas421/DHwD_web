@@ -1,5 +1,5 @@
-﻿using DHwD_web.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Models.ModelsDB;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DHwD_web.Helpers

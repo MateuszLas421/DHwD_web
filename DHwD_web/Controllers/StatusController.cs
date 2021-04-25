@@ -2,10 +2,10 @@
 using DHwD_web.Data.Interfaces;
 using DHwD_web.Dtos;
 using DHwD_web.Helpers;
-using DHwD_web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Models.ModelsDB;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -34,7 +34,7 @@ namespace DHwD_web.Controllers
             _activePlacesRepo = activePlacesRepo;
             _placeRepo = placeRepo;
         }
-        
+
         //get api/Status/create/{gameID}
         [HttpGet("create/{gameID}")]
         public async Task<ActionResult<IEnumerable<StatusReadDto>>> CreateStatus(int gameID)
@@ -43,7 +43,7 @@ namespace DHwD_web.Controllers
             var httpContext = HttpContext;
             var id = await ReadUserId.Read(httpContext);
             var teammembers = await _teamMembersRepo.GetMyTeams(gameID, id);
-            var place = await _placeRepo.GetPlace(0,gameID);
+            var place = await _placeRepo.GetPlace(0, gameID);
             ActivePlacesCreateDto activePlacesCreateDto = new ActivePlacesCreateDto(place);
             ActivePlace activePlace = _mapper.Map<ActivePlace>(activePlacesCreateDto);
             await _activePlacesRepo.Save(activePlace);
@@ -53,7 +53,7 @@ namespace DHwD_web.Controllers
             _repository.CreateNewStatus(status);
             if (status != null)
             {
-                 return Ok(_mapper.Map<IEnumerable<StatusReadDto>>(status));
+                return Ok(_mapper.Map<IEnumerable<StatusReadDto>>(status));
             }
             return NotFound();
         }

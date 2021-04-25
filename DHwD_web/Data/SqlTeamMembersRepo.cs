@@ -1,7 +1,7 @@
 ﻿using DHwD_web.Data.Interfaces;
 using DHwD_web.Helpers;
-using DHwD_web.Models;
 using Microsoft.EntityFrameworkCore;
+using Models.ModelsDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +35,7 @@ namespace DHwD_web.Data
             catch (Exception)
             {
                 return false;
-            }  
+            }
         }
 
         public bool AddNewMemberNewTeam(TeamMembers item)
@@ -62,7 +62,7 @@ namespace DHwD_web.Data
                 return false;
             Team newMember = _dbContext.Teams.Where(a => a.Id == item.Team.Id)
                                     .Include(a => a.TeamMembers)
-                                    .First(); 
+                                    .First();
             newMember.TeamMembers.Add(item);
             SaveChanges();
             User newMemberUser = _dbContext.Users.Where(a => a.Id == item.User.Id)
@@ -96,7 +96,7 @@ namespace DHwD_web.Data
             TeamMembers teamMember = await _dbContext.TeamMembers.Where(a => a.Team.Games.Id == gameId && a.User.Id == userId)
                                         .Include(a => a.Team)
                                         .Include(a => a.Team.Games)
-                                        .Include(a=> a.User)
+                                        .Include(a => a.User)
                                         .FirstOrDefaultAsync();
             return await Task.FromResult<TeamMembers>(teamMember);
         }

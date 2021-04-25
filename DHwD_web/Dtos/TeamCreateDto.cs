@@ -1,4 +1,4 @@
-﻿using DHwD_web.Models;
+﻿using Models.ModelsDB;
 
 namespace DHwD_web.Dtos
 {

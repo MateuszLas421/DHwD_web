@@ -1,7 +1,7 @@
 ﻿using DHwD_web.Data.Interfaces;
 using DHwD_web.Helpers;
-using DHwD_web.Models;
 using Microsoft.EntityFrameworkCore;
+using Models.ModelsDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +52,7 @@ namespace DHwD_web.Data
 
         public async Task<User> GetUserById(int id)
         {
-            return await Task.FromResult<User> (_dbContext.Users.FirstOrDefault(x => x.Id == id));
+            return await Task.FromResult<User>(_dbContext.Users.FirstOrDefault(x => x.Id == id));
         }
 
         public User GetUserByNickName_Token(string nickName, string token)

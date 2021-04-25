@@ -2,15 +2,13 @@
 using DHwD_web.Data.Interfaces;
 using DHwD_web.Dtos;
 using DHwD_web.Helpers;
-using DHwD_web.Models;
-using DHwD_web.Models.Mobile;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Models.ModelsDB;
+using Models.ModelsMobile;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DHwD_web.Controllers
@@ -58,13 +56,13 @@ namespace DHwD_web.Controllers
             var httpContext = HttpContext;
             var userId = await ReadUserId.Read(httpContext);
             ChatsCreateDto chatsCreateDto = new ChatsCreateDto
-                {
+            {
                 DateTimeCreate = DateTime.UtcNow,
                 Game = new Games(),
                 IsSystem = false,
                 Text = message.Text,
                 Team = new Team()
-                };
+            };
             chatsCreateDto.Game = await _gamesRepo.GetGame(message.gameid);
             chatsCreateDto.Team = (await _teamMembersRepo.GetMyTeams(message.gameid, userId)).Team;
             var result = await _repository.SaveOnTheServer(_mapper.Map<Chats>(chatsCreateDto));

@@ -1,14 +1,14 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using DHwD_web.Data.Interfaces;
 using DHwD_web.Dtos;
-using DHwD_web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Models.ModelsDB;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace DHwD_web.Controllers
 {

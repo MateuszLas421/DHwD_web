@@ -1,5 +1,4 @@
-﻿using DHwD_web.Dtos;
-using DHwD_web.Models;
+﻿using Models.ModelsDB;
 
 namespace DHwD_web.Data.Interfaces
 {

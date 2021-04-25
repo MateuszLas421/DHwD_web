@@ -1,7 +1,7 @@
 ﻿using DHwD_web.Data.Interfaces;
 using DHwD_web.Helpers;
-using DHwD_web.Models;
 using Microsoft.EntityFrameworkCore;
+using Models.ModelsDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,23 +48,23 @@ namespace DHwD_web.Data
 
         public User GetUser(int Id)
         {
-           var user  =  _dbContext.Users.FirstOrDefault(x => x.Id == Id);
+            var user = _dbContext.Users.FirstOrDefault(x => x.Id == Id);
             if (user == null)
                 return null;
-           return user;
+            return user;
         }
 
         public bool Check(Team team)
         {
-            var db = _dbContext.Teams.Where(a => a.Name == team.Name && a.Games.Id==team.Games.Id).FirstOrDefault();
-            if(db!=null)
+            var db = _dbContext.Teams.Where(a => a.Name == team.Name && a.Games.Id == team.Games.Id).FirstOrDefault();
+            if (db != null)
                 return false;
             return true;
         }
 
         public IEnumerable<Team> GetTeams(int IdGame)
         {
-            var list = _dbContext.Teams.Where(a => a.Games.Id==IdGame).ToList();
+            var list = _dbContext.Teams.Where(a => a.Games.Id == IdGame).ToList();
             if (list.Count() == 0)
                 return null;
             return list;

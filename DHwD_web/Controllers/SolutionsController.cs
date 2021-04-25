@@ -1,18 +1,12 @@
 ﻿using AutoMapper;
 using DHwD_web.Data.Interfaces;
-using DHwD_web.Dtos;
 using DHwD_web.Helpers;
-using DHwD_web.Models;
-using DHwD_web.Models.Mobile;
 using DHwD_web.Operations;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Models.ModelsMobile;
 using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DHwD_web.Controllers
@@ -62,14 +56,14 @@ namespace DHwD_web.Controllers
                     else
                         return BadRequest();
                 }
-                else 
+                else
                 {
                     if (await solutionsOperations.SaveOnServer(_chatsRepo, _teamMembersRepo, solution.MysterySolutionNegative, userId, game))
                         return Ok(); //await Task.FromResult<string>(solution.MysterySolutionNegative);
                     else
                         return BadRequest();
                 }
-                    
+
             }
             catch (Exception)
             {

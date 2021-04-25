@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DHwD_web.Models.Mobile
+namespace Models.ModelsMobile
 {
     public class SolutionRequest
     {

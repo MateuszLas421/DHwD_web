@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using DHwD_web.Dtos;
-using DHwD_web.Models;
+using Models.ModelsDB;
 
 namespace DHwD_web.Profiles
 {
-    public class MyProfile: Profile
+    public class MyProfile : Profile
     {
         public MyProfile()
         {
@@ -16,7 +16,7 @@ namespace DHwD_web.Profiles
             CreateMap<Team, TeamReadDto>();
 
             CreateMap<GamesCreateDto, Games>();
-            CreateMap<Games, GamesReadDto> ();
+            CreateMap<Games, GamesReadDto>();
 
             CreateMap<TeamMembers, TeamMembersReadDto>();
             CreateMap<TeamMembersCreateDto, TeamMembers>();

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DHwD_web.Models
+namespace Models.ModelsDB
 {
     public class Games
     {

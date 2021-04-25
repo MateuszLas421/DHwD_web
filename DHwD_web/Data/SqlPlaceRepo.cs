@@ -1,7 +1,7 @@
 ﻿using DHwD_web.Data.Interfaces;
 using DHwD_web.Helpers;
-using DHwD_web.Models;
 using Microsoft.EntityFrameworkCore;
+using Models.ModelsDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,16 +58,16 @@ namespace DHwD_web.Data
                 .Include(b => b.Place).ToList();
             List<int> idLocations = new List<int>();
             for (int i = 0; i < activeplace.Count(); i++)
-            { 
-            idLocations.Add(activeplace[i].Place.LocationRef);
+            {
+                idLocations.Add(activeplace[i].Place.LocationRef);
             }
 
             return await Task.FromResult<List<int>>(idLocations);
         }
 
-        public async Task<Place> GetPlace(int numberplace,int gameid)
+        public async Task<Place> GetPlace(int numberplace, int gameid)
         {
-            Place place=null;
+            Place place = null;
             IEnumerable<Place> result = _dbContext.Places
                 .Where(a => a.Games.Id == gameid);
             result.OrderByDescending(s => s.Id).AsQueryable();
@@ -76,8 +76,8 @@ namespace DHwD_web.Data
                 place = result.ElementAt(0);
             }
             catch (ArgumentNullException ex)
-            { 
-                System.Diagnostics.Debug.WriteLine(ex.Message); 
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
             catch (ArgumentOutOfRangeException ex)
             {

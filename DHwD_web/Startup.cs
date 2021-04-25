@@ -1,7 +1,3 @@
-using System;
-using System.Net;
-using System.Text;
-using AutoMapper;
 using DHwD_web.Data;
 using DHwD_web.Data.Interfaces;
 using DHwD_web.Helpers;
@@ -15,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
+using System;
+using System.Net;
+using System.Text;
 
 namespace DHwD_web
 {
@@ -30,7 +29,7 @@ namespace DHwD_web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options => 
+            services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder =>
                     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials().Build());
@@ -49,7 +48,7 @@ namespace DHwD_web
 #else
             var connectionString = Configuration["PostgreSql:ConnectionString"];
 #endif
-            
+
             var dbPassword = Configuration["PostgreSql:DbPassword"];
 
             var builder = new NpgsqlConnectionStringBuilder(connectionString)

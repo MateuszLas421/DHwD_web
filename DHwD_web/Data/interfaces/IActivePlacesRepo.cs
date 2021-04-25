@@ -1,4 +1,4 @@
-﻿using DHwD_web.Models;
+﻿using Models.ModelsDB;
 using System.Threading.Tasks;
 
 namespace DHwD_web.Data.Interfaces

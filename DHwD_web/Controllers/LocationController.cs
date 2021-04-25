@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using DHwD_web.Data.Interfaces;
 using DHwD_web.Dtos;
-using DHwD_web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Models.ModelsDB;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

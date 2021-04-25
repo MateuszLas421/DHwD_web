@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using DHwD_web.Data.Interfaces;
 using DHwD_web.Dtos;
 using DHwD_web.Helpers;
-using DHwD_web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Models.ModelsDB;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DHwD_web.Controllers
 {
@@ -61,12 +59,12 @@ namespace DHwD_web.Controllers
             var identity = ReadUserId.Read(httpContext).Result;
             var team = _mapper.Map<TeamMembers>(teamMembersCreateDto);
             team.JoinTime = DateTime.UtcNow;
-            team.User=_userRepo.GetUserById(identity).Result;
+            team.User = _userRepo.GetUserById(identity).Result;
             var result = _repository.AddNewMemberNewTeam(team);
             if (result)
             {
-                TeamMembersReadDto teamMembersReadDto=_mapper.Map<TeamMembersReadDto>(team);
-                return Ok(); 
+                TeamMembersReadDto teamMembersReadDto = _mapper.Map<TeamMembersReadDto>(team);
+                return Ok();
                 //return CreatedAtRoute(nameof(TeamController.GetTeamById), new { teamread.Id }, teamread); //TODO
             }
             else
@@ -89,7 +87,7 @@ namespace DHwD_web.Controllers
         {
             var httpContext = HttpContext;
             var identity = ReadUserId.Read(httpContext).Result;
-            var Items =  await _repository.GetMyTeams(IdGame, identity);
+            var Items = await _repository.GetMyTeams(IdGame, identity);
             if (Items != null)
             {
                 Items.User.TeamMembers = null;

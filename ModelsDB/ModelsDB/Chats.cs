@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DHwD_web.Models
+namespace Models.ModelsDB
 {
     public class Chats
     {

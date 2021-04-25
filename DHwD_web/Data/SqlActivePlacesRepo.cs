@@ -1,15 +1,14 @@
 ﻿using DHwD_web.Data.Interfaces;
 using DHwD_web.Helpers;
-using DHwD_web.Models;
 using Microsoft.EntityFrameworkCore;
+using Models.ModelsDB;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace DHwD_web.Data
 {
-    public class SqlActivePlacesRepo: IActivePlacesRepo
+    public class SqlActivePlacesRepo : IActivePlacesRepo
     {
         private readonly AppWebDbContext _dbContext;
 
@@ -20,12 +19,12 @@ namespace DHwD_web.Data
         public async Task<bool> Save(ActivePlace activePlace)
         {
             activePlace.Active = true;
-            _dbContext.ActivePlaces.Add(activePlace); 
-            return await Task.FromResult<bool>(SaveChanges()); 
+            _dbContext.ActivePlaces.Add(activePlace);
+            return await Task.FromResult<bool>(SaveChanges());
         }
         public async Task<ActivePlace> GetActivePlacebyID(int IdactivePlace)
         {
-            ActivePlace activePlace = null;         
+            ActivePlace activePlace = null;
             try
             {
                 activePlace = _dbContext.ActivePlaces
@@ -35,7 +34,7 @@ namespace DHwD_web.Data
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
             }
-            if(activePlace == null)
+            if (activePlace == null)
                 return null;
             return await Task.FromResult<ActivePlace>(activePlace);
         }
@@ -45,7 +44,7 @@ namespace DHwD_web.Data
             try
             {
                 activePlace = _dbContext.ActivePlaces
-                .Where(a => a.Active==true && a.Team_Id==Team_Id).FirstOrDefault();
+                .Where(a => a.Active == true && a.Team_Id == Team_Id).FirstOrDefault();
             }
             catch (ArgumentNullException ex)
             {

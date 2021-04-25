@@ -2,14 +2,14 @@
 using DHwD_web.Data.Interfaces;
 using DHwD_web.Dtos;
 using DHwD_web.Helpers;
-using DHwD_web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Models.ModelsDB;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DHwD_web.Controllers
 {
@@ -34,13 +34,13 @@ namespace DHwD_web.Controllers
             _mapper = mapper;
             _statusRepo = statusRepo;
             _teamMembersRepo = teamMembersRepo;
-            _activePlacesRepo= activePlacesRepo;
+            _activePlacesRepo = activePlacesRepo;
             _placeRepo = placeRepo;
         }
 
         //POST api/team
         [HttpPost]
-        public async System.Threading.Tasks.Task<ActionResult<TeamCreateDto>> CreateNewTeamAsync(TeamCreateDto teamCreateDto)
+        public async Task<ActionResult<TeamCreateDto>> CreateNewTeamAsync(TeamCreateDto teamCreateDto)
         {
             var httpContext = HttpContext;
             var identity = ReadUserId.Read(httpContext).Result;
@@ -77,7 +77,7 @@ namespace DHwD_web.Controllers
 
             status.List_Id_ActivePlace = list;
 
-            status.Game_Status = "1";                                 
+            status.Game_Status = "1";
 
             _statusRepo.UpdateNewStatus(status);
             var teamread = _mapper.Map<TeamReadDto>(team);
@@ -114,7 +114,7 @@ namespace DHwD_web.Controllers
 
         //get api/team/{idteam}/{hashpass}
         [HttpGet("{idteam}/{hashpass}", Name = "CheckPass")]
-        public ActionResult CheckPass( int idteam, string hashpass)
+        public ActionResult CheckPass(int idteam, string hashpass)
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
                 return NotFound();
