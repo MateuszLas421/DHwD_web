@@ -12,7 +12,7 @@ namespace DHwD_web.Data.Interfaces
 
         Task<int> GetID_PlaceByTeam_Id(int teamid);
 
-        IEnumerable<Place> GetPlaceByGameId(int id);
+        List<Place> GetPlaceByGameId(int id);
 
         Task<List<int>> GetID_PlacesByTeam_Id(int teamid);
     }

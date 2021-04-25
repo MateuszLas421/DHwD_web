@@ -3,6 +3,7 @@ using DHwD_web.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Models.ModelsDB;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,12 +17,20 @@ namespace DHwD_web.Data
         {
             _dbContext = dbContext;
         }
+
         public async Task<bool> Save(ActivePlace activePlace)
         {
             activePlace.Active = true;
             _dbContext.ActivePlaces.Add(activePlace);
             return await Task.FromResult<bool>(SaveChanges());
         }
+
+        public async Task<bool> Update(ActivePlace activePlace)
+        {
+            _dbContext.ActivePlaces.Update(activePlace);
+            return await Task.FromResult<bool>(SaveChanges());
+        }
+
         public async Task<ActivePlace> GetActivePlacebyID(int IdactivePlace)
         {
             ActivePlace activePlace = null;
@@ -38,13 +47,14 @@ namespace DHwD_web.Data
                 return null;
             return await Task.FromResult<ActivePlace>(activePlace);
         }
-        public async Task<ActivePlace> GetActivePlacebyTeamIDandActive(int Team_Id)
+
+        public async Task<List<ActivePlace>> GetActivePlacebyTeamIDandActive(int Team_Id)
         {
-            ActivePlace activePlace = null;
+            List<ActivePlace> activePlace = null;
             try
             {
                 activePlace = _dbContext.ActivePlaces
-                .Where(a => a.Active == true && a.Team_Id == Team_Id).FirstOrDefault();
+                .Where(a => a.Active == true && a.Team_Id == Team_Id).ToList<ActivePlace>();
             }
             catch (ArgumentNullException ex)
             {
@@ -52,12 +62,15 @@ namespace DHwD_web.Data
             }
             if (activePlace == null)
                 return null;
-            return await Task.FromResult<ActivePlace>(activePlace);
+            return await Task.FromResult<List<ActivePlace>>(activePlace);
         }
 
         public async Task<ActivePlace> CreativeActivePlace(int Team_Id, Place place)
         {
             ActivePlace activePlace = new ActivePlace(Team_Id, place);
+            activePlace.Active = true;
+            activePlace.UnlockedPlace = place.UnlockedPlace;
+            activePlace.Required = place.Required;
             _dbContext.ActivePlaces.Add(activePlace);
             SaveChanges();
             return await Task.FromResult<ActivePlace>(activePlace);

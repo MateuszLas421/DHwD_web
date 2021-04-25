@@ -2,6 +2,7 @@
 using DHwD_web.Data.Interfaces;
 using DHwD_web.Dtos;
 using DHwD_web.Helpers;
+using DHwD_web.Operations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -74,7 +75,10 @@ namespace DHwD_web.Controllers
                 list += localList[i].Id.ToString() + ";";
                 await _activePlacesRepo.CreativeActivePlace(team.Id, localList[i]);
             }
-
+            List<ActivePlace> activePlacesList = new List<ActivePlace>();
+            activePlacesList = await _activePlacesRepo.GetActivePlacebyTeamIDandActive(team.Id);
+            if(!TeamOperations.SetBlocked(activePlacesList, _activePlacesRepo))
+                return NoContent();
             status.List_Id_ActivePlace = list;
 
             status.Game_Status = "1";

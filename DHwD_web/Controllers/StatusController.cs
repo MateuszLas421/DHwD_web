@@ -87,9 +87,9 @@ namespace DHwD_web.Controllers
             ActivePlacesCreateDto activePlacesCreateDto = new ActivePlacesCreateDto(place);
             ActivePlace activePlace = _mapper.Map<ActivePlace>(activePlacesCreateDto);
             await _activePlacesRepo.Save(activePlace);
-            activePlace = await _activePlacesRepo.GetActivePlacebyTeamIDandActive(teammembers.Team.Id);
+            //activePlace = await _activePlacesRepo.GetActivePlacebyTeamIDandActive(teammembers.Team.Id);
 
-            //status.ActivePlace = activePlace;   // TO Fix ?
+            ////status.ActivePlace = activePlace;   // TO Fix ?
             _repository.UpdateNewStatus(status);
             if (status != null)
             {

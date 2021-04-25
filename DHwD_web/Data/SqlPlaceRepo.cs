@@ -106,14 +106,14 @@ namespace DHwD_web.Data
             }
             return place;
         }
-        public IEnumerable<Place> GetPlaceByGameId(int gameid)
+        public List<Place> GetPlaceByGameId(int gameid)
         {
-            IEnumerable<Place> result = null;
+            List<Place> result = new List<Place>();
 
             try
             {
-                result = _dbContext.Places
-                    .Where(a => a.Games.Id == gameid);
+                result =_dbContext.Places
+                    .Where(a => a.Games.Id == gameid).ToList<Place>();
             }
             catch (ArgumentNullException ex)
             {

@@ -19,7 +19,7 @@ namespace DHwD_web.Migrations
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("DHwD_web.Models.ActivePlace", b =>
+            modelBuilder.Entity("Models.ModelsDB.ActivePlace", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -29,13 +29,22 @@ namespace DHwD_web.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("Blocked")
+                        .HasColumnType("boolean");
+
                     b.Property<int?>("PlaceId")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("Required")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("Team_Id")
                         .HasColumnType("integer");
 
                     b.Property<string>("Type")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UnlockedPlace")
                         .HasColumnType("text");
 
                     b.HasKey("ID");
@@ -45,7 +54,7 @@ namespace DHwD_web.Migrations
                     b.ToTable("ActivePlaces");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Chats", b =>
+            modelBuilder.Entity("Models.ModelsDB.Chats", b =>
                 {
                     b.Property<decimal>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,7 +84,7 @@ namespace DHwD_web.Migrations
                     b.ToTable("Chats");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Games", b =>
+            modelBuilder.Entity("Models.ModelsDB.Games", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,7 +114,7 @@ namespace DHwD_web.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Location", b =>
+            modelBuilder.Entity("Models.ModelsDB.Location", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -129,7 +138,7 @@ namespace DHwD_web.Migrations
                     b.ToTable("Locations");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Mysterys", b =>
+            modelBuilder.Entity("Models.ModelsDB.Mysterys", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -150,7 +159,7 @@ namespace DHwD_web.Migrations
                     b.ToTable("Mysterys");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Place", b =>
+            modelBuilder.Entity("Models.ModelsDB.Place", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -169,6 +178,12 @@ namespace DHwD_web.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<bool>("Required")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("UnlockedPlace")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GamesId");
@@ -179,7 +194,7 @@ namespace DHwD_web.Migrations
                     b.ToTable("Places");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Points", b =>
+            modelBuilder.Entity("Models.ModelsDB.Points", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -198,7 +213,7 @@ namespace DHwD_web.Migrations
                     b.ToTable("Points");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Solutions", b =>
+            modelBuilder.Entity("Models.ModelsDB.Solutions", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -219,7 +234,7 @@ namespace DHwD_web.Migrations
                     b.ToTable("Solutions");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Status", b =>
+            modelBuilder.Entity("Models.ModelsDB.Status", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -238,7 +253,7 @@ namespace DHwD_web.Migrations
                     b.ToTable("Statuses");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Team", b =>
+            modelBuilder.Entity("Models.ModelsDB.Team", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -291,7 +306,7 @@ namespace DHwD_web.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.TeamMembers", b =>
+            modelBuilder.Entity("Models.ModelsDB.TeamMembers", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -316,7 +331,7 @@ namespace DHwD_web.Migrations
                     b.ToTable("TeamMembers");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.User", b =>
+            modelBuilder.Entity("Models.ModelsDB.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -344,22 +359,22 @@ namespace DHwD_web.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.ActivePlace", b =>
+            modelBuilder.Entity("Models.ModelsDB.ActivePlace", b =>
                 {
-                    b.HasOne("DHwD_web.Models.Place", "Place")
+                    b.HasOne("Models.ModelsDB.Place", "Place")
                         .WithMany("ActivePlace")
                         .HasForeignKey("PlaceId");
 
                     b.Navigation("Place");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Chats", b =>
+            modelBuilder.Entity("Models.ModelsDB.Chats", b =>
                 {
-                    b.HasOne("DHwD_web.Models.Games", "Game")
+                    b.HasOne("Models.ModelsDB.Games", "Game")
                         .WithMany("Chats")
                         .HasForeignKey("GameId");
 
-                    b.HasOne("DHwD_web.Models.Team", "Team")
+                    b.HasOne("Models.ModelsDB.Team", "Team")
                         .WithMany("Chats")
                         .HasForeignKey("TeamId");
 
@@ -368,37 +383,37 @@ namespace DHwD_web.Migrations
                     b.Navigation("Team");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Location", b =>
+            modelBuilder.Entity("Models.ModelsDB.Location", b =>
                 {
-                    b.HasOne("DHwD_web.Models.Mysterys", "Mysterys")
+                    b.HasOne("Models.ModelsDB.Mysterys", "Mysterys")
                         .WithOne("Location")
-                        .HasForeignKey("DHwD_web.Models.Location", "MysteryRef")
+                        .HasForeignKey("Models.ModelsDB.Location", "MysteryRef")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Mysterys");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Mysterys", b =>
+            modelBuilder.Entity("Models.ModelsDB.Mysterys", b =>
                 {
-                    b.HasOne("DHwD_web.Models.Solutions", "Solutions")
+                    b.HasOne("Models.ModelsDB.Solutions", "Solutions")
                         .WithOne("Mystery")
-                        .HasForeignKey("DHwD_web.Models.Mysterys", "SolutionsRef")
+                        .HasForeignKey("Models.ModelsDB.Mysterys", "SolutionsRef")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Solutions");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Place", b =>
+            modelBuilder.Entity("Models.ModelsDB.Place", b =>
                 {
-                    b.HasOne("DHwD_web.Models.Games", "Games")
+                    b.HasOne("Models.ModelsDB.Games", "Games")
                         .WithMany("Place")
                         .HasForeignKey("GamesId");
 
-                    b.HasOne("DHwD_web.Models.Location", "Location")
+                    b.HasOne("Models.ModelsDB.Location", "Location")
                         .WithOne("Place")
-                        .HasForeignKey("DHwD_web.Models.Place", "LocationRef")
+                        .HasForeignKey("Models.ModelsDB.Place", "LocationRef")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -407,30 +422,30 @@ namespace DHwD_web.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Points", b =>
+            modelBuilder.Entity("Models.ModelsDB.Points", b =>
                 {
-                    b.HasOne("DHwD_web.Models.User", "User")
+                    b.HasOne("Models.ModelsDB.User", "User")
                         .WithOne("Points")
-                        .HasForeignKey("DHwD_web.Models.Points", "UserId")
+                        .HasForeignKey("Models.ModelsDB.Points", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Team", b =>
+            modelBuilder.Entity("Models.ModelsDB.Team", b =>
                 {
-                    b.HasOne("DHwD_web.Models.Games", "Games")
+                    b.HasOne("Models.ModelsDB.Games", "Games")
                         .WithMany("Teams")
                         .HasForeignKey("GamesId");
 
-                    b.HasOne("DHwD_web.Models.User", "Id_Founder")
+                    b.HasOne("Models.ModelsDB.User", "Id_Founder")
                         .WithMany("Teams")
                         .HasForeignKey("Id_FounderId");
 
-                    b.HasOne("DHwD_web.Models.Status", "Status")
+                    b.HasOne("Models.ModelsDB.Status", "Status")
                         .WithOne("Team")
-                        .HasForeignKey("DHwD_web.Models.Team", "StatusRef")
+                        .HasForeignKey("Models.ModelsDB.Team", "StatusRef")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -441,15 +456,15 @@ namespace DHwD_web.Migrations
                     b.Navigation("Status");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.TeamMembers", b =>
+            modelBuilder.Entity("Models.ModelsDB.TeamMembers", b =>
                 {
-                    b.HasOne("DHwD_web.Models.Team", "Team")
+                    b.HasOne("Models.ModelsDB.Team", "Team")
                         .WithMany("TeamMembers")
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DHwD_web.Models.User", "User")
+                    b.HasOne("Models.ModelsDB.User", "User")
                         .WithMany("TeamMembers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -460,7 +475,7 @@ namespace DHwD_web.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Games", b =>
+            modelBuilder.Entity("Models.ModelsDB.Games", b =>
                 {
                     b.Navigation("Chats");
 
@@ -469,39 +484,39 @@ namespace DHwD_web.Migrations
                     b.Navigation("Teams");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Location", b =>
+            modelBuilder.Entity("Models.ModelsDB.Location", b =>
                 {
                     b.Navigation("Place");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Mysterys", b =>
+            modelBuilder.Entity("Models.ModelsDB.Mysterys", b =>
                 {
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Place", b =>
+            modelBuilder.Entity("Models.ModelsDB.Place", b =>
                 {
                     b.Navigation("ActivePlace");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Solutions", b =>
+            modelBuilder.Entity("Models.ModelsDB.Solutions", b =>
                 {
                     b.Navigation("Mystery");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Status", b =>
+            modelBuilder.Entity("Models.ModelsDB.Status", b =>
                 {
                     b.Navigation("Team");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.Team", b =>
+            modelBuilder.Entity("Models.ModelsDB.Team", b =>
                 {
                     b.Navigation("Chats");
 
                     b.Navigation("TeamMembers");
                 });
 
-            modelBuilder.Entity("DHwD_web.Models.User", b =>
+            modelBuilder.Entity("Models.ModelsDB.User", b =>
                 {
                     b.Navigation("Points")
                         .IsRequired();

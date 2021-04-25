@@ -14,6 +14,12 @@ namespace Models.ModelsDB
 
         public string Type { get; set; }
 
+        public bool Blocked { get; set; }
+
+        public string UnlockedPlace { get; set; }
+
+        public bool Required { get; set; }
+
         public Place Place { get; set; }
 
         public ActivePlace() { }
