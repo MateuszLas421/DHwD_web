@@ -80,7 +80,7 @@ namespace DHwD_web.Controllers
                 list += localList[i].Id.ToString() + ";";
 
                 if (localList[i].IsEndPlace)
-                    requiredtoendlist = localList[i].RequiredToEnd;
+                    requiredtoendlist += localList[i].RequiredToEnd;
 
                 await _activePlacesRepo.CreativeActivePlace(team.Id, localList[i]);
             }
@@ -90,7 +90,7 @@ namespace DHwD_web.Controllers
             if(!TeamOperations.SetBlocked(activePlacesList, _activePlacesRepo))
                 return NoContent();
             status.List_Id_ActivePlace = list;
-
+            status.List_Id_Required_Pleaces_To_End = requiredtoendlist;
             status.Game_Status = "1";
 
             _statusRepo.UpdateNewStatus(status);
