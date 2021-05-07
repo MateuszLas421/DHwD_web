@@ -10,11 +10,13 @@ namespace DHwD_web.Data.Interfaces
 
         Task<ActivePlace> GetActivePlacebyID(int IdactivePlace);
 
-        Task<List<ActivePlace>> GetActivePlacebyTeamIDandActive(int Team_Id);
+        Task<List<ActivePlace>> Get_List_ActivePlacebyTeamID(int Team_Id);
 
         Task<ActivePlace> CreativeActivePlace(int Team_Id, Place place);
 
         Task<bool> Update(ActivePlace activePlace);
+
+        Task<ActivePlace> GetActivePlacebyTeamIDandPlaceID(int Id_Team, int Id_Place);
 
         //Task<ActivePlace> GetActivePlacesByTeamId(int Team_Id);
     }

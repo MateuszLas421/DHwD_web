@@ -141,6 +141,30 @@ namespace DHwD_web.Migrations
                     b.ToTable("Locations");
                 });
 
+            modelBuilder.Entity("Models.ModelsDB.MurdererMessages", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("Id_Place")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("NumerMessage")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("text");
+
+                    b.Property<int>("TypeMessage")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MurdererMessages");
+                });
+
             modelBuilder.Entity("Models.ModelsDB.Mysterys", b =>
                 {
                     b.Property<int>("ID")

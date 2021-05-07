@@ -10,7 +10,7 @@ namespace DHwD_web.Dtos
         { }
         public ActivePlacesCreateDto(Place place)
         {
-            Active = true;
+            Active = false;
             Place = place;
         }
     }

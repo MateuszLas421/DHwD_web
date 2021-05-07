@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Models.ModelsDB;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DHwD_web.Data
 {
@@ -34,6 +35,7 @@ namespace DHwD_web.Data
                 return false;
             }
         }
+
         public Status CreateNewStatus(Status status)
         {
             _dbContext.Statuses.Add(status);
@@ -41,6 +43,7 @@ namespace DHwD_web.Data
                 return null;
             return status;
         }
+
         public Status UpdateNewStatus(Status status)
         {
             _dbContext.Statuses.Update(status);
@@ -54,6 +57,12 @@ namespace DHwD_web.Data
             var status = _dbContext.Statuses.Where(a => a.ID == Id)
                                  .FirstOrDefault();
             return status;
+        }
+
+        public async Task<bool> Update(Status status)
+        {
+            _dbContext.Statuses.Update(status);
+            return await Task.FromResult<bool>(SaveChanges());
         }
     }
 }

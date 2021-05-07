@@ -20,7 +20,7 @@ namespace DHwD_web.Data
 
         public async Task<bool> Save(ActivePlace activePlace)
         {
-            activePlace.Active = true;
+            activePlace.Active = false;
             _dbContext.ActivePlaces.Add(activePlace);
             return await Task.FromResult<bool>(SaveChanges());
         }
@@ -48,7 +48,7 @@ namespace DHwD_web.Data
             return await Task.FromResult<ActivePlace>(activePlace);
         }
 
-        public async Task<List<ActivePlace>> GetActivePlacebyTeamIDandActive(int Team_Id)
+        public async Task<List<ActivePlace>> Get_List_ActivePlacebyTeamID(int Team_Id)
         {
             List<ActivePlace> activePlace = new List<ActivePlace>();
             try
@@ -77,25 +77,24 @@ namespace DHwD_web.Data
             return await Task.FromResult<ActivePlace>(activePlace);
         }
 
-        //public async Task<ActivePlace> GetActivePlacesByTeamId(int Team_Id)
-        //{
-        //    ActivePlace activePlace = null;
-        //    //activePlace = _dbContext.ActivePlaces
-        //    //    .Join(
-        //    //    _dbContext.Teams,
-        //    //    activeplace => activeplace.Team_Id,
-        //    //    team => team.Id,
-        //    //    (activeplace, team) =>
-        //    //    {
-
-        //    //    }
-        //    //    ).ToList()
-        //    //    .Where(a => a.Team_Id == Team_Id && a.Active == true)
-        //    //    .FirstOrDefault();
-        //    if (activePlace == null)
-        //        return null;
-        //    return await Task.FromResult<ActivePlace>(activePlace);
-        //}
+        public async Task<ActivePlace> GetActivePlacebyTeamIDandPlaceID(int Id_Team, int Id_Place)
+        {
+            ActivePlace activePlace = new ActivePlace();
+            try
+            {
+                activePlace = await _dbContext.ActivePlaces
+                .Where(a => a.Place.Id == Id_Place && a.Team_Id == Id_Place)
+                .Include(a => a.Place)
+                .FirstOrDefaultAsync();
+            }
+            catch (ArgumentNullException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            if (activePlace == null)
+                return null;
+            return await Task.FromResult<ActivePlace>(activePlace);
+        }
 
         public bool SaveChanges()
         {

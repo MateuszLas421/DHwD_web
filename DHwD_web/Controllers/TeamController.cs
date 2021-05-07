@@ -86,7 +86,7 @@ namespace DHwD_web.Controllers
             }
 
             List<ActivePlace> activePlacesList = new List<ActivePlace>();
-            activePlacesList = await _activePlacesRepo.GetActivePlacebyTeamIDandActive(team.Id);
+            activePlacesList = await _activePlacesRepo.Get_List_ActivePlacebyTeamID(team.Id);
             if(!TeamOperations.SetBlocked(activePlacesList, _activePlacesRepo))
                 return NoContent();
             status.List_Id_ActivePlace = list;

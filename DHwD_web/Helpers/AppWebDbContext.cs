@@ -32,6 +32,9 @@ namespace DHwD_web.Helpers
         public DbSet<Solutions> Solutions { get; set; }
 
         public DbSet<Chats> Chats { get; set; }
+
+        public DbSet<MurdererMessages> MurdererMessages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
