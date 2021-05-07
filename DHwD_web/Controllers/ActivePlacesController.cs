@@ -82,6 +82,19 @@ namespace DHwD_web.Controllers
             return BadRequest();
         }
 
+        //get api/ActivePlaces/Check/{Id_Team}
+        [HttpGet("Check/{Id_Team}")]
+        public ActionResult<bool> CheckActivePlace(int Id_Team)
+        {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+                return NotFound();
+            var Items = _repository.CheckActivePlace(Id_Team);
+            if (Items != null)
+            {
+                return Ok(_mapper.Map<bool>(Items));
+            }
+            return NotFound();
+        }
 
         ////get api/ActivePlaces/team={id}
         //[HttpGet("team={id}", Name = "GetActivePlacesByTeamId")]

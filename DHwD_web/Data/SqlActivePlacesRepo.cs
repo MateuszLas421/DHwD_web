@@ -83,7 +83,7 @@ namespace DHwD_web.Data
             try
             {
                 activePlace = await _dbContext.ActivePlaces
-                .Where(a => a.Place.Id == Id_Place && a.Team_Id == Id_Place)
+                .Where(a => a.Place.Id == Id_Place && a.Team_Id == Id_Team)
                 .Include(a => a.Place)
                 .FirstOrDefaultAsync();
             }
@@ -115,7 +115,29 @@ namespace DHwD_web.Data
                 return false;
             }
         }
+        /// <summary>
+        /// CheckActivePlace search for active places 
+        /// </summary>
+        /// <param name="Id_Team"></param>
+        /// <returns>(true == clear)</returns>
+        public async Task<bool> CheckActivePlace(int Id_Team)
+        {
+            ActivePlace activePlace = new ActivePlace();
+            try
+            {
+                activePlace = await _dbContext.ActivePlaces
+                .Where(a => a.Active==true && a.Team_Id == Id_Team)
+                .Include(a => a.Place)
+                .FirstOrDefaultAsync();
+            }
+            catch (ArgumentNullException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            if (activePlace != null)
+                return await Task.FromResult<bool>(false);
+            return await Task.FromResult<bool>(true);
 
-
+        }
     }
 }

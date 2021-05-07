@@ -18,6 +18,8 @@ namespace DHwD_web.Data.Interfaces
 
         Task<ActivePlace> GetActivePlacebyTeamIDandPlaceID(int Id_Team, int Id_Place);
 
+        Task<bool> CheckActivePlace(int Id_Team);
+
         //Task<ActivePlace> GetActivePlacesByTeamId(int Team_Id);
     }
 }
