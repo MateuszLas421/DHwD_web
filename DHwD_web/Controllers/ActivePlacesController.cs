@@ -9,7 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Models.ModelsDB;
 using Models.Request;
 using Models.Respone;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DHwD_web.Controllers
@@ -24,14 +26,19 @@ namespace DHwD_web.Controllers
         private readonly IConfiguration _config;
         private readonly IStatusRepo _statusRepo;
         private readonly ITeamRepo _teamRepo;
+        private readonly IChatsRepo _chatsRepo;
+        private readonly IMurdererMessagesRepo _murdererMessagesRepo;
 
-        public ActivePlacesController(IConfiguration config, IActivePlacesRepo repository, IMapper mapper, IStatusRepo statusRepo, ITeamRepo teamRepo)
+        public ActivePlacesController(IConfiguration config, IActivePlacesRepo repository, IMapper mapper, IStatusRepo statusRepo, 
+            ITeamRepo teamRepo, IChatsRepo chatsRepo, IMurdererMessagesRepo murdererMessagesRepo)
         {
             _config = config;
             _repository = repository;
             _mapper = mapper;
             _statusRepo = statusRepo;
             _teamRepo = teamRepo;
+            _chatsRepo = chatsRepo;
+            _murdererMessagesRepo = murdererMessagesRepo;
         }
 
         //get api/ActivePlaces/{id}
@@ -55,6 +62,21 @@ namespace DHwD_web.Controllers
             var Item = await _repository.GetActivePlacebyTeamIDandPlaceID(blockedPlaceRequest.Id_Team, blockedPlaceRequest.Id_Place);
             Item.Active = true;
             var result = await _repository.Update(Item);
+            List<MurdererMessages> list = await _murdererMessagesRepo.GetListByPlaceID(blockedPlaceRequest.Id_Place);
+            List<Chats> chats = new List<Chats>();
+            list = list.OrderBy(o => o.NumerMessage).ToList();
+
+            for(int i=0; i<list.Count ; i++)
+            {
+                chats.Add(new Chats {
+                    Team = new Team { Id = blockedPlaceRequest.Id_Team },
+                    Text = list[i].Text,
+                    DateTimeCreate = DateTime.UtcNow,
+                    IsSystem = true,
+                    Game = new Games { Id = blockedPlaceRequest.Id_Game }
+                });
+            }
+            bool createmessagestatus = await _chatsRepo.SaveListOnTheServer(chats);
             if (result == true) 
                 return Ok(_mapper.Map<ActivePlacesReadDto>(Item));
             return BadRequest();

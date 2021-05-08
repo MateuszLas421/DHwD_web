@@ -8,6 +8,8 @@ namespace DHwD_web.Data.Interfaces
     {
         Task<bool> SaveOnTheServer(Chats message);
 
+        Task<bool> SaveListOnTheServer(List<Chats> messages);
+
         Task<IEnumerable<Chats>> GetChat(int gameid, int userId);
     }
 }

@@ -10,5 +10,7 @@ namespace Models.Request
 
         public int Id_Team { get; set; }
 
+        public int Id_Game { get; set; }
+
     }
 }

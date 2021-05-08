@@ -12,7 +12,9 @@ Its purpose is to exchange information, share and verify information from mobile
  * AutoMapper.Extensions.Microsoft.DependencyInjection Version="8.1.1"
  * System.IdentityModel.Tokens.Jwt Version="6.11.0"
 
- # Contact
+ # Feedback
+ Email - mlasapk@gmail.com
+ 
 
 
  

@@ -1,6 +1,7 @@
 ﻿using DHwD_web.Data.Interfaces;
 using DHwD_web.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Models.ModelsDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,23 @@ namespace DHwD_web.Data
         public SqlMurdererMessagesRepo(AppWebDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public async Task<List<MurdererMessages>> GetListByPlaceID(int Id_Place)
+        {
+            List<MurdererMessages> messageslist = new List<MurdererMessages>();
+            try
+            {
+                messageslist = _dbContext.MurdererMessages
+                .Where(a => a.Id_Place == Id_Place).ToList();
+            }
+            catch (ArgumentNullException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            if (messageslist == null)
+                return null;
+            return await Task.FromResult<List<MurdererMessages>>(messageslist);
         }
 
         public bool SaveChanges()

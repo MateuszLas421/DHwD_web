@@ -1,6 +1,7 @@
 ﻿using DHwD_web.Data.Interfaces;
 using DHwD_web.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Models.ModelsDB;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,26 @@ namespace DHwD_web.Data
             if (items.Count() == 0)
                 return null;
             return await Task.FromResult<IEnumerable<Chats>>(items);
+        }
+
+        public async Task<bool> SaveListOnTheServer(List<Chats> messages)
+        {
+            bool result=false;
+            using (IDbContextTransaction transaction = _dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    for(int i=0;i<messages.Count;i++)
+                        _dbContext.Chats.Add(messages[i]);
+                    result = SaveChanges();
+                    await transaction.CommitAsync();
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                }
+            }
+            return await Task.FromResult<bool>(result);
         }
     }
 }
