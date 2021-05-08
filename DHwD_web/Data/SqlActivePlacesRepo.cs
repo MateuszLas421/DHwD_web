@@ -115,6 +115,7 @@ namespace DHwD_web.Data
                 return false;
             }
         }
+
         /// <summary>
         /// CheckActivePlace search for active places 
         /// </summary>
