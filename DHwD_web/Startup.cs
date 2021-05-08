@@ -75,6 +75,7 @@ namespace DHwD_web
 
             services.AddDbContext<AppWebDbContext>(options =>
                 options.UseNpgsql(builder.ConnectionString));
+            
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IStatusRepo, SqlStatusRepo>();
             services.AddScoped<IUserRepo, SqlUserRepo>();

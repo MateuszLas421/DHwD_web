@@ -82,8 +82,8 @@ namespace DHwD_web.Controllers
             return BadRequest();
         }
 
-        //get api/ActivePlaces/Check/{Id_Team}
-        [HttpGet("Check/{Id_Team}")]
+        //get api/ActivePlaces/Check?Id_Team={Id_Team}
+        [HttpGet("Check/Id_Team={Id_Team}")]
         public ActionResult<bool> CheckActivePlace(int Id_Team)
         {
             if (!HttpContext.User.Identity.IsAuthenticated)

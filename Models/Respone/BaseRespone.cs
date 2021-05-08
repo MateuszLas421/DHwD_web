@@ -7,7 +7,7 @@ namespace Models.Respone
 {
     public class BaseRespone : HttpResponseMessage
     {
-        public int Succes { get; set; }
+        public bool Succes { get; set; }
     
         public string Message { get; set; }
 

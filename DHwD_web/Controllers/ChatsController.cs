@@ -35,7 +35,7 @@ namespace DHwD_web.Controllers
             _teamMembersRepo = teamMembersRepo;
         }
 
-        //get api/Chats/Team={gameid}
+        //get api/Chats/Game={gameid}
         [HttpGet("Game={gameid}", Name = "GetChat")]
         public async Task<ActionResult<IEnumerable<ChatsReadDto>>> GetChat(int gameid)
         {
