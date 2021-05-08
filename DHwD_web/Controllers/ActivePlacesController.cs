@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Models.ModelsDB;
 using Models.Request;
+using Models.Respone;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -84,14 +85,18 @@ namespace DHwD_web.Controllers
 
         //get api/ActivePlaces/Check?Id_Team={Id_Team}
         [HttpGet("Check/Id_Team={Id_Team}")]
-        public ActionResult<bool> CheckActivePlace(int Id_Team)
+        public ActionResult<BaseRespone> CheckActivePlace(int Id_Team)
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
                 return NotFound();
             var Items = _repository.CheckActivePlace(Id_Team);
             if (Items != null)
             {
-                return Ok(_mapper.Map<bool>(Items));
+                BaseRespone baseRespone = new BaseRespone {
+                    Succes = true,
+                    StatusCode=System.Net.HttpStatusCode.OK
+                };
+                return Ok(baseRespone);
             }
             return NotFound();
         }
