@@ -3,6 +3,7 @@ using DHwD_web.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Models.ModelsDB;
+using Models.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +72,18 @@ namespace DHwD_web.Data
                 }
             }
             return await Task.FromResult<bool>(result);
+        }
+
+        public async Task<IEnumerable<Chats>> GetUpdateChat(GetUpdateChatRequest getUpdateChatRequest)
+        {
+            var items = await _dbContext.Chats
+                .Where(a => a.Team.Id == getUpdateChatRequest.Id_Team &&
+                        a.Game.Id == getUpdateChatRequest.Id_Game && 
+                        a.DateTimeCreate> getUpdateChatRequest.dateTime)
+                .ToListAsync();
+            if (items.Count() == 0)
+                return null;
+            return await Task.FromResult<IEnumerable<Chats>>(items);
         }
     }
 }

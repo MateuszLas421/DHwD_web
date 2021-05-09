@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Models.ModelsDB;
 using Models.ModelsMobile;
+using Models.Request;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -69,6 +70,27 @@ namespace DHwD_web.Controllers
             if (result == true)
                 return Ok();
             return BadRequest();
+        }
+
+
+        //get api/Chats/Update/Game={gameid}?DateTimeCreate={dateTime}
+        [HttpGet("Update/Game={gameid}?DateTimeCreate={dateTime}", Name = "GetUpdateChat")]
+        public async Task<ActionResult<IEnumerable<ChatsReadDto>>> GetUpdateChat(int gameid, DateTime dateTime)
+        {
+            var httpContext = HttpContext;
+            var userId = await ReadUserId.Read(httpContext);
+            int teamid = (await _teamMembersRepo.GetMyTeams(gameid, userId)).Team.Id;
+            GetUpdateChatRequest getUpdate = new GetUpdateChatRequest { 
+                Id_Game = gameid,
+                dateTime = dateTime,
+                Id_Team = teamid
+            };
+            var Items = await _repository.GetUpdateChat(getUpdate);
+            if (Items != null)
+            {
+                return Ok(_mapper.Map<IEnumerable<ChatsReadDto>>(Items));
+            }
+            return NotFound();
         }
     }
 }

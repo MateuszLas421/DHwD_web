@@ -1,4 +1,6 @@
 ﻿using Models.ModelsDB;
+using Models.Request;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,5 +13,7 @@ namespace DHwD_web.Data.Interfaces
         Task<bool> SaveListOnTheServer(List<Chats> messages);
 
         Task<IEnumerable<Chats>> GetChat(int gameid, int userId);
+
+        Task<IEnumerable<Chats>> GetUpdateChat(GetUpdateChatRequest getUpdateChatRequest);
     }
 }
