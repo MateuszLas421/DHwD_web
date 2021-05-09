@@ -127,7 +127,7 @@ namespace DHwD_web.Data
             try
             {
                 activePlace = await _dbContext.ActivePlaces
-                .Where(a => a.Active==true && a.Team_Id == Id_Team)
+                .Where(a => a.Active==false && a.Team_Id == Id_Team)
                 .Include(a => a.Place)
                 .FirstOrDefaultAsync();
             }

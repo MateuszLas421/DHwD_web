@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Models.Respone
 {
-    public class BaseRespone : HttpResponseMessage
+    public class BaseRespone
     {
         public bool Succes { get; set; }
     

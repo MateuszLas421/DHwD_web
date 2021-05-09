@@ -62,7 +62,7 @@ namespace DHwD_web.Controllers
 
         //post api/ActivePlaces/BlockedPlace
         [HttpPost("/BlockedPlace")]
-        public async Task<ActionResult> BlockedPlace(BlockedPlaceRequest blockedPlaceRequest)
+        public async Task<ActionResult<ActivePlacesReadDto>> BlockedPlace(BlockedPlaceRequest blockedPlaceRequest)
         {
             var Item = await _repository.GetActivePlacebyTeamIDandPlaceID(blockedPlaceRequest.Id_Team, blockedPlaceRequest.Id_Place);
             Item.Active = true;
@@ -98,11 +98,6 @@ namespace DHwD_web.Controllers
 
             bool messageSolutionstatus = await _chatsRepo.SaveOnTheServer(messageSolution);
 
-            //if (messageSolutionstatus == true && createmessagestatus == true)
-            //{
-                
-            //}
-
             if (result == true) 
                 return Ok(_mapper.Map<ActivePlacesReadDto>(Item));
             return BadRequest();
@@ -110,7 +105,7 @@ namespace DHwD_web.Controllers
 
         //post api/ActivePlaces/UnblockedPlace
         [HttpPost("/UnblockedPlace")]
-        public async Task<ActionResult> UnblockedPlace(BlockedPlaceRequest blockedPlaceRequest)
+        public async Task<ActionResult<ActivePlacesReadDto>> UnblockedPlace(BlockedPlaceRequest blockedPlaceRequest)
         {
             var Item = await _repository.GetActivePlacebyTeamIDandPlaceID(blockedPlaceRequest.Id_Team, blockedPlaceRequest.Id_Place);
             Item.Blocked = true;
@@ -131,18 +126,18 @@ namespace DHwD_web.Controllers
             return BadRequest();
         }
 
-        //get api/ActivePlaces/Check?Id_Team={Id_Team}
+        //get api/ActivePlaces/Check/Id_Team={Id_Team}
         [HttpGet("Check/Id_Team={Id_Team}")]
-        public ActionResult<BaseRespone> CheckActivePlace(int Id_Team)
+        public async Task<ActionResult<BaseRespone>> CheckActivePlace(int Id_Team)
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
                 return NotFound();
-            var Items = _repository.CheckActivePlace(Id_Team);
-            if (Items != null)
+            var Items = await _repository.CheckActivePlace(Id_Team);
+            if (Items == true)
             {
                 BaseRespone baseRespone = new BaseRespone {
                     Succes = true,
-                    StatusCode=System.Net.HttpStatusCode.OK
+                    ErrorCode = (int)System.Net.HttpStatusCode.OK
                 };
                 return Ok(baseRespone);
             }
