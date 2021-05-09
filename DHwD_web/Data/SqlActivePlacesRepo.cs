@@ -136,8 +136,8 @@ namespace DHwD_web.Data
                 System.Diagnostics.Debug.WriteLine(ex.Message);
             }
             if (activePlace != null)
-                return await Task.FromResult<bool>(false);
-            return await Task.FromResult<bool>(true);
+                return await Task.FromResult<bool>(true);
+            return await Task.FromResult<bool>(false);
 
         }
     }

@@ -74,15 +74,15 @@ namespace DHwD_web.Controllers
 
 
         //get api/Chats/Update/Game={gameid}?DateTimeCreate={dateTime}
-        [HttpGet("Update/Game={gameid}?DateTimeCreate={dateTime}", Name = "GetUpdateChat")]
-        public async Task<ActionResult<IEnumerable<ChatsReadDto>>> GetUpdateChat(int gameid, DateTime dateTime)
+        [HttpGet("Update/Game={gameid}", Name = "GetUpdateChat")]
+        public async Task<ActionResult<IEnumerable<ChatsReadDto>>> GetUpdateChat(int gameid, DateTime DateTimeCreate)
         {
             var httpContext = HttpContext;
             var userId = await ReadUserId.Read(httpContext);
             int teamid = (await _teamMembersRepo.GetMyTeams(gameid, userId)).Team.Id;
             GetUpdateChatRequest getUpdate = new GetUpdateChatRequest { 
                 Id_Game = gameid,
-                dateTime = dateTime,
+                dateTime = DateTimeCreate,
                 Id_Team = teamid
             };
             var Items = await _repository.GetUpdateChat(getUpdate);
