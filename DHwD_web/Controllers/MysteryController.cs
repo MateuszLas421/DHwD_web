@@ -30,7 +30,7 @@ namespace DHwD_web.Controllers
 
         //get api/Mystery/location={idLocation}
         [HttpGet("location={idLocation}", Name = "GetMysterybyLocation")]
-        public async Task<ActionResult<IEnumerable<MysteryReadDto>>> GetMysterybyLocation(int idLocation)
+        public async Task<ActionResult<MysteryReadDto>> GetMysterybyLocation(int idLocation)
         {
             var location = await _locationRepo.GetLocationById(idLocation);
 
@@ -45,7 +45,7 @@ namespace DHwD_web.Controllers
 
         //get api/Mystery/{id}
         [HttpGet("{id}", Name = "GetMysterybyid")]
-        public async Task<ActionResult<IEnumerable<MysteryReadDto>>> GetMysterybyid(int id)
+        public async Task<ActionResult<MysteryReadDto>> GetMysterybyid(int id)
         {
             var Items = await _repository.GetMysteryById(id);
 

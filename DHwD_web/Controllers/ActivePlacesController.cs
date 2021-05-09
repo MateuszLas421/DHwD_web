@@ -28,9 +28,12 @@ namespace DHwD_web.Controllers
         private readonly ITeamRepo _teamRepo;
         private readonly IChatsRepo _chatsRepo;
         private readonly IMurdererMessagesRepo _murdererMessagesRepo;
+        private readonly ILocationRepo _locationRepo;
+        private readonly IMysteryRepo _mysteryRepo;
 
         public ActivePlacesController(IConfiguration config, IActivePlacesRepo repository, IMapper mapper, IStatusRepo statusRepo, 
-            ITeamRepo teamRepo, IChatsRepo chatsRepo, IMurdererMessagesRepo murdererMessagesRepo)
+            ITeamRepo teamRepo, IChatsRepo chatsRepo, IMurdererMessagesRepo murdererMessagesRepo, ILocationRepo locationRepo,
+            IMysteryRepo mysteryRepo)
         {
             _config = config;
             _repository = repository;
@@ -39,6 +42,8 @@ namespace DHwD_web.Controllers
             _teamRepo = teamRepo;
             _chatsRepo = chatsRepo;
             _murdererMessagesRepo = murdererMessagesRepo;
+            _locationRepo = locationRepo;
+            _mysteryRepo = mysteryRepo;
         }
 
         //get api/ActivePlaces/{id}
@@ -77,6 +82,27 @@ namespace DHwD_web.Controllers
                 });
             }
             bool createmessagestatus = await _chatsRepo.SaveListOnTheServer(chats);
+
+            var location = await _locationRepo.GetLocationById(blockedPlaceRequest.Id_Location);
+
+            var Items = await _mysteryRepo.GetMysteryById(location.MysteryRef);
+
+            Chats messageSolution = new Chats
+            {
+                Team = new Team { Id = blockedPlaceRequest.Id_Team },
+                Text = Items.Text,
+                DateTimeCreate = DateTime.UtcNow,
+                IsSystem = true,
+                Game = new Games { Id = blockedPlaceRequest.Id_Game }
+            };
+
+            bool messageSolutionstatus = await _chatsRepo.SaveOnTheServer(messageSolution);
+
+            //if (messageSolutionstatus == true && createmessagestatus == true)
+            //{
+                
+            //}
+
             if (result == true) 
                 return Ok(_mapper.Map<ActivePlacesReadDto>(Item));
             return BadRequest();
