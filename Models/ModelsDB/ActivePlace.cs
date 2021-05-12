@@ -22,6 +22,8 @@ namespace Models.ModelsDB
 
         public bool Required { get; set; }
 
+        public bool IsCompleted { get; set; }
+
         public Place Place { get; set; }
 
         public ActivePlace() { }

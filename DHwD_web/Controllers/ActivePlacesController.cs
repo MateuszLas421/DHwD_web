@@ -105,12 +105,12 @@ namespace DHwD_web.Controllers
             return BadRequest();
         }
 
-        //post api/ActivePlaces/UnblockedPlace
-        [HttpPost("UnblockedPlace")]
-        public async Task<ActionResult<ActivePlacesReadDto>> UnblockedPlace(BlockedPlaceRequest blockedPlaceRequest)
+        //post api/ActivePlaces/EndPlace
+        [HttpPost("EndPlace")]
+        public async Task<ActionResult<ActivePlacesReadDto>> EndPlace(BlockedPlaceRequest blockedPlaceRequest)
         {
             var Item = await _repository.GetActivePlacebyTeamIDandPlaceID(blockedPlaceRequest.Id_Team, blockedPlaceRequest.Id_Place);
-            Item.Blocked = true;
+            Item.IsCompleted = true;
             var result = await _repository.Update(Item);
             if (result != true)
                 return BadRequest();
@@ -130,12 +130,12 @@ namespace DHwD_web.Controllers
 
         //get api/ActivePlaces/Check/Id_Team={Id_Team}
         [HttpGet("Check/Id_Team={Id_Team}")]
-        public async Task<ActionResult<BaseRespone>> CheckActivePlace(int Id_Team)
+        public async Task<ActionResult<ActivePlace>> CheckActivePlace(int Id_Team)
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
                 return NotFound();
             var Items = await _repository.CheckActivePlace(Id_Team);
-            if (Items == true)
+            if (Items != null)
             {
                 BaseRespone baseRespone = new BaseRespone {
                     Succes = true,

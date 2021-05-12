@@ -20,7 +20,7 @@ namespace DHwD_web.Data
 
         public async Task<bool> Save(ActivePlace activePlace)
         {
-            activePlace.Active = false;
+            activePlace.Active = false;                                 /// TOCHECK  
             _dbContext.ActivePlaces.Add(activePlace);
             return await Task.FromResult<bool>(SaveChanges());
         }
@@ -68,7 +68,8 @@ namespace DHwD_web.Data
         public async Task<ActivePlace> CreativeActivePlace(int Team_Id, Place place)
         {
             ActivePlace activePlace = new ActivePlace(Team_Id, place);
-            activePlace.Active = true;
+            activePlace.Active = false;
+            activePlace.IsCompleted = false;
             activePlace.UnlockedPlace = place.UnlockedPlace;
             activePlace.Required = place.Required;
             activePlace.IsEndPlace = place.IsEndPlace;
@@ -121,13 +122,13 @@ namespace DHwD_web.Data
         /// </summary>
         /// <param name="Id_Team"></param>
         /// <returns>(true == clear)</returns>
-        public async Task<bool> CheckActivePlace(int Id_Team)
+        public async Task<ActivePlace> CheckActivePlace(int Id_Team)
         {
             ActivePlace activePlace = new ActivePlace();
             try
             {
                 activePlace = await _dbContext.ActivePlaces
-                .Where(a => a.Active==false && a.Team_Id == Id_Team)
+                .Where(a => a.Active==true && a.Team_Id == Id_Team && a.IsCompleted!=true)
                 .Include(a => a.Place)
                 .FirstOrDefaultAsync();
             }
@@ -135,9 +136,9 @@ namespace DHwD_web.Data
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
             }
-            if (activePlace != null)
-                return await Task.FromResult<bool>(true);
-            return await Task.FromResult<bool>(false);
+            //if (activePlace != null)
+            //    return await Task.FromResult<ActivePlace>(activePlace);
+            return await Task.FromResult<ActivePlace>(activePlace);
 
         }
     }

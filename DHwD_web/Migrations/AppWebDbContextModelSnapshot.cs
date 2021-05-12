@@ -32,6 +32,9 @@ namespace DHwD_web.Migrations
                     b.Property<bool>("Blocked")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsEndPlace")
                         .HasColumnType("boolean");
 
