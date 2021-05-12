@@ -9,7 +9,7 @@ namespace Models.ModelsDB
     public class Chats
     {
         [Key]
-        public ulong Id { get; set; }
+        public int Id { get; set; }
 
         public bool IsSystem { get; set; }
 

@@ -35,7 +35,7 @@ namespace DHwD_web.Data
             {
                 return false;
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
                 return false;
             }

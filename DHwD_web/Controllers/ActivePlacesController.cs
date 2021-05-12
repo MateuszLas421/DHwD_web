@@ -30,10 +30,11 @@ namespace DHwD_web.Controllers
         private readonly IMurdererMessagesRepo _murdererMessagesRepo;
         private readonly ILocationRepo _locationRepo;
         private readonly IMysteryRepo _mysteryRepo;
+        private readonly IGamesRepo _gamesRepo;
 
         public ActivePlacesController(IConfiguration config, IActivePlacesRepo repository, IMapper mapper, IStatusRepo statusRepo, 
             ITeamRepo teamRepo, IChatsRepo chatsRepo, IMurdererMessagesRepo murdererMessagesRepo, ILocationRepo locationRepo,
-            IMysteryRepo mysteryRepo)
+            IMysteryRepo mysteryRepo, IGamesRepo gamesRepo)
         {
             _config = config;
             _repository = repository;
@@ -44,6 +45,7 @@ namespace DHwD_web.Controllers
             _murdererMessagesRepo = murdererMessagesRepo;
             _locationRepo = locationRepo;
             _mysteryRepo = mysteryRepo;
+            _gamesRepo = gamesRepo;
         }
 
         //get api/ActivePlaces/{id}
@@ -61,7 +63,7 @@ namespace DHwD_web.Controllers
         }
 
         //post api/ActivePlaces/BlockedPlace
-        [HttpPost("/BlockedPlace")]
+        [HttpPost("BlockedPlace")]
         public async Task<ActionResult<ActivePlacesReadDto>> BlockedPlace(BlockedPlaceRequest blockedPlaceRequest)
         {
             var Item = await _repository.GetActivePlacebyTeamIDandPlaceID(blockedPlaceRequest.Id_Team, blockedPlaceRequest.Id_Place);
@@ -74,11 +76,11 @@ namespace DHwD_web.Controllers
             for(int i=0; i<list.Count ; i++)
             {
                 chats.Add(new Chats {
-                    Team = new Team { Id = blockedPlaceRequest.Id_Team },
+                    Team = _teamRepo.GetTeamById(blockedPlaceRequest.Id_Team),
                     Text = list[i].Text,
                     DateTimeCreate = DateTime.UtcNow,
                     IsSystem = true,
-                    Game = new Games { Id = blockedPlaceRequest.Id_Game }
+                    Game = await _gamesRepo.GetGame(blockedPlaceRequest.Id_Game)
                 });
             }
             bool createmessagestatus = await _chatsRepo.SaveListOnTheServer(chats);
@@ -89,11 +91,11 @@ namespace DHwD_web.Controllers
 
             Chats messageSolution = new Chats
             {
-                Team = new Team { Id = blockedPlaceRequest.Id_Team },
+                Team = _teamRepo.GetTeamById(blockedPlaceRequest.Id_Team),
                 Text = Items.Text,
                 DateTimeCreate = DateTime.UtcNow,
                 IsSystem = true,
-                Game = new Games { Id = blockedPlaceRequest.Id_Game }
+                Game = await _gamesRepo.GetGame(blockedPlaceRequest.Id_Game)
             };
 
             bool messageSolutionstatus = await _chatsRepo.SaveOnTheServer(messageSolution);
@@ -104,7 +106,7 @@ namespace DHwD_web.Controllers
         }
 
         //post api/ActivePlaces/UnblockedPlace
-        [HttpPost("/UnblockedPlace")]
+        [HttpPost("UnblockedPlace")]
         public async Task<ActionResult<ActivePlacesReadDto>> UnblockedPlace(BlockedPlaceRequest blockedPlaceRequest)
         {
             var Item = await _repository.GetActivePlacebyTeamIDandPlaceID(blockedPlaceRequest.Id_Team, blockedPlaceRequest.Id_Place);
