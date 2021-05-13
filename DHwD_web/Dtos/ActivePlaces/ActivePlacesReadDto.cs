@@ -6,6 +6,8 @@ namespace DHwD_web.Dtos
     {
         public int ID { get; set; }
 
+        public bool Active { get; set; }
+
         public string Type { get; set; }
 
         public bool IsEndPlace { get; set; }
