@@ -130,6 +130,7 @@ namespace DHwD_web.Data
                 activePlace = await _dbContext.ActivePlaces
                 .Where(a => a.Active==true && a.Team_Id == Id_Team && a.IsCompleted!=true)
                 .Include(a => a.Place)
+                .Include(b => b.Place.Location)
                 .FirstOrDefaultAsync();
             }
             catch (ArgumentNullException ex)

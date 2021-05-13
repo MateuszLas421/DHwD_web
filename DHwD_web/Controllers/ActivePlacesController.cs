@@ -134,14 +134,10 @@ namespace DHwD_web.Controllers
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
                 return NotFound();
-            var Items = await _repository.CheckActivePlace(Id_Team);
-            if (Items != null)
+            var Item = await _repository.CheckActivePlace(Id_Team);
+            if (Item != null)
             {
-                BaseRespone baseRespone = new BaseRespone {
-                    Succes = true,
-                    ErrorCode = (int)System.Net.HttpStatusCode.OK
-                };
-                return Ok(baseRespone);
+                return Ok(_mapper.Map<ActivePlacesReadDto>(Item));
             }
             return NotFound();
         }
