@@ -106,7 +106,10 @@ namespace DHwD_web.Controllers
                 else  //Negative
                 {
                     if (await solutionsOperations.SaveOnServer(_chatsRepo, _teamMembersRepo, solution.MysterySolutionNegative, userId, game))
-                        return Ok(baseRespone); 
+                    {
+                        baseRespone.Message = "Unresolved";
+                        return Ok(baseRespone);
+                    }
                     else
                     {
                         baseRespone.Succes = false;

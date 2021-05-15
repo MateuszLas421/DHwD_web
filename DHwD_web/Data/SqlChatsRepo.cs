@@ -76,10 +76,11 @@ namespace DHwD_web.Data
 
         public async Task<IEnumerable<Chats>> GetUpdateChat(GetUpdateChatRequest getUpdateChatRequest)
         {
+            getUpdateChatRequest.dateTime = getUpdateChatRequest.dateTime.AddSeconds(1);
             var items = await _dbContext.Chats
                 .Where(a => a.Team.Id == getUpdateChatRequest.Id_Team &&
                         a.Game.Id == getUpdateChatRequest.Id_Game && 
-                        a.DateTimeCreate> getUpdateChatRequest.dateTime)
+                        a.DateTimeCreate>= getUpdateChatRequest.dateTime)
                 .ToListAsync();
             if (items.Count() == 0)
                 return null;
