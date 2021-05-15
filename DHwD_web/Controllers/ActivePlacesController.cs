@@ -66,6 +66,11 @@ namespace DHwD_web.Controllers
         [HttpPost("BlockedPlace")]
         public async Task<ActionResult<ActivePlacesReadDto>> BlockedPlace(BlockedPlaceRequest blockedPlaceRequest)
         {
+            var test = await _repository.CheckActivePlace(blockedPlaceRequest.Id_Team);
+            if (test != null)
+            {
+                BadRequest();
+            }
             var Item = await _repository.GetActivePlacebyTeamIDandPlaceID(blockedPlaceRequest.Id_Team, blockedPlaceRequest.Id_Place);
             Item.Active = true;
             var result = await _repository.Update(Item);

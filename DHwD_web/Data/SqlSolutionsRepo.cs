@@ -3,6 +3,7 @@ using DHwD_web.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Models.ModelsDB;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DHwD_web.Data
@@ -16,9 +17,10 @@ namespace DHwD_web.Data
             _dbContext = dbContext;
         }
 
-        public Task<Solutions> GetSolutionsByid(int id)
+        public async Task<Solutions> GetSolutionsByid(int id)
         {
-            throw new NotImplementedException();
+            var result = await _dbContext.Solutions.Where(a => a.ID == id).FirstOrDefaultAsync();
+            return await Task.FromResult(result);
         }
 
         public bool SaveChanges()

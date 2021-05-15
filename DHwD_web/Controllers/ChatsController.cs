@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Models.ModelsDB;
 using Models.ModelsMobile;
 using Models.Request;
+using Models.Respone;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -52,10 +53,15 @@ namespace DHwD_web.Controllers
 
         //POST api/Chats
         [HttpPost]
-        public async Task<ActionResult> SaveMessage(Message message)
+        public async Task<ActionResult<BaseRespone>> SaveMessage(Message message)
         {
             var httpContext = HttpContext;
             var userId = await ReadUserId.Read(httpContext);
+            BaseRespone baseRespone = new BaseRespone
+            {
+                Succes = true,
+                Message = ""
+            };
             ChatsCreateDto chatsCreateDto = new ChatsCreateDto
             {
                 DateTimeCreate = DateTime.UtcNow,
@@ -68,8 +74,12 @@ namespace DHwD_web.Controllers
             chatsCreateDto.Team = (await _teamMembersRepo.GetMyTeams(message.gameid, userId)).Team;
             var result = await _repository.SaveOnTheServer(_mapper.Map<Chats>(chatsCreateDto));
             if (result == true)
-                return Ok();
-            return BadRequest();
+            {
+                return Ok(baseRespone);
+            }
+            baseRespone.Succes = false;
+            baseRespone.ErrorCode = 400;
+            return BadRequest(baseRespone);
         }
 
 

@@ -5,7 +5,9 @@ using DHwD_web.Operations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Models.ModelsDB;
 using Models.ModelsMobile;
+using Models.Respone;
 using System;
 using System.Threading.Tasks;
 
@@ -24,8 +26,13 @@ namespace DHwD_web.Controllers
         private readonly IGamesRepo _gamesRepo;
         private readonly ITeamMembersRepo _teamMembersRepo;
         private readonly IConfiguration _config;
+        private readonly IActivePlacesRepo _activePlacesRepo;
+        private readonly ITeamRepo _teamRepo;
+        private readonly IStatusRepo _statusRepo;
 
-        public SolutionsController(IConfiguration config, ISolutionsRepo repository, IMapper mapper, IMysteryRepo mysteryRepo, IChatsRepo chatsRepo, IUserRepo userRepo, IGamesRepo gamesRepo, ITeamMembersRepo teamMembersRepo)
+        public SolutionsController(IConfiguration config, ISolutionsRepo repository, IMapper mapper, IMysteryRepo mysteryRepo,
+            IChatsRepo chatsRepo, IUserRepo userRepo, IGamesRepo gamesRepo, ITeamMembersRepo teamMembersRepo,
+            IActivePlacesRepo activePlacesRepo, ITeamRepo teamRepo, IStatusRepo statusRepo)
         {
             _config = config;
             _repository = repository;
@@ -35,13 +42,21 @@ namespace DHwD_web.Controllers
             _userRepo = userRepo;
             _gamesRepo = gamesRepo;
             _teamMembersRepo = teamMembersRepo;
+            _activePlacesRepo = activePlacesRepo;
+            _teamRepo = teamRepo;
+            _statusRepo = statusRepo;
         }
 
         //POST api/Solutions
         [HttpPost]
-        public async Task<ActionResult<string>> PostSolutionToCheck(SolutionRequest solutionRequest)
+        public async Task<ActionResult<BaseRespone>> PostSolutionToCheck(SolutionRequest solutionRequest)
         {
-            var game = await _gamesRepo.GetGame(solutionRequest.gameid);
+            BaseRespone baseRespone = new BaseRespone
+            {
+                Succes = true,
+                Message = ""
+            };
+            var game = await _gamesRepo.GetGame(solutionRequest.Id_Game);
             var solution = await _repository.GetSolutionsByid(_mysteryRepo.GetMysteryById(solutionRequest.IdMystery).Result.SolutionsRef);
             var httpContext = HttpContext;
             var userId = await ReadUserId.Read(httpContext);
@@ -50,24 +65,65 @@ namespace DHwD_web.Controllers
             {
                 if (solution.Text.ToLower().Equals(solutionRequest.TextSolution.ToLower()))
                 {
+                    if
+                    (
+                        await _chatsRepo.SaveOnTheServer(new Chats
+                        {
+                            IsSystem = false,
+                            DateTimeCreate = DateTime.UtcNow,
+                            Game = game,
+                            Team = _teamRepo.GetTeamById(solutionRequest.Id_Team),
+                            Text = solutionRequest.TextSolution
+                        }) == false
+                    )
+                    {
+                        baseRespone.Succes = false;
+                        baseRespone.ErrorCode = 400;
+                        return BadRequest(baseRespone);
+                    }
 
-                    if (await solutionsOperations.SaveOnServer(_chatsRepo, _teamMembersRepo, solution.MysterySolutionPozitive, userId, game))
-                        return Ok(); //await Task.FromResult<string>(solution.MysterySolutionPozitive); 
+                    if (await solutionsOperations.SaveOnServer(_chatsRepo, _teamMembersRepo, solution.MysterySolutionPozitive, userId, game)) //Pozitive
+                    {
+                        if (await solutionsOperations.EndPlace(_activePlacesRepo, _teamRepo, _statusRepo, solutionRequest) == true)
+                        {
+                            baseRespone.Message = "Solved";
+                            return Ok(baseRespone);
+                        }
+                        else
+                        {
+                            baseRespone.Succes = false;
+                            baseRespone.ErrorCode = 400;
+                            return BadRequest(baseRespone);
+                        }
+                    }
                     else
-                        return BadRequest();
+                    {
+                        baseRespone.Succes = false;
+                        baseRespone.ErrorCode = 400;
+                        return BadRequest(baseRespone);
+                    }
                 }
-                else
+                else  //Negative
                 {
                     if (await solutionsOperations.SaveOnServer(_chatsRepo, _teamMembersRepo, solution.MysterySolutionNegative, userId, game))
-                        return Ok(); //await Task.FromResult<string>(solution.MysterySolutionNegative);
+                        return Ok(baseRespone); 
                     else
-                        return BadRequest();
+                    {
+                        baseRespone.Succes = false;
+                        baseRespone.ErrorCode = 400;
+                        return BadRequest(baseRespone);
+                    }
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                {
+                    baseRespone.Succes = false;
+                    baseRespone.ErrorCode = 400;
+                    baseRespone.Message = "Fail";
+                    return BadRequest(baseRespone);
+                }
             }
         }
     }
