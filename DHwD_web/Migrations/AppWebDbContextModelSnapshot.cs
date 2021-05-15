@@ -371,6 +371,24 @@ namespace DHwD_web.Migrations
                     b.ToTable("TeamMembers");
                 });
 
+            modelBuilder.Entity("Models.ModelsDB.Templates.MechanicTypeTemp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MechanicTypeTemp");
+                });
+
             modelBuilder.Entity("Models.ModelsDB.User", b =>
                 {
                     b.Property<int>("Id")

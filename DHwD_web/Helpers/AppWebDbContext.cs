@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models.ModelsDB;
+using Models.ModelsDB.Templates;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DHwD_web.Helpers
@@ -34,6 +35,8 @@ namespace DHwD_web.Helpers
         public DbSet<Chats> Chats { get; set; }
 
         public DbSet<MurdererMessages> MurdererMessages { get; set; }
+        
+        public DbSet<MechanicTypeTemp> MechanicTypeTemp { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
