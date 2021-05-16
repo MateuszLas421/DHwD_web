@@ -18,13 +18,13 @@ namespace DHwD_web.Data
             _dbContext = dbContext;
         }
 
-        public async Task<List<MurdererMessages>> GetListByPlaceID(int Id_Place)
+        public async Task<List<MurdererMessages>> GetListByPlaceID(int Id_Place, int type)
         {
             List<MurdererMessages> messageslist = new List<MurdererMessages>();
             try
             {
                 messageslist = _dbContext.MurdererMessages
-                .Where(a => a.Id_Place == Id_Place).ToList();
+                .Where(a => a.Id_Place == Id_Place && a.TypeMessage == type).ToList();
             }
             catch (ArgumentNullException ex)
             {

@@ -9,6 +9,8 @@ using Models.ModelsDB;
 using Models.ModelsMobile;
 using Models.Respone;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DHwD_web.Controllers
@@ -29,10 +31,11 @@ namespace DHwD_web.Controllers
         private readonly IActivePlacesRepo _activePlacesRepo;
         private readonly ITeamRepo _teamRepo;
         private readonly IStatusRepo _statusRepo;
+        private readonly IMurdererMessagesRepo _murdererMessagesRepo;
 
         public SolutionsController(IConfiguration config, ISolutionsRepo repository, IMapper mapper, IMysteryRepo mysteryRepo,
             IChatsRepo chatsRepo, IUserRepo userRepo, IGamesRepo gamesRepo, ITeamMembersRepo teamMembersRepo,
-            IActivePlacesRepo activePlacesRepo, ITeamRepo teamRepo, IStatusRepo statusRepo)
+            IActivePlacesRepo activePlacesRepo, ITeamRepo teamRepo, IStatusRepo statusRepo, IMurdererMessagesRepo murdererMessagesRepo)
         {
             _config = config;
             _repository = repository;
@@ -45,6 +48,7 @@ namespace DHwD_web.Controllers
             _activePlacesRepo = activePlacesRepo;
             _teamRepo = teamRepo;
             _statusRepo = statusRepo;
+            _murdererMessagesRepo = murdererMessagesRepo;
         }
 
         //POST api/Solutions
@@ -59,6 +63,7 @@ namespace DHwD_web.Controllers
             var game = await _gamesRepo.GetGame(solutionRequest.Id_Game);
             var solution = await _repository.GetSolutionsByid(_mysteryRepo.GetMysteryById(solutionRequest.IdMystery).Result.SolutionsRef);
             var httpContext = HttpContext;
+            ActivePlace activePlace = new ActivePlace();
             var userId = await ReadUserId.Read(httpContext);
             SolutionsOperations solutionsOperations = new SolutionsOperations();
             try
@@ -81,11 +86,36 @@ namespace DHwD_web.Controllers
                         baseRespone.ErrorCode = 400;
                         return BadRequest(baseRespone);
                     }
-
+                    if ((activePlace = await _activePlacesRepo.CheckActivePlace(solutionRequest.Id_Team)).Place == null)
+                    {
+                        baseRespone.Succes = false;
+                        baseRespone.Message = "No found active place";
+                        baseRespone.ErrorCode = 400;
+                        return BadRequest(baseRespone);
+                    }
                     if (await solutionsOperations.SaveOnServer(_chatsRepo, _teamMembersRepo, solution.MysterySolutionPozitive, userId, game)) //Pozitive
                     {
                         if (await solutionsOperations.EndPlace(_activePlacesRepo, _teamRepo, _statusRepo, solutionRequest) == true)
                         {
+                            if (activePlace.Type == 1 )
+                            {
+                                List<MurdererMessages> list = await _murdererMessagesRepo.GetListByPlaceID(solutionRequest.Id_Place, 2);
+                                List<Chats> chats = new List<Chats>();
+                                list = list.OrderBy(o => o.NumerMessage).ToList();
+
+                                for (int i = 0; i < list.Count; i++)
+                                {
+                                    chats.Add(new Chats
+                                    {
+                                        Team = _teamRepo.GetTeamById(solutionRequest.Id_Team),
+                                        Text = list[i].Text,
+                                        DateTimeCreate = DateTime.UtcNow,
+                                        IsSystem = true,
+                                        Game = await _gamesRepo.GetGame(solutionRequest.Id_Game)
+                                    });
+                                }
+                                bool createmessagestatus = await _chatsRepo.SaveListOnTheServer(chats);
+                            }
                             baseRespone.Message = "Solved";
                             return Ok(baseRespone);
                         }
@@ -105,6 +135,22 @@ namespace DHwD_web.Controllers
                 }
                 else  //Negative
                 {
+                    if
+                    (
+                        await _chatsRepo.SaveOnTheServer(new Chats
+                        {
+                            IsSystem = false,
+                            DateTimeCreate = DateTime.UtcNow,
+                            Game = game,
+                            Team = _teamRepo.GetTeamById(solutionRequest.Id_Team),
+                            Text = solutionRequest.TextSolution
+                        }) == false
+                    )
+                    {
+                        baseRespone.Succes = false;
+                        baseRespone.ErrorCode = 400;
+                        return BadRequest(baseRespone);
+                    }
                     if (await solutionsOperations.SaveOnServer(_chatsRepo, _teamMembersRepo, solution.MysterySolutionNegative, userId, game))
                     {
                         baseRespone.Message = "Unresolved";

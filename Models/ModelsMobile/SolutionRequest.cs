@@ -14,9 +14,5 @@ namespace Models.ModelsMobile
 
         public int Id_Game { get; set; }
 
-        //public int Id_Location { get; set; }
-
-        //public DateTime DataTimeRequest { get; set; }
-
     }
 }

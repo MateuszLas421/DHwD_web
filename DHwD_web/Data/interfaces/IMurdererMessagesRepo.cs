@@ -8,6 +8,6 @@ namespace DHwD_web.Data.Interfaces
 {
     public interface IMurdererMessagesRepo : Base.IBaseRepo
     {
-        Task<List<MurdererMessages>> GetListByPlaceID(int Id_Place);
+        Task<List<MurdererMessages>> GetListByPlaceID(int Id_Place, int type);
     }
 }

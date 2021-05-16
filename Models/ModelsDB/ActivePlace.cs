@@ -12,7 +12,7 @@ namespace Models.ModelsDB
 
         public bool Active { get; set; }
 
-        public string Type { get; set; }
+        public int Type { get; set; }
 
         public bool Blocked { get; set; }
 

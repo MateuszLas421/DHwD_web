@@ -47,8 +47,8 @@ namespace DHwD_web.Migrations
                     b.Property<int>("Team_Id")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("text");
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
 
                     b.Property<string>("UnlockedPlace")
                         .HasColumnType("text");
@@ -387,6 +387,27 @@ namespace DHwD_web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MechanicTypeTemp");
+                });
+
+            modelBuilder.Entity("Models.ModelsDB.Templates.TypeMessageTemp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int>("TypeMessage")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TypePlace")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TypeMessageTemp");
                 });
 
             modelBuilder.Entity("Models.ModelsDB.User", b =>

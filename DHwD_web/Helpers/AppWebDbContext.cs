@@ -38,6 +38,8 @@ namespace DHwD_web.Helpers
         
         public DbSet<MechanicTypeTemp> MechanicTypeTemp { get; set; }
 
+        public DbSet<TypeMessageTemp> TypeMessageTemp { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()

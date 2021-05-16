@@ -66,6 +66,7 @@ namespace DHwD_web.Controllers
         [HttpPost("BlockedPlace")]
         public async Task<ActionResult<ActivePlacesReadDto>> BlockedPlace(BlockedPlaceRequest blockedPlaceRequest)
         {
+            int typemessage = -1;
             var test = await _repository.CheckActivePlace(blockedPlaceRequest.Id_Team);
             if (test != null)
             {
@@ -74,7 +75,9 @@ namespace DHwD_web.Controllers
             var Item = await _repository.GetActivePlacebyTeamIDandPlaceID(blockedPlaceRequest.Id_Team, blockedPlaceRequest.Id_Place);
             Item.Active = true;
             var result = await _repository.Update(Item);
-            List<MurdererMessages> list = await _murdererMessagesRepo.GetListByPlaceID(blockedPlaceRequest.Id_Place);
+            if (Item.Type == 1)
+                typemessage = 1;
+            List<MurdererMessages> list = await _murdererMessagesRepo.GetListByPlaceID(blockedPlaceRequest.Id_Place, typemessage);
             List<Chats> chats = new List<Chats>();
             list = list.OrderBy(o => o.NumerMessage).ToList();
 
