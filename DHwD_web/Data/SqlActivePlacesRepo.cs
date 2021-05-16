@@ -47,8 +47,24 @@ namespace DHwD_web.Data
                 return null;
             return await Task.FromResult<ActivePlace>(activePlace);
         }
-
         public async Task<List<ActivePlace>> Get_List_ActivePlacebyTeamID(int Team_Id)
+        {
+            List<ActivePlace> activePlace = new List<ActivePlace>();
+            try
+            {
+                activePlace = _dbContext.ActivePlaces
+                .Where(a =>a.Team_Id == Team_Id).ToList<ActivePlace>();
+            }
+            catch (ArgumentNullException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            if (activePlace == null)
+                return null;
+            return await Task.FromResult<List<ActivePlace>>(activePlace);
+        }
+
+        public async Task<List<ActivePlace>> Get_List_ActivePlacebyTeamIDandActvie(int Team_Id)   
         {
             List<ActivePlace> activePlace = new List<ActivePlace>();
             try

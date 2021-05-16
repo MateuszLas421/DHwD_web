@@ -47,7 +47,6 @@ namespace DHwD_web.Controllers
             ActivePlacesCreateDto activePlacesCreateDto = new ActivePlacesCreateDto(place);
             ActivePlace activePlace = _mapper.Map<ActivePlace>(activePlacesCreateDto);
             await _activePlacesRepo.Save(activePlace);
-            //activePlace = await _activePlacesRepo.Get_List_ActivePlacebyTeamID(teammembers.Team.Id);   // TO Delete?
             StatusCreateDto statusCreateDto = new StatusCreateDto(teammembers.Team);
             status = _mapper.Map<Status>(statusCreateDto);
             _repository.CreateNewStatus(status);
@@ -87,9 +86,6 @@ namespace DHwD_web.Controllers
             ActivePlacesCreateDto activePlacesCreateDto = new ActivePlacesCreateDto(place);
             ActivePlace activePlace = _mapper.Map<ActivePlace>(activePlacesCreateDto);
             await _activePlacesRepo.Save(activePlace);
-            //activePlace = await _activePlacesRepo.Get_List_ActivePlacebyTeamID(teammembers.Team.Id);  // TO DELETe? 
-
-            ////status.ActivePlace = activePlace;   // TO Fix ?
             _repository.UpdateNewStatus(status);
             if (status != null)
             {

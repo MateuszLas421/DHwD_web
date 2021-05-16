@@ -12,6 +12,8 @@ namespace DHwD_web.Data.Interfaces
 
         Task<List<ActivePlace>> Get_List_ActivePlacebyTeamID(int Team_Id);
 
+        Task<List<ActivePlace>> Get_List_ActivePlacebyTeamIDandActvie(int Team_Id);
+
         Task<ActivePlace> CreativeActivePlace(int Team_Id, Place place);
 
         Task<bool> Update(ActivePlace activePlace);

@@ -25,6 +25,7 @@ namespace DHwD_web.Operations
         {
             try
             {
+                ActivePlacesOperations activePlacesOperations = new ActivePlacesOperations();
                 var Item = await _activePlacesRepo.GetActivePlacebyTeamIDandPlaceID(solutionRequest.Id_Team, solutionRequest.Id_Place);
                 Item.IsCompleted = true;
                 var result = await _activePlacesRepo.Update(Item);
@@ -36,9 +37,15 @@ namespace DHwD_web.Operations
                 ActivePlacesOperations aPOperations = new ActivePlacesOperations();
                 if (Item.UnlockedPlace != null && Item.UnlockedPlace != "")
                 {
+                    var unlockedstatus = await activePlacesOperations.Update_Unblocked_Activ_Place(_activePlacesRepo, Item, solutionRequest.Id_Team);
+                    if (unlockedstatus == false)
+                        return await Task.FromResult<bool>(false);
+                }
+                if (Item.Required == true)
+                {
                     status = await aPOperations.Update_ActivePlace_in_Status(status, Item.UnlockedPlace);
-                    if (await _statusRepo.Update(status))
-                        return await Task.FromResult<bool>(true);
+                    if (!await _statusRepo.Update(status))
+                        return await Task.FromResult<bool>(false);
                 }
                 return await Task.FromResult<bool>(true);
             }
