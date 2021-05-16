@@ -75,7 +75,7 @@ namespace DHwD_web.Controllers
             var Item = await _repository.GetActivePlacebyTeamIDandPlaceID(blockedPlaceRequest.Id_Team, blockedPlaceRequest.Id_Place);
             Item.Active = true;
             var result = await _repository.Update(Item);
-            if (Item.Type == 1)
+            if (Item.TypePlace == 1)
                 typemessage = 1;
             List<MurdererMessages> list = await _murdererMessagesRepo.GetListByPlaceID(blockedPlaceRequest.Id_Place, typemessage);
             List<Chats> chats = new List<Chats>();

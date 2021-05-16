@@ -218,6 +218,9 @@ namespace DHwD_web.Migrations
                     b.Property<string>("RequiredToEnd")
                         .HasColumnType("text");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
                     b.Property<string>("UnlockedPlace")
                         .HasColumnType("text");
 

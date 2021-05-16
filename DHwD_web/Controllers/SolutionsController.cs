@@ -97,7 +97,7 @@ namespace DHwD_web.Controllers
                     {
                         if (await solutionsOperations.EndPlace(_activePlacesRepo, _teamRepo, _statusRepo, solutionRequest) == true)
                         {
-                            if (activePlace.Type == 1 )
+                            if (activePlace.TypePlace == 1 )
                             {
                                 List<MurdererMessages> list = await _murdererMessagesRepo.GetListByPlaceID(solutionRequest.Id_Place, 2);
                                 List<Chats> chats = new List<Chats>();

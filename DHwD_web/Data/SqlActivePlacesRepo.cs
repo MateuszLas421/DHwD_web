@@ -70,6 +70,7 @@ namespace DHwD_web.Data
             ActivePlace activePlace = new ActivePlace(Team_Id, place);
             activePlace.Active = false;
             activePlace.IsCompleted = false;
+            activePlace.TypePlace = place.TypePlace;
             activePlace.UnlockedPlace = place.UnlockedPlace;
             activePlace.Required = place.Required;
             activePlace.IsEndPlace = place.IsEndPlace;

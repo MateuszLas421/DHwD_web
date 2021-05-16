@@ -26,5 +26,7 @@ namespace Models.ModelsDB
         public bool IsEndPlace { get; set; }
 
         public string RequiredToEnd { get; set; }
+
+        public int TypePlace { get; set; }
     }
 }
