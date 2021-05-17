@@ -43,13 +43,13 @@ namespace DHwD_web.Operations
                 }
                 if (Item.Required == true)
                 {
-                    status = await aPOperations.Update_ActivePlace_in_Status(status, Item.UnlockedPlace);
+                    status = await aPOperations.Update_ActivePlace_in_Status(status, Item.Place.Id.ToString());
                     if (!await _statusRepo.Update(status))
                         return await Task.FromResult<bool>(false);
                 }
                 return await Task.FromResult<bool>(true);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return await Task.FromResult<bool>(false);
             }

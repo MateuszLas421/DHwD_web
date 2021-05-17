@@ -12,16 +12,11 @@ namespace DHwD_web.Operations
         public Task<Status> Update_ActivePlace_in_Status(Status status, string activeplacestring)
         {
             var position = status.List_Id_Required_Pleaces_To_End.IndexOf(activeplacestring);
-            if (position == 0)
-            {
-                status.List_Id_Required_Pleaces_To_End = status.List_Id_Required_Pleaces_To_End.Substring(position + 1);
-            }
-            else
-            {
-                activeplacestring = ";" + activeplacestring;
-                position = status.List_Id_Required_Pleaces_To_End.IndexOf(activeplacestring);
-                status.List_Id_Required_Pleaces_To_End = status.List_Id_Required_Pleaces_To_End.Substring(0, position + 1);
-            }
+            if(status.List_Id_Required_Pleaces_To_End == String.Empty || position == -1)
+                return Task.FromResult<Status>(status);
+            activeplacestring = activeplacestring + ";";
+            position = status.List_Id_Required_Pleaces_To_End.IndexOf(activeplacestring);
+            status.List_Id_Required_Pleaces_To_End = status.List_Id_Required_Pleaces_To_End.Remove(position, activeplacestring.Length);
             return Task.FromResult<Status>(status);
         }
 
