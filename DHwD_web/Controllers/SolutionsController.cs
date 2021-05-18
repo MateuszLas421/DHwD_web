@@ -68,7 +68,26 @@ namespace DHwD_web.Controllers
             SolutionsOperations solutionsOperations = new SolutionsOperations();
             try
             {
-                if (solution.Text.ToLower().Equals(solutionRequest.TextSolution.ToLower()))
+                bool checker = false;
+                if (String.IsNullOrEmpty(solutionRequest.TextSolution))
+                {
+                    baseRespone.Succes = false;
+                    baseRespone.ErrorCode = 400;
+                    baseRespone.Message = "TextSolution is null or Empty";
+                    return BadRequest(baseRespone);
+                }
+                if (solution.Text.ToLower().Contains(solutionRequest.TextSolution.ToLower()))
+                {
+
+                    checker = true;
+                }
+                else
+                {
+                    if (solution.Text.ToLower().Equals(solutionRequest.TextSolution.ToLower()))  // TO delete?
+                        checker = true;
+                }
+
+                if (checker)
                 {
                     if
                     (
