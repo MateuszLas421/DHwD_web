@@ -47,7 +47,7 @@ namespace DHwD_web.Migrations
                     b.Property<int>("Team_Id")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("TypePlace")
                         .HasColumnType("integer");
 
                     b.Property<string>("UnlockedPlace")
@@ -218,7 +218,7 @@ namespace DHwD_web.Migrations
                     b.Property<string>("RequiredToEnd")
                         .HasColumnType("text");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("TypePlace")
                         .HasColumnType("integer");
 
                     b.Property<string>("UnlockedPlace")
@@ -251,6 +251,39 @@ namespace DHwD_web.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Points");
+                });
+
+            modelBuilder.Entity("Models.ModelsDB.Quiz", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("Id_Place")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Message_1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Message_2")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Message_3")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Questions")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Sequence")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Solution")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Quizs");
                 });
 
             modelBuilder.Entity("Models.ModelsDB.Solutions", b =>
