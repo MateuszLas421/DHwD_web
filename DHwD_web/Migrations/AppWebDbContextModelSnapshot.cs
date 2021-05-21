@@ -281,6 +281,9 @@ namespace DHwD_web.Migrations
                     b.Property<string>("Solution")
                         .HasColumnType("text");
 
+                    b.Property<string>("WrongAnswer")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Quizs");

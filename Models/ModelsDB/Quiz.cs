@@ -14,6 +14,8 @@ namespace Models.ModelsDB
 
         public string Questions { get; set; }
 
+        public string WrongAnswer { get; set; }
+
         public string Solution { get; set; }
 
         public string Message_1 { get; set; }
