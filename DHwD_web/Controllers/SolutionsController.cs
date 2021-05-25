@@ -114,28 +114,34 @@ namespace DHwD_web.Controllers
                     }
                     if (await solutionsOperations.SaveOnServer(_chatsRepo, _teamMembersRepo, solution.MysterySolutionPozitive, userId, game)) //Pozitive
                     {
+                        if (activePlace.TypePlace == 1 || activePlace.TypePlace == 2)
+                        {
+                            List<MurdererMessages> list = await _murdererMessagesRepo.GetListByPlaceID(solutionRequest.Id_Place, 2);
+                            List<Chats> chats = new List<Chats>();
+                            list = list.OrderBy(o => o.NumerMessage).ToList();
+
+                            for (int i = 0; i < list.Count; i++)
+                            {
+                                chats.Add(new Chats
+                                {
+                                    Team = _teamRepo.GetTeamById(solutionRequest.Id_Team),
+                                    Text = list[i].Text,
+                                    DateTimeCreate = DateTime.UtcNow,
+                                    IsSystem = true,
+                                    Game = await _gamesRepo.GetGame(solutionRequest.Id_Game)
+                                });
+                            }
+                            bool createmessagestatus = await _chatsRepo.SaveListOnTheServer(chats);
+                        }
+                        baseRespone.Message = "Solved";
+                        if (activePlace.TypePlace == 2)
+                        {
+                            baseRespone.Message = "SolvedChat";
+                            return Ok(baseRespone);
+                        }
+
                         if (await solutionsOperations.EndPlace(_activePlacesRepo, _teamRepo, _statusRepo, solutionRequest) == true)
                         {
-                            if (activePlace.TypePlace == 1 )
-                            {
-                                List<MurdererMessages> list = await _murdererMessagesRepo.GetListByPlaceID(solutionRequest.Id_Place, 2);
-                                List<Chats> chats = new List<Chats>();
-                                list = list.OrderBy(o => o.NumerMessage).ToList();
-
-                                for (int i = 0; i < list.Count; i++)
-                                {
-                                    chats.Add(new Chats
-                                    {
-                                        Team = _teamRepo.GetTeamById(solutionRequest.Id_Team),
-                                        Text = list[i].Text,
-                                        DateTimeCreate = DateTime.UtcNow,
-                                        IsSystem = true,
-                                        Game = await _gamesRepo.GetGame(solutionRequest.Id_Game)
-                                    });
-                                }
-                                bool createmessagestatus = await _chatsRepo.SaveListOnTheServer(chats);
-                            }
-                            baseRespone.Message = "Solved";
                             return Ok(baseRespone);
                         }
                         else
