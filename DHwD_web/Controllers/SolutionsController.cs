@@ -136,10 +136,17 @@ namespace DHwD_web.Controllers
                         baseRespone.Message = "Solved";
                         if (activePlace.TypePlace == 2)
                         {
+                            activePlace.QuizStatus = "0";
                             baseRespone.Message = "SolvedChat";
-                            return Ok(baseRespone);
+                            if (await _activePlacesRepo.Update(activePlace))
+                                return Ok(baseRespone);
+                            else
+                            {
+                                baseRespone.Succes = false;
+                                baseRespone.ErrorCode = 400;
+                                return BadRequest(baseRespone);
+                            }
                         }
-
                         if (await solutionsOperations.EndPlace(_activePlacesRepo, _teamRepo, _statusRepo, solutionRequest) == true)
                         {
                             return Ok(baseRespone);

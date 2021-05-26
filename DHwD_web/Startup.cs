@@ -90,6 +90,7 @@ namespace DHwD_web
             services.AddScoped<IChatsRepo, SqlChatsRepo>();
             services.AddScoped<IMurdererMessagesRepo, SqlMurdererMessagesRepo>();
             services.AddScoped<ISolutionsRepo, SqlSolutionsRepo>();
+            services.AddScoped<IQuizRepo, SqlQuizRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

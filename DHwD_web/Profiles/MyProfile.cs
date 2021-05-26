@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DHwD_web.Dtos;
+using DHwD_web.Dtos.Quiz;
 using Models.ModelsDB;
 
 namespace DHwD_web.Profiles
@@ -41,6 +42,8 @@ namespace DHwD_web.Profiles
 
             CreateMap<Chats, ChatsReadDto>();
             CreateMap<ChatsCreateDto, Chats>();
+
+            CreateMap<Quiz, QuizReadDto>();
         }
     }
 }

@@ -8,9 +8,11 @@ namespace DHwD_web.Dtos
 
         public bool Active { get; set; }
 
-        public string Type { get; set; }
+        public string TypePlace { get; set; }
 
         public bool IsEndPlace { get; set; }
+
+        public string QuizStatus { get; set; }
 
         public Place Place { get; set; }
     }

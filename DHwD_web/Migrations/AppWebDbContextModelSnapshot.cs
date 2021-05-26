@@ -32,6 +32,9 @@ namespace DHwD_web.Migrations
                     b.Property<bool>("Blocked")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("QuizStatus")
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("boolean");
 

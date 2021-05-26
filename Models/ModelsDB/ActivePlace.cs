@@ -24,6 +24,8 @@ namespace Models.ModelsDB
 
         public bool IsCompleted { get; set; }
 
+        public string QuizStatus { get; set; }
+
         public Place Place { get; set; }
 
         public ActivePlace() { }
