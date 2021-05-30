@@ -2,7 +2,7 @@
 
 namespace Models.ModelsMobile
 {
-    public class SolutionRequest
+    public class SolutionRequest  //TODO
     {
         public int IdMystery { get; set; }
 

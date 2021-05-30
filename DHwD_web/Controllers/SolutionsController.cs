@@ -78,7 +78,6 @@ namespace DHwD_web.Controllers
                 }
                 if (solution.Text.ToLower().Contains(solutionRequest.TextSolution.ToLower()))
                 {
-
                     checker = true;
                 }
                 else
@@ -137,7 +136,7 @@ namespace DHwD_web.Controllers
                         if (activePlace.TypePlace == 2)
                         {
                             activePlace.QuizStatus = "0";
-                            baseRespone.Message = "SolvedChat";
+                            baseRespone.Message = "Chat";
                             if (await _activePlacesRepo.Update(activePlace))
                                 return Ok(baseRespone);
                             else

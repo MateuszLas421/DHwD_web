@@ -37,7 +37,8 @@ namespace DHwD_web.Data
             try
             {
                 activePlace = _dbContext.ActivePlaces
-                .Where(a => a.ID == IdactivePlace).FirstOrDefault();
+                    .Where(a => a.ID == IdactivePlace)
+                    .Include(a => a.Place).FirstOrDefault();
             }
             catch (ArgumentNullException ex)
             {
@@ -53,7 +54,9 @@ namespace DHwD_web.Data
             try
             {
                 activePlace = _dbContext.ActivePlaces
-                .Where(a =>a.Team_Id == Team_Id).ToList<ActivePlace>();
+                .Where(a =>a.Team_Id == Team_Id)
+                .Include(a => a.Place)
+                .ToList<ActivePlace>();
             }
             catch (ArgumentNullException ex)
             {
@@ -70,7 +73,9 @@ namespace DHwD_web.Data
             try
             {
                 activePlace = _dbContext.ActivePlaces
-                .Where(a => a.Active == true && a.Team_Id == Team_Id).ToList<ActivePlace>();
+                .Where(a => a.Active == true && a.Team_Id == Team_Id)
+                    .Include(a => a.Place)
+                    .ToList<ActivePlace>();
             }
             catch (ArgumentNullException ex)
             {
