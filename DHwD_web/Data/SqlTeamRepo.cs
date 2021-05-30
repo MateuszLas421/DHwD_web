@@ -77,7 +77,8 @@ namespace DHwD_web.Data
         public Team GetTeamById(int Id)
         {
             var team = _dbContext.Teams.Where(a => a.Id == Id)
-                                 .FirstOrDefault();
+                                .Include(a => a.Games)
+                                .FirstOrDefault();
             return team;
         }
 

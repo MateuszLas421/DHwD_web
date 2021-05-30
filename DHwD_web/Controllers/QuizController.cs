@@ -43,9 +43,15 @@ namespace DHwD_web.Controllers
         public async Task<ActionResult<QuizReadDto>> GetMessage(int Id_team, int Id_place)
         {
             var activeplace = await _activePlacesRepo.GetActivePlacebyTeamIDandPlaceID(Id_team, Id_place);
-            int number = Int32.Parse(activeplace.QuizStatus);
-            var game = await _gamesRepo.GetGame(activeplace.Team_Id);
+            int number;
+            try
+            { number = Int32.Parse(activeplace.QuizStatus); }
+            catch 
+            {
+                return NoContent();
+            }
             var team = _teamRepo.GetTeamById(activeplace.Team_Id);
+            var game = await _gamesRepo.GetGame(team.Games.Id);
             List<Chats> chats = new List<Chats>();
             bool next = true;
             while (next)
@@ -96,11 +102,12 @@ namespace DHwD_web.Controllers
                         IsSystem = true,
                         Game = game
                     });
+                    next = false;
                 }
                 else
                 {
                     number++;
-                    next = false;
+                    next = true;
                 }
             }
             await _chatsRepo.SaveListOnTheServer(chats);
