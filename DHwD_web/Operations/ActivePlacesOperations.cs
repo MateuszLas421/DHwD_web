@@ -14,7 +14,6 @@ namespace DHwD_web.Operations
             var position = status.List_Id_Required_Pleaces_To_End.IndexOf(activeplacestring);
             if(status.List_Id_Required_Pleaces_To_End == String.Empty || position == -1)
                 return Task.FromResult<Status>(status);
-            activeplacestring = activeplacestring + ";";
             position = status.List_Id_Required_Pleaces_To_End.IndexOf(activeplacestring);
             status.List_Id_Required_Pleaces_To_End = status.List_Id_Required_Pleaces_To_End.Remove(position, activeplacestring.Length);
             return Task.FromResult<Status>(status);

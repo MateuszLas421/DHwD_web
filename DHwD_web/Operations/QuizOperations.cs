@@ -9,7 +9,7 @@ namespace DHwD_web.Operations
 {
     public class QuizOperations
     {
-        public async Task<List<Chats>> GetMessageAsync(IQuizRepo _repository, IActivePlacesRepo _activePlacesRepo, int number, ActivePlace activeplace, Team team, Games game)
+        public async Task<List<Chats>> GetMessageAsync(IQuizRepo _repository, IActivePlacesRepo _activePlacesRepo, IStatusRepo _statusRepo, int number, ActivePlace activeplace, Team team, Games game)
         {
             List<Chats> chats = new List<Chats>();
             bool next = true;
@@ -72,8 +72,16 @@ namespace DHwD_web.Operations
             var item = await _repository.GetQuizbyIdPlace_Id_Sequence(activeplace.Place.Id, number);
             if (item != null)
             {
-                activeplace.QuizStatus = item.Id.ToString();
+                activeplace.QuizStatus = item.Sequence.ToString();
                 await _activePlacesRepo.Update(activeplace);
+            }
+
+            if (activeplace.UnlockedPlace != null && activeplace.UnlockedPlace != "" && item == null)
+            {
+                ActivePlacesOperations aPOperations = new ActivePlacesOperations();
+                var status = _statusRepo.GetStatusById(team.StatusRef);
+                status = await aPOperations.Update_ActivePlace_in_Status(status, activeplace.UnlockedPlace);
+                await _statusRepo.Update(status);
             }
             return await Task.FromResult(chats);
         }

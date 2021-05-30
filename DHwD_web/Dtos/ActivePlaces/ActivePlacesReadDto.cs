@@ -8,7 +8,7 @@ namespace DHwD_web.Dtos
 
         public bool Active { get; set; }
 
-        public string TypePlace { get; set; }
+        public int TypePlace { get; set; }
 
         public bool IsEndPlace { get; set; }
 

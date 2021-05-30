@@ -36,9 +36,9 @@ namespace DHwD_web.Data
             ActivePlace activePlace = null;
             try
             {
-                activePlace = _dbContext.ActivePlaces
+                activePlace = await _dbContext.ActivePlaces
                     .Where(a => a.ID == IdactivePlace)
-                    .Include(a => a.Place).FirstOrDefault();
+                    .Include(a => a.Place).FirstOrDefaultAsync();
             }
             catch (ArgumentNullException ex)
             {

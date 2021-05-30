@@ -28,8 +28,10 @@ namespace DHwD_web.Controllers
         private readonly IActivePlacesRepo _activePlacesRepo;
         private readonly IGamesRepo _gamesRepo;
         private readonly ITeamRepo _teamRepo;
+        private readonly IStatusRepo _statusRepo;
+        private readonly IMurdererMessagesRepo _murdererMessagesRepo;
         public QuizController(IConfiguration config, IQuizRepo repository, IMapper mapper, IChatsRepo chatsRepo, IActivePlacesRepo activePlacesRepo,
-            IGamesRepo gamesRepo, ITeamRepo teamRepo)
+            IGamesRepo gamesRepo, ITeamRepo teamRepo, IMurdererMessagesRepo murdererMessagesRepo, IStatusRepo statusRepo)
         {
             _config = config;
             _repository = repository;
@@ -38,6 +40,8 @@ namespace DHwD_web.Controllers
             _activePlacesRepo = activePlacesRepo;
             _gamesRepo = gamesRepo;
             _teamRepo = teamRepo;
+            _murdererMessagesRepo = murdererMessagesRepo;
+            _statusRepo = statusRepo;
         }
 
         //get api/Quiz/Id_place={Id_place}&Id_team={Id_team}
@@ -116,7 +120,7 @@ namespace DHwD_web.Controllers
             var item = await _repository.GetQuizbyIdPlace_Id_Sequence(activeplace.Place.Id, number);
             if (item != null)
             {
-                activeplace.QuizStatus = item.Id.ToString();
+                activeplace.QuizStatus = item.Sequence.ToString();
                 await _activePlacesRepo.Update(activeplace);
                 return Ok(_mapper.Map<QuizReadDto>(item));
             }
@@ -154,9 +158,43 @@ namespace DHwD_web.Controllers
                 });
                 List<Chats> chats = new List<Chats>();
                 QuizOperations quizOperations = new QuizOperations();
-                chats = await quizOperations.GetMessageAsync(_repository, _activePlacesRepo, Int32.Parse(activeplace.QuizStatus),
+                chats = await quizOperations.GetMessageAsync(_repository, _activePlacesRepo, _statusRepo, Int32.Parse(activeplace.QuizStatus) + 1,
                     activeplace, team, game);
+                if (chats.Count == 0)
+                {
+                    List<MurdererMessages> list = await _murdererMessagesRepo.GetListByPlaceID(quizSolution.Id_Place, 3);
+                    List<Chats> endMessage = new List<Chats>();
+                    list = list.OrderBy(o => o.NumerMessage).ToList();
+
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        endMessage.Add(new Chats
+                        {
+                            Team = _teamRepo.GetTeamById(quizSolution.Id_Team),
+                            Text = list[i].Text,
+                            DateTimeCreate = DateTime.UtcNow,
+                            IsSystem = true,
+                            Game = await _gamesRepo.GetGame(game.Id)
+                        });
+                    }
+                    bool createmessagestatus = await _chatsRepo.SaveListOnTheServer(endMessage);
+
+                    activeplace.IsCompleted = true;
+                    await _activePlacesRepo.Update(activeplace);
+                }
                 await _chatsRepo.SaveListOnTheServer(chats);
+                return Ok(baseRespone);
+            }
+            else
+            {
+                await _chatsRepo.SaveOnTheServer(new Chats
+                {
+                    IsSystem = false,
+                    DateTimeCreate = DateTime.UtcNow,
+                    Game = game,
+                    Team = team,
+                    Text = quiz.WrongAnswer
+                });
                 return Ok(baseRespone);
             }
 
