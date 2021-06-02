@@ -13,6 +13,8 @@ namespace Models.ModelsDB
 
         public string Description { get; set; }
 
+        public string RecommendedStartingPlace { get; set; }
+
         public DateTime DateTimeStart { get; set; }
 
         public DateTime DateTimeEnd { get; set; }

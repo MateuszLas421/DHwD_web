@@ -28,5 +28,7 @@ namespace Models.ModelsDB
         public string RequiredToEnd { get; set; }
 
         public int TypePlace { get; set; }
+
+        public string ImageLink { get; set; }
     }
 }

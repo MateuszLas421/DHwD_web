@@ -32,9 +32,6 @@ namespace DHwD_web.Migrations
                     b.Property<bool>("Blocked")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("QuizStatus")
-                        .HasColumnType("text");
-
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("boolean");
 
@@ -43,6 +40,9 @@ namespace DHwD_web.Migrations
 
                     b.Property<int?>("PlaceId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("QuizStatus")
+                        .HasColumnType("text");
 
                     b.Property<bool>("Required")
                         .HasColumnType("boolean");
@@ -117,6 +117,9 @@ namespace DHwD_web.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RecommendedStartingPlace")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -205,6 +208,9 @@ namespace DHwD_web.Migrations
 
                     b.Property<int?>("GamesId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("ImageLink")
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsEndPlace")
                         .HasColumnType("boolean");

@@ -10,5 +10,7 @@ namespace DHwD_web.Dtos
         public string Description { get; set; }
         public Location Location { get; set; }
         public int LocationRef { get; set; }
+        public bool IsEndPlace { get; set; }
+        public int TypePlace { get; set; }
     }
 }

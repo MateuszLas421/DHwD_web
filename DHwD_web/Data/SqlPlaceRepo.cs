@@ -106,6 +106,7 @@ namespace DHwD_web.Data
             }
             return place;
         }
+
         public List<Place> GetPlaceByGameId(int gameid)
         {
             List<Place> result = new List<Place>();
@@ -124,6 +125,32 @@ namespace DHwD_web.Data
                 System.Diagnostics.Debug.WriteLine(ex.Message);
             }
             return result;
+        }
+
+        /// <summary>
+        /// Returns Place by Location Id
+        /// </summary>
+        /// <param name="Location id"></param>
+        /// <returns>Place</returns>
+        public async Task<Place> GetPlaceByLocationId(int id)
+        {
+            Place place = null;   
+            try
+            {
+                place = await _dbContext.Places
+                .Where(a => a.LocationRef == id)
+                .Include(b => b.Location)
+                .FirstOrDefaultAsync();
+            }
+            catch (ArgumentNullException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            return await Task.FromResult<Place>(place);
         }
     }
 }

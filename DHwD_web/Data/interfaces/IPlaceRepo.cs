@@ -15,5 +15,7 @@ namespace DHwD_web.Data.Interfaces
         List<Place> GetPlaceByGameId(int id);
 
         Task<List<int>> GetID_PlacesByTeam_Id(int teamid);
+
+        Task<Place> GetPlaceByLocationId(int id);
     }
 }
