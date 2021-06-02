@@ -12,5 +12,6 @@ namespace DHwD_web.Dtos
         public int LocationRef { get; set; }
         public bool IsEndPlace { get; set; }
         public int TypePlace { get; set; }
+        public string ImageLink { get; set; }
     }
 }
