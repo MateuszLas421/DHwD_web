@@ -40,7 +40,7 @@ namespace DHwD_web.Data
         public async Task<int> GetID_PlaceByTeam_Id(int teamid)
         {
             var activeplace = _dbContext.ActivePlaces
-                .Where(a => a.Team_Id == teamid)
+                .Where(a => a.Team_Id == teamid && a.Blocked == false)
                 .Include(b => b.Place).FirstOrDefault();
             int idLocation = activeplace.Place.LocationRef;
             return await Task.FromResult(idLocation);
@@ -54,7 +54,7 @@ namespace DHwD_web.Data
         public async Task<List<int>> GetID_PlacesByTeam_Id(int teamid)
         {
             var activeplace = _dbContext.ActivePlaces
-                .Where(a => a.Team_Id == teamid)
+                .Where(a => a.Team_Id == teamid && a.Blocked==false)
                 .Include(b => b.Place).ToList();
             List<int> idLocations = new List<int>();
             for (int i = 0; i < activeplace.Count(); i++)
