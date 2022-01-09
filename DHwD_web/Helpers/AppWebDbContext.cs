@@ -42,6 +42,8 @@ namespace DHwD_web.Helpers
 
         public DbSet<TypeMessageTemp> TypeMessageTemp { get; set; }
 
+        public DbSet<Info> Info { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
