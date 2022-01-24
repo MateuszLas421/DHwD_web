@@ -8,4 +8,10 @@
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="ModelsMobile\Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ModelsMobile\Common\" />
+  </ItemGroup>
 </Project>

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-
+﻿
 namespace Models.Respone
 {
-    public class BaseRespone
+    public class BaseResponse
     {
         public bool Succes { get; set; }
     
