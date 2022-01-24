@@ -43,7 +43,7 @@ namespace DHwD_web.Controllers
         }
         #endregion
 
-        //POST api/user/{NickName}/{Token}
+        //Get api/user/{NickName}/{Token}
         [HttpGet("{NickName}/{Token}")]
         public ActionResult Login(string NickName, string Token)
         {
