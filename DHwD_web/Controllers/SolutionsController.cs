@@ -53,9 +53,9 @@ namespace DHwD_web.Controllers
 
         //POST api/Solutions
         [HttpPost]
-        public async Task<ActionResult<BaseRespone>> PostSolutionToCheck(SolutionRequest solutionRequest)
+        public async Task<ActionResult<BaseResponse>> PostSolutionToCheck(SolutionRequest solutionRequest)
         {
-            BaseRespone baseRespone = new BaseRespone
+            BaseResponse BaseResponse = new BaseResponse
             {
                 Succes = true,
                 Message = ""
@@ -71,10 +71,10 @@ namespace DHwD_web.Controllers
                 bool checker = false;
                 if (String.IsNullOrEmpty(solutionRequest.TextSolution))
                 {
-                    baseRespone.Succes = false;
-                    baseRespone.ErrorCode = 400;
-                    baseRespone.Message = "TextSolution is null or Empty";
-                    return BadRequest(baseRespone);
+                    BaseResponse.Succes = false;
+                    BaseResponse.ErrorCode = 400;
+                    BaseResponse.Message = "TextSolution is null or Empty";
+                    return BadRequest(BaseResponse);
                 }
                 if (solution.Text.ToLower().Contains(solutionRequest.TextSolution.ToLower()))
                 {
@@ -100,16 +100,16 @@ namespace DHwD_web.Controllers
                         }) == false
                     )
                     {
-                        baseRespone.Succes = false;
-                        baseRespone.ErrorCode = 400;
-                        return BadRequest(baseRespone);
+                        BaseResponse.Succes = false;
+                        BaseResponse.ErrorCode = 400;
+                        return BadRequest(BaseResponse);
                     }
                     if ((activePlace = await _activePlacesRepo.CheckActivePlace(solutionRequest.Id_Team)).Place == null)
                     {
-                        baseRespone.Succes = false;
-                        baseRespone.Message = "No found active place";
-                        baseRespone.ErrorCode = 400;
-                        return BadRequest(baseRespone);
+                        BaseResponse.Succes = false;
+                        BaseResponse.Message = "No found active place";
+                        BaseResponse.ErrorCode = 400;
+                        return BadRequest(BaseResponse);
                     }
                     if (await solutionsOperations.SaveOnServer(_chatsRepo, _teamMembersRepo, solution.MysterySolutionPozitive, userId, game)) //Pozitive
                     {
@@ -132,36 +132,36 @@ namespace DHwD_web.Controllers
                             }
                             bool createmessagestatus = await _chatsRepo.SaveListOnTheServer(chats);
                         }
-                        baseRespone.Message = "Solved";
+                        BaseResponse.Message = "Solved";
                         if (activePlace.TypePlace == 2)
                         {
                             activePlace.QuizStatus = "0";
-                            baseRespone.Message = "Chat";
+                            BaseResponse.Message = "Chat";
                             if (await _activePlacesRepo.Update(activePlace))
-                                return Ok(baseRespone);
+                                return Ok(BaseResponse);
                             else
                             {
-                                baseRespone.Succes = false;
-                                baseRespone.ErrorCode = 400;
-                                return BadRequest(baseRespone);
+                                BaseResponse.Succes = false;
+                                BaseResponse.ErrorCode = 400;
+                                return BadRequest(BaseResponse);
                             }
                         }
                         if (await solutionsOperations.EndPlace(_activePlacesRepo, _teamRepo, _statusRepo, solutionRequest) == true)
                         {
-                            return Ok(baseRespone);
+                            return Ok(BaseResponse);
                         }
                         else
                         {
-                            baseRespone.Succes = false;
-                            baseRespone.ErrorCode = 400;
-                            return BadRequest(baseRespone);
+                            BaseResponse.Succes = false;
+                            BaseResponse.ErrorCode = 400;
+                            return BadRequest(BaseResponse);
                         }
                     }
                     else
                     {
-                        baseRespone.Succes = false;
-                        baseRespone.ErrorCode = 400;
-                        return BadRequest(baseRespone);
+                        BaseResponse.Succes = false;
+                        BaseResponse.ErrorCode = 400;
+                        return BadRequest(BaseResponse);
                     }
                 }
                 else  //Negative
@@ -178,20 +178,20 @@ namespace DHwD_web.Controllers
                         }) == false
                     )
                     {
-                        baseRespone.Succes = false;
-                        baseRespone.ErrorCode = 400;
-                        return BadRequest(baseRespone);
+                        BaseResponse.Succes = false;
+                        BaseResponse.ErrorCode = 400;
+                        return BadRequest(BaseResponse);
                     }
                     if (await solutionsOperations.SaveOnServer(_chatsRepo, _teamMembersRepo, solution.MysterySolutionNegative, userId, game))
                     {
-                        baseRespone.Message = "Unresolved";
-                        return Ok(baseRespone);
+                        BaseResponse.Message = "Unresolved";
+                        return Ok(BaseResponse);
                     }
                     else
                     {
-                        baseRespone.Succes = false;
-                        baseRespone.ErrorCode = 400;
-                        return BadRequest(baseRespone);
+                        BaseResponse.Succes = false;
+                        BaseResponse.ErrorCode = 400;
+                        return BadRequest(BaseResponse);
                     }
                 }
 
@@ -199,10 +199,10 @@ namespace DHwD_web.Controllers
             catch (Exception ex)
             {
                 {
-                    baseRespone.Succes = false;
-                    baseRespone.ErrorCode = 400;
-                    baseRespone.Message = "Fail";
-                    return BadRequest(baseRespone);
+                    BaseResponse.Succes = false;
+                    BaseResponse.ErrorCode = 400;
+                    BaseResponse.Message = "Fail";
+                    return BadRequest(BaseResponse);
                 }
             }
         }

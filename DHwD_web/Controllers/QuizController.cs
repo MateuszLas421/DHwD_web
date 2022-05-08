@@ -3,7 +3,6 @@ using DHwD_web.Data.Interfaces;
 using DHwD_web.Dtos.Quiz;
 using DHwD_web.Operations;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Models.ModelsDB;
@@ -129,9 +128,9 @@ namespace DHwD_web.Controllers
 
         //POST api/Quiz
         [HttpPost]
-        public async Task<ActionResult<BaseRespone>> PostSolutionToCheck(QuizSolution quizSolution)
+        public async Task<ActionResult<BaseResponse>> PostSolutionToCheck(QuizSolution quizSolution)
         {
-            BaseRespone baseRespone = new BaseRespone
+            BaseResponse BaseResponse = new BaseResponse
             {
                 Succes = true,
                 Message = ""
@@ -140,9 +139,9 @@ namespace DHwD_web.Controllers
             var quiz = await _repository.GetQuizbyIdPlace_Id_Sequence(quizSolution.Id_Place, Int32.Parse(activeplace.QuizStatus));
             if (quiz == null)
             {
-                baseRespone.Succes = false;
-                baseRespone.Message = "null";
-                return NotFound(baseRespone);
+                BaseResponse.Succes = false;
+                BaseResponse.Message = "null";
+                return NotFound(BaseResponse);
             }
             var team = _teamRepo.GetTeamById(activeplace.Team_Id);
             var game = await _gamesRepo.GetGame(team.Games.Id);
@@ -183,7 +182,7 @@ namespace DHwD_web.Controllers
                     await _activePlacesRepo.Update(activeplace);
                 }
                 await _chatsRepo.SaveListOnTheServer(chats);
-                return Ok(baseRespone);
+                return Ok(BaseResponse);
             }
             else
             {
@@ -195,11 +194,11 @@ namespace DHwD_web.Controllers
                     Team = team,
                     Text = quiz.WrongAnswer
                 });
-                return Ok(baseRespone);
+                return Ok(BaseResponse);
             }
 
-            baseRespone.Succes = false;
-            return BadRequest(baseRespone);
+            BaseResponse.Succes = false;
+            return BadRequest(BaseResponse);
 
         }
     }

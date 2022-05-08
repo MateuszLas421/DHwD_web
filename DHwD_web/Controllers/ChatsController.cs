@@ -53,11 +53,11 @@ namespace DHwD_web.Controllers
 
         //POST api/Chats
         [HttpPost]
-        public async Task<ActionResult<BaseRespone>> SaveMessage(Message message)
+        public async Task<ActionResult<BaseResponse>> SaveMessage(Message message)
         {
             var httpContext = HttpContext;
             var userId = await ReadUserId.Read(httpContext);
-            BaseRespone baseRespone = new BaseRespone
+            BaseResponse BaseResponse = new BaseResponse
             {
                 Succes = true,
                 Message = ""
@@ -75,11 +75,11 @@ namespace DHwD_web.Controllers
             var result = await _repository.SaveOnTheServer(_mapper.Map<Chats>(chatsCreateDto));
             if (result == true)
             {
-                return Ok(baseRespone);
+                return Ok(BaseResponse);
             }
-            baseRespone.Succes = false;
-            baseRespone.ErrorCode = 400;
-            return BadRequest(baseRespone);
+            BaseResponse.Succes = false;
+            BaseResponse.ErrorCode = 400;
+            return BadRequest(BaseResponse);
         }
 
 
